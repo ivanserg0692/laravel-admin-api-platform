@@ -8,6 +8,7 @@ Short project based on Laravel 12 + Breeze (Blade + Tailwind) with Sail for loca
 - Laravel `^12.10`
 - Laravel Breeze `^2.0`
 - Vite `^5`
+- alpinejs `^3`
 - Tailwind CSS `^4`
 - MySQL + Redis + Mailpit (via Sail)
 
