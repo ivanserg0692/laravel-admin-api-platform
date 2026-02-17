@@ -26,7 +26,7 @@ class VerifyCloudflare
 
         if (!$isValid) {
             return back()
-                ->withErrors(['captcha' => __('validation.captcha_failed')])
+                ->withErrors(['cf-turnstile-response' => __('validation.captcha_failed')])
                 ->withInput();
         }
         return $next($request);
