@@ -14,7 +14,7 @@ class CloudflareService
         $response = Http::asForm()->post(
             'https://challenges.cloudflare.com/turnstile/v0/siteverify',
             [
-                'secret'   => config('services.turnstile.secret'),
+                'secret'   => config('services.cloudflare.secret_key'),
                 'response' => $token,
                 'remoteip' => $ip,
             ]

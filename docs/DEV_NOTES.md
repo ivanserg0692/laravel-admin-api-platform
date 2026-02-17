@@ -26,6 +26,13 @@ npm run dev
 ./vendor/bin/sail artisan about
 ```
 
+## Redis Checks
+
+```bash
+# list keys with TTL in the first namespace
+docker compose exec -T redis redis-cli -n 1 --scan | while read k; do echo "$k => $(docker compose exec -T redis redis-cli -n 1 TTL "$k")"; done
+```
+
 ## Stop Environment
 
 ```bash
