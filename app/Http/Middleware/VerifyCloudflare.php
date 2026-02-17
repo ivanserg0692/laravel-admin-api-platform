@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class verifyCloudflare
+class VerifyCloudflare
 {
     public function __construct(protected  CloudflareService $cloudflare)
     {
