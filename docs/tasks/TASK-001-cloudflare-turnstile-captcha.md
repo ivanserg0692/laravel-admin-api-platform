@@ -1,5 +1,8 @@
 ﻿# TASK-001: Cloudflare Turnstile CAPTCHA for Registration
 
+## Links
+- Merge Request (`feature/captcha`): `https://github.com/ivanserg0692/laravel-admin-api-platform/pull/1`
+
 ## RU
 
 ### Цель
