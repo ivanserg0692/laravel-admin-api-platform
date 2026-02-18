@@ -19,6 +19,7 @@ return [
     'top_register' => 'Register',
     'theme_toggle_dark' => 'Dark mode',
     'theme_toggle_light' => 'Light mode',
+    'footer_laravel_version' => 'Powered by Laravel :version',
     'cta_dashboard' => 'Go to dashboard',
     'cta_register' => 'Create account',
     'cta_login' => 'Log in',

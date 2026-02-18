@@ -19,6 +19,7 @@ return [
     'top_register' => 'Регистрация',
     'theme_toggle_dark' => 'Темная тема',
     'theme_toggle_light' => 'Светлая тема',
+    'footer_laravel_version' => 'Работает на Laravel :version',
     'cta_dashboard' => 'Перейти в кабинет',
     'cta_register' => 'Создать аккаунт',
     'cta_login' => 'Войти',
