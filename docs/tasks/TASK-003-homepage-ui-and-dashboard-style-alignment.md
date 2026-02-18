@@ -32,6 +32,9 @@
 - Сохранять текущую структуру Breeze, изменяя только визуальный слой.
 - Для новых UI-решений использовать существующую локализацию (`resources/lang/*`) и не хардкодить пользовательские строки.
 
+### Ссылки
+- MR: https://github.com/ivanserg0692/laravel-admin-api-platform/pull/2
+
 ## EN
 
 ### Goal
@@ -63,3 +66,6 @@ This task removes the visual gap between the public page (`/`) and the authentic
 - Avoid one-off inline style duplication in Blade templates; reuse utility patterns where possible.
 - Keep Breeze structure intact and change only presentation layer where needed.
 - Reuse localization from `resources/lang/*` and avoid hardcoded user-facing strings.
+
+### Links
+- MR: https://github.com/ivanserg0692/laravel-admin-api-platform/pull/2
