@@ -103,7 +103,7 @@ Folder: `resources/views/components`
 - Props:
   - `align` (`right` by default; supports `right`, `left`, `top`).
   - `width` (`48` by default, mapped to `w-48`).
-  - `contentClasses` (`py-1 bg-white` by default).
+  - `contentClasses` (`py-1 bg-white dark:bg-gray-800` by default).
 - Slots:
   - `trigger` - clickable element that toggles the dropdown.
   - `content` - dropdown body content.

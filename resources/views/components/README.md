@@ -103,7 +103,7 @@
 - Props:
   - `align` (`right` по умолчанию; поддерживаются `right`, `left`, `top`).
   - `width` (`48` по умолчанию, преобразуется в `w-48`).
-  - `contentClasses` (`py-1 bg-white` по умолчанию).
+  - `contentClasses` (`py-1 bg-white dark:bg-gray-800` по умолчанию).
 - Слоты:
   - `trigger` - элемент, по клику на который открывается меню.
   - `content` - содержимое выпадающего блока.

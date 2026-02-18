@@ -51,7 +51,7 @@
             </div>
         @endif
 
-        <footer class="mt-16 text-center text-xs text-gray-500 dark:text-gray-400">
+        <footer class="{{ $wide ? 'mt-16' : 'mt-8' }} text-center text-xs text-gray-500 dark:text-gray-400">
             {{ __('welcome.footer_laravel_version', ['version' => Illuminate\Foundation\Application::VERSION]) }}
         </footer>
     </div>
