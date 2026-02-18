@@ -6,6 +6,9 @@
                 <!-- Navigation Links -->
                 <!-- Desktop (sm+): primary nav links -->
                 <div class="hidden space-x-8 sm:-my-px sm:flex">
+                    <div class="flex items-center">
+                        <x-theme-toggle/>
+                    </div>
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{--The main page navigation menu for desktop users.--}}
                         {{ __('Dashboard') }}
@@ -15,7 +18,7 @@
 
             <!-- Settings Dropdown -->
             <!-- Desktop (sm+): user dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center  sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-300 bg-white dark:bg-gray-900 hover:text-gray-700 dark:hover:text-gray-100 focus:outline-none transition ease-in-out duration-150">
@@ -64,6 +67,10 @@
     <!-- Responsive Navigation Menu -->
     <!-- Mobile (< sm): collapsible menu panel -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+        <div class="px-4 pt-3">
+            <x-theme-toggle class="w-full justify-center"/>
+        </div>
+
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{--The main page navigation menu for mobile users.--}}
@@ -79,7 +86,8 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+
+            <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 

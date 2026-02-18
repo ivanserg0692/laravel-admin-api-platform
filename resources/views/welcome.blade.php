@@ -82,17 +82,4 @@
             @endfor
         </div>
     </div>
-
-    @push('scripts')
-        <script>
-            (function () {
-                const toggle = document.getElementById('theme-toggle');
-                if (!toggle) return;
-                toggle.addEventListener('click', function () {
-                    const isDark = document.documentElement.classList.toggle('dark');
-                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                });
-            })();
-        </script>
-    @endpush
 </x-guest-layout>
