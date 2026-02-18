@@ -67,11 +67,9 @@
     <!-- Responsive Navigation Menu -->
     <!-- Mobile (< sm): collapsible menu panel -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="px-4 pt-3">
-            <x-theme-toggle class="w-full justify-center"/>
-        </div>
-
         <div class="pt-2 pb-3 space-y-1">
+            <x-theme-toggle variant="menu" />
+
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{--The main page navigation menu for mobile users.--}}
                 {{ __('Dashboard') }}
