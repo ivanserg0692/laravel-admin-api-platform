@@ -59,18 +59,18 @@ npm run build
 - `TASK-001` Cloudflare Turnstile for registration:
   - added captcha widget in registration form
   - added backend token validation and UI error handling
-  - details: `docs/tasks/TASK-001-cloudflare-turnstile-captcha.md`
-  - MR: `https://github.com/ivanserg0692/laravel-admin-api-platform/pull/1`
+  - details: [TASK-001-cloudflare-turnstile-captcha.md](docs/tasks/TASK-001-cloudflare-turnstile-captcha.md)
+  - MR: [#1](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/1)
 
 - `TASK-002` Breeze authentication setup for Laravel 12:
   - enabled full auth flow (register/login/logout/reset/verify)
   - protected `/dashboard` and `/profile` routes
   - aligned frontend auth stack (Blade + Tailwind + Alpine)
-  - details: `docs/tasks/TASK-002-laravel-breeze-auth-installation.md`
+  - details: [TASK-002-laravel-breeze-auth-installation.md](docs/tasks/TASK-002-laravel-breeze-auth-installation.md)
 
 - `TASK-003` Homepage and dashboard UI alignment:
   - unified visual style between public and authenticated areas
   - improved dark mode consistency and component styling
   - added theme toggle and component documentation (RU/EN)
-  - details: `docs/tasks/TASK-003-homepage-ui-and-dashboard-style-alignment.md`
-  - MR: `https://github.com/ivanserg0692/laravel-admin-api-platform/pull/2`
+  - details: [TASK-003-homepage-ui-and-dashboard-style-alignment.md](docs/tasks/TASK-003-homepage-ui-and-dashboard-style-alignment.md)
+  - MR: [#2](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/2)
