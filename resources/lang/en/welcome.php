@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'meta_title' => 'News Project - Coming Soon',
+    'project_label' => 'News Project',
+    'heading' => 'Coming Soon',
+    'description' => 'We are building a clean and simple place to read news. Sign up now and be ready for launch.',
+    'in_progress_title' => 'In development',
+    'in_progress_description' => 'Core features are actively being built. Current module status is shown below.',
+    'feature_1' => 'News feed',
+    'feature_2' => 'Categories and tags',
+    'feature_3' => 'News search',
+    'feature_4' => 'User dashboard',
+    'feature_5' => 'Favorites',
+    'feature_6' => 'Admin panel',
+    'status_in_progress' => 'In progress',
+    'top_dashboard' => 'Dashboard',
+    'top_login' => 'Log in',
+    'top_register' => 'Register',
+    'theme_toggle_dark' => 'Dark mode',
+    'theme_toggle_light' => 'Light mode',
+    'footer_laravel_version' => 'Powered by Laravel :version',
+    'cta_dashboard' => 'Go to dashboard',
+    'cta_register' => 'Create account',
+    'cta_login' => 'Log in',
+];
