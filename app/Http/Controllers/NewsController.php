@@ -13,7 +13,12 @@ class NewsController extends Controller
      */
     public function index()
     {
-        return view('news.index');
+        $news = News::query()
+            ->latest('published_at')
+            ->latest('id')
+            ->paginate(10);
+
+        return view('news.index', compact('news'));
     }
 
     /**
