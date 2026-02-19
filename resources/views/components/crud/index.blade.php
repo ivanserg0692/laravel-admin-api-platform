@@ -10,7 +10,7 @@
 
             @include('components.crud.slots.toolbar')
 
-            <x-crud.slots.table
+            <x-lists.table
                 :items="$items"
                 :columns="$columns"
             >
@@ -66,7 +66,7 @@
                     </li>
                     {{$actionsAfter ?? ''}}
                 </x-slot:actions>
-            </x-crud.slots.table>
+            </x-lists.table>
 
             <x-crud.slots.pagination :items="$items"/>
         </div>
