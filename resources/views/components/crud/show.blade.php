@@ -49,8 +49,8 @@
                     @else
                         <div class="flex flex-wrap gap-3 pt-2">
                             @if($editUrl)
-                                <x-buttons.primary type="button" class="!px-4 !py-2 !text-sm sm:!px-5 sm:!py-2.5 sm:!text-base"
-                                                   onclick="window.location.href='{{ $editUrl }}'">
+                                <x-buttons.primary :href="$editUrl"
+                                                   class="!px-4 !py-2 !text-sm sm:!px-5 sm:!py-2.5 sm:!text-base">
                                     <svg class="mr-2 h-4 w-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -70,14 +70,13 @@
                             @endif
 
                             @if($previewUrl)
-                                <x-buttons.secondary type="button"
-                                                     class="!rounded-lg !border-gray-500 !bg-gray-800 !px-4 !py-2 !text-sm !text-gray-100 hover:!bg-gray-700 sm:!px-5 sm:!py-2.5 sm:!text-base"
-                                                     onclick="window.location.href='{{ $previewUrl }}'">
+                                <x-buttons.secondary :href="$previewUrl"
+                                                     class="!px-4 !py-2 !text-sm sm:!px-5 sm:!py-2.5 sm:!text-base">
                                     Preview
                                 </x-buttons.secondary>
                             @else
                                 <x-buttons.secondary type="button"
-                                                     class="!rounded-lg !border-gray-500 !bg-gray-800 !px-4 !py-2 !text-sm !text-gray-100 hover:!bg-gray-700 sm:!px-5 sm:!py-2.5 sm:!text-base">
+                                                     class="!px-4 !py-2 !text-sm sm:!px-5 sm:!py-2.5 sm:!text-base">
                                     Preview
                                 </x-buttons.secondary>
                             @endif
