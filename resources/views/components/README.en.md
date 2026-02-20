@@ -13,14 +13,15 @@ resources/views/components/
   application-logo.blade.php
   auth-session-status.blade.php
   cloudflare-captcha.blade.php
-  modal.blade.php
   theme-toggle.blade.php
   buttons/
     danger.blade.php
+    icon-close.blade.php
     primary.blade.php
     secondary.blade.php
   crud/
     index.blade.php
+    show.blade.php
     modals/
       create-product.blade.php
       delete-product.blade.php
@@ -41,6 +42,9 @@ resources/views/components/
     text-input.blade.php
   lists/
     table.blade.php
+  modals/
+    modal.blade.php
+    panel.blade.php
   navigation/
     nav-link.blade.php
     responsive-nav-link.blade.php
@@ -52,18 +56,21 @@ resources/views/components/
 - `forms/`: base form controls and helper parts (`input-label`, `input-error`, `text-input`, `search`).
 - `navigation/`: header/menu navigation components (`nav-link`, `responsive-nav-link`).
 - `lists/`: table/list data presentation components.
+- `modals/`: shared modal wrappers (`modal`, `panel`) reused across domains.
 - `crud/`: domain CRUD components (index, modals, toolbar parts) tied to CRUD scenarios.
-- Root `components/`: only truly shared components that do not belong to a domain folder (`modal`, `theme-toggle`, `application-logo`, `auth-session-status`, `cloudflare-captcha`).
+- Root `components/`: only truly shared components that do not belong to a domain folder (`theme-toggle`, `application-logo`, `auth-session-status`, `cloudflare-captcha`).
 - Place a new component into the narrowest folder by responsibility; if it becomes cross-domain, move it to a shared layer.
 
 ## Component Map and Usage
 - `application-logo.blade.php` (`x-application-logo`): `resources/views/layouts/guest.blade.php`
 - `auth-session-status.blade.php` (`x-auth-session-status`): `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`
 - `buttons/danger.blade.php` (`x-buttons.danger`): `resources/views/components/crud/modals/delete-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
+- `buttons/icon-close.blade.php` (`x-buttons.icon-close`): `resources/views/components/modals/panel.blade.php`
 - `buttons/primary.blade.php` (`x-buttons.primary`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/index.blade.php`, `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
 - `buttons/secondary.blade.php` (`x-buttons.secondary`): `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/modals/delete-product.blade.php`, `resources/views/components/dropdown/toggle-panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
 - `cloudflare-captcha.blade.php` (`x-cloudflare-captcha`): `resources/views/auth/register.blade.php`
 - `crud/index.blade.php` (`x-crud.index`): `resources/views/news/index.blade.php`
+- `crud/show.blade.php` (`x-crud.show`): `resources/views/news/show.blade.php`
 - `crud/modals/create-product.blade.php` (`x-crud.modals.create-product`): `resources/views/components/crud/index.blade.php`
 - `crud/modals/delete-product.blade.php` (`x-crud.modals.delete-product`): `resources/views/components/crud/index.blade.php`
 - `crud/modals/read-product.blade.php` (`x-crud.modals.read-product`): `resources/views/components/crud/index.blade.php`
@@ -79,7 +86,8 @@ resources/views/components/
 - `forms/search.blade.php` (`x-forms.search`): `resources/views/components/crud/index.blade.php`
 - `forms/text-input.blade.php` (`x-forms.text-input`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
 - `lists/table.blade.php` (`x-lists.table`): `resources/views/components/crud/index.blade.php`
-- `modal.blade.php` (`x-modal`): `resources/views/profile/partials/delete-user-form.blade.php`
+- `modals/modal.blade.php` (`x-modals.modal`): `resources/views/components/modals/panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
+- `modals/panel.blade.php` (`x-modals.panel`): `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/components/crud/modals/read-product.blade.php`, `resources/views/components/crud/modals/delete-product.blade.php`
 - `navigation/nav-link.blade.php` (`x-navigation.nav-link`): `resources/views/layouts/navigation.blade.php`
 - `navigation/responsive-nav-link.blade.php` (`x-navigation.responsive-nav-link`): `resources/views/layouts/navigation.blade.php`
 - `theme-toggle.blade.php` (`x-theme-toggle`): `resources/views/layouts/navigation.blade.php`, `resources/views/welcome.blade.php`
