@@ -4,80 +4,82 @@ Folder: `resources/views/components`
 
 ## General Rules
 - Usage: `<x-component-name />`.
-- For nested folders: `<x-folder.component />` (example: `<x-forms.fields.text />`).
-- Use `@include(...)` for large partial blocks (example: table/modal composition in CRUD demo).
+- For nested folders: `<x-folder.component />` (example: `<x-buttons.primary />`).
+- Large composed blocks can use `@include(...)`, but base UI pieces should remain components.
 
 ## Current Structure
 ```text
 resources/views/components/
-  lists/
-    toolbar.blade.php
-    table.blade.php
+  application-logo.blade.php
+  auth-session-status.blade.php
+  cloudflare-captcha.blade.php
+  modal.blade.php
+  theme-toggle.blade.php
+  buttons/
+    danger.blade.php
+    primary.blade.php
+    secondary.blade.php
+  crud/
+    index.blade.php
+    modals/
+      create-product.blade.php
+      delete-product.blade.php
+      read-product.blade.php
+      update-product.blade.php
+    toolbar/
+      actions-dropdown.blade.php
+      filter-dropdown.blade.php
+  dropdown/
+    link.blade.php
+    menu.blade.php
     row-actions.blade.php
-    pagination.blade.php
+    toggle-panel.blade.php
   forms/
-    fields/
-      text.blade.php
-      textarea.blade.php
-      select.blade.php
-    errors.blade.php
-  overlays/
-    modal.blade.php
-    confirm-dialog.blade.php
+    input-error.blade.php
+    input-label.blade.php
+    search.blade.php
+    text-input.blade.php
+  lists/
+    table.blade.php
   navigation/
-    dropdown.blade.php
-    dropdown-link.blade.php
-  feedback/
-    badge.blade.php
-    alert.blade.php
+    nav-link.blade.php
+    responsive-nav-link.blade.php
 ```
 
-## Component Map
+## Structure Rules
+- `buttons/`: only buttons and their visual variants (`primary`, `secondary`, `danger`). Do not place dropdown/menu components here.
+- `dropdown/`: dropdown building blocks and menu elements (trigger/content wrappers, links, row-actions).
+- `forms/`: base form controls and helper parts (`input-label`, `input-error`, `text-input`, `search`).
+- `navigation/`: header/menu navigation components (`nav-link`, `responsive-nav-link`).
+- `lists/`: table/list data presentation components.
+- `crud/`: domain CRUD components (index, modals, toolbar parts) tied to CRUD scenarios.
+- Root `components/`: only truly shared components that do not belong to a domain folder (`modal`, `theme-toggle`, `application-logo`, `auth-session-status`, `cloudflare-captcha`).
+- Place a new component into the narrowest folder by responsibility; if it becomes cross-domain, move it to a shared layer.
 
-### Base
-- `application-logo.blade.php`
-- `auth-session-status.blade.php`
-- `cloudflare-captcha.blade.php`
-- `danger-button.blade.php`
-- `dropdown-link.blade.php`
-- `dropdown.blade.php`
-- `input-error.blade.php`
-- `input-label.blade.php`
-- `modal.blade.php`
-- `nav-link.blade.php`
-- `primary-button.blade.php`
-- `responsive-nav-link.blade.php`
-- `secondary-button.blade.php`
-- `text-input.blade.php`
-- `theme-toggle.blade.php`
-
-### Lists
-- `lists/toolbar.blade.php`
-- `lists/table.blade.php`
-- `lists/row-actions.blade.php`
-- `lists/pagination.blade.php`
-
-### Forms
-- `forms/errors.blade.php`
-- `forms/fields/text.blade.php`
-- `forms/fields/textarea.blade.php`
-- `forms/fields/select.blade.php`
-
-### Overlays
-- `overlays/modal.blade.php`
-- `overlays/confirm-dialog.blade.php`
-
-### Navigation
-- `navigation/dropdown.blade.php`
-- `navigation/dropdown-link.blade.php`
-
-### Feedback
-- `feedback/badge.blade.php`
-- `feedback/alert.blade.php`
-
-### CRUD (demo composition)
-- `crud/index.blade.php`
-- `crud/modals/create-product.blade.php`
-- `crud/modals/update-product.blade.php`
-- `crud/modals/read-product.blade.php`
-- `crud/modals/delete-product.blade.php`
+## Component Map and Usage
+- `application-logo.blade.php` (`x-application-logo`): `resources/views/layouts/guest.blade.php`
+- `auth-session-status.blade.php` (`x-auth-session-status`): `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`
+- `buttons/danger.blade.php` (`x-buttons.danger`): `resources/views/components/crud/modals/delete-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
+- `buttons/primary.blade.php` (`x-buttons.primary`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/index.blade.php`, `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `buttons/secondary.blade.php` (`x-buttons.secondary`): `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/modals/delete-product.blade.php`, `resources/views/components/dropdown/toggle-panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
+- `cloudflare-captcha.blade.php` (`x-cloudflare-captcha`): `resources/views/auth/register.blade.php`
+- `crud/index.blade.php` (`x-crud.index`): `resources/views/news/index.blade.php`
+- `crud/modals/create-product.blade.php` (`x-crud.modals.create-product`): `resources/views/components/crud/index.blade.php`
+- `crud/modals/delete-product.blade.php` (`x-crud.modals.delete-product`): `resources/views/components/crud/index.blade.php`
+- `crud/modals/read-product.blade.php` (`x-crud.modals.read-product`): `resources/views/components/crud/index.blade.php`
+- `crud/modals/update-product.blade.php` (`x-crud.modals.update-product`): `resources/views/components/crud/index.blade.php`
+- `crud/toolbar/actions-dropdown.blade.php` (`x-crud.toolbar.actions-dropdown`): `resources/views/components/crud/index.blade.php`
+- `crud/toolbar/filter-dropdown.blade.php` (`x-crud.toolbar.filter-dropdown`): `resources/views/components/crud/index.blade.php`
+- `dropdown/link.blade.php` (`x-dropdown.link`): `resources/views/layouts/navigation.blade.php`
+- `dropdown/menu.blade.php` (`x-dropdown.menu`): `resources/views/layouts/navigation.blade.php`
+- `dropdown/row-actions.blade.php` (`x-dropdown.row-actions`): `resources/views/components/lists/table.blade.php`
+- `dropdown/toggle-panel.blade.php` (`x-dropdown.toggle-panel`): `resources/views/components/crud/toolbar/actions-dropdown.blade.php`, `resources/views/components/crud/toolbar/filter-dropdown.blade.php`
+- `forms/input-error.blade.php` (`x-forms.input-error`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/cloudflare-captcha.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/input-label.blade.php` (`x-forms.input-label`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/search.blade.php` (`x-forms.search`): `resources/views/components/crud/index.blade.php`
+- `forms/text-input.blade.php` (`x-forms.text-input`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `lists/table.blade.php` (`x-lists.table`): `resources/views/components/crud/index.blade.php`
+- `modal.blade.php` (`x-modal`): `resources/views/profile/partials/delete-user-form.blade.php`
+- `navigation/nav-link.blade.php` (`x-navigation.nav-link`): `resources/views/layouts/navigation.blade.php`
+- `navigation/responsive-nav-link.blade.php` (`x-navigation.responsive-nav-link`): `resources/views/layouts/navigation.blade.php`
+- `theme-toggle.blade.php` (`x-theme-toggle`): `resources/views/layouts/navigation.blade.php`, `resources/views/welcome.blade.php`
