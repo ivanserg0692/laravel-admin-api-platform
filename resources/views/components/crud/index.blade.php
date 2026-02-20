@@ -8,7 +8,20 @@
         <!-- Start coding here -->
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
 
-            @include('components.crud.slots.toolbar')
+            <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                <x-crud.toolbar.search/>
+
+                <div
+                    class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                    <x-crud.toolbar.create-button/>
+
+                    <div class="flex items-center space-x-3 w-full md:w-auto">
+                        <x-crud.toolbar.actions-dropdown/>
+                        <x-crud.toolbar.filter-dropdown/>
+                    </div>
+                </div>
+            </div>
+
 
             <x-lists.table
                 :items="$items"
@@ -68,7 +81,14 @@
                 </x-slot:actions>
             </x-lists.table>
 
-            <x-crud.slots.pagination :items="$items"/>
+            <nav
+                class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4">
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                    Showing  {{ $items->firstItem() ?? 0 }}-{{ $items->lastItem() ?? 0 }} of {{ $items->total() }}
+                </span>
+                {{ $items->onEachSide(1)->links() }}
+            </nav>
+
         </div>
     </div>
 </section>
