@@ -9,7 +9,8 @@
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
 
             {{--
-            @todo реализовать tool bar
+            TODO(crud-toolbar): temporarily disabled while toolbar behavior is being implemented.
+            Return this block after CRUD toolbar task is completed.
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                       <div class="w-full md:w-1/2">
                           <x-forms.search/>
