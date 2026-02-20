@@ -26,7 +26,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        return view('news.create');
     }
 
     /**
@@ -34,7 +34,6 @@ class NewsController extends Controller
      */
     public function store(StoreNewsRequest $request)
     {
-        //
     }
 
     /**
@@ -50,7 +49,7 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        //
+        return view('news.update', compact('news'));
     }
 
     /**

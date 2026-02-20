@@ -20,8 +20,13 @@ resources/views/components/
     primary.blade.php
     secondary.blade.php
   crud/
+    create.blade.php
+    forms/
+      create.blade.php
+      update.blade.php
     index.blade.php
     show.blade.php
+    update.blade.php
     modals/
       create-product.blade.php
       delete-product.blade.php
@@ -58,6 +63,7 @@ resources/views/components/
 - `lists/`: table/list data presentation components.
 - `modals/`: shared modal wrappers (`modal`, `panel`) reused across domains.
 - `crud/`: domain CRUD components (index, modals, toolbar parts) tied to CRUD scenarios.
+- `crud/forms/`: shared CRUD operation forms (create/update) reused by pages and modals.
 - Root `components/`: only truly shared components that do not belong to a domain folder (`theme-toggle`, `application-logo`, `auth-session-status`, `cloudflare-captcha`).
 - Place a new component into the narrowest folder by responsibility; if it becomes cross-domain, move it to a shared layer.
 
@@ -70,7 +76,11 @@ resources/views/components/
 - `buttons/secondary.blade.php` (`x-buttons.secondary`): `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/modals/delete-product.blade.php`, `resources/views/components/dropdown/toggle-panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
 - `cloudflare-captcha.blade.php` (`x-cloudflare-captcha`): `resources/views/auth/register.blade.php`
 - `crud/index.blade.php` (`x-crud.index`): `resources/views/news/index.blade.php`
+- `crud/create.blade.php` (`x-crud.create`): `resources/views/news/create.blade.php`
+- `crud/forms/create.blade.php` (`x-crud.forms.create`): `resources/views/components/crud/create.blade.php`, `resources/views/components/crud/modals/create-product.blade.php`
+- `crud/forms/update.blade.php` (`x-crud.forms.update`): `resources/views/components/crud/update.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`
 - `crud/show.blade.php` (`x-crud.show`): `resources/views/news/show.blade.php`
+- `crud/update.blade.php` (`x-crud.update`): `resources/views/news/update.blade.php`
 - `crud/modals/create-product.blade.php` (`x-crud.modals.create-product`): `resources/views/components/crud/index.blade.php`
 - `crud/modals/delete-product.blade.php` (`x-crud.modals.delete-product`): `resources/views/components/crud/index.blade.php`
 - `crud/modals/read-product.blade.php` (`x-crud.modals.read-product`): `resources/views/components/crud/index.blade.php`
