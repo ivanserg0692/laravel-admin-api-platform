@@ -23,6 +23,7 @@ resources/views/components/
     create.blade.php
     forms/
       create.blade.php
+      form.blade.php
       update.blade.php
     index.blade.php
     show.blade.php
@@ -78,6 +79,7 @@ resources/views/components/
 - `crud/index.blade.php` (`x-crud.index`): `resources/views/news/index.blade.php`
 - `crud/create.blade.php` (`x-crud.create`): `resources/views/news/create.blade.php`
 - `crud/forms/create.blade.php` (`x-crud.forms.create`): `resources/views/components/crud/create.blade.php`, `resources/views/components/crud/modals/create-product.blade.php`
+- `crud/forms/form.blade.php` (`x-crud.forms.form`): `resources/views/components/crud/forms/create.blade.php`, `resources/views/components/crud/forms/update.blade.php`
 - `crud/forms/update.blade.php` (`x-crud.forms.update`): `resources/views/components/crud/update.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`
 - `crud/show.blade.php` (`x-crud.show`): `resources/views/news/show.blade.php`
 - `crud/update.blade.php` (`x-crud.update`): `resources/views/news/update.blade.php`

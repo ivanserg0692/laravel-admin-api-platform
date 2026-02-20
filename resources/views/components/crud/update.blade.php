@@ -1,44 +1,75 @@
 @props([
     'item' => null,
+    'title' => 'Update Item',
+    'formAction' => '#',
+    'formMethod' => 'PUT',
+    'idPrefix' => 'page-update-item',
+    'fields' => [],
+    'values' => [],
+    'submitLabel' => 'Save',
+    'deleteUrl' => null,
+    'deleteLabel' => 'Delete',
+    'backUrl' => null,
+    'backLabel' => 'Back',
 ])
 
 @php
-    $nameValue = data_get($item, 'title') ?? data_get($item, 'name') ?? 'iPad Air Gen 5th Wi-Fi';
-    $brandValue = data_get($item, 'brand') ?? 'Google';
-    $priceValue = data_get($item, 'price') ?? 399;
-    $categoryValue = data_get($item, 'category') ?? 'PC';
-    $descriptionValue = data_get($item, 'content') ?? data_get($item, 'description') ?? 'Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US';
+    $resolvedValues = $values;
+    $deleteFormId = $idPrefix . '-delete-form';
+
+    if (empty($resolvedValues) && $item) {
+        foreach ($fields as $field) {
+            $name = data_get($field, 'name');
+            if ($name) {
+                $resolvedValues[$name] = data_get($item, $name);
+            }
+        }
+    }
 @endphp
 
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
     <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
             <div class="mb-4">
-                <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Update Product</h1>
+                <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $title }}</h1>
             </div>
 
             <x-crud.forms.update
-                id-prefix="page-update-product"
-                :values="[
-                    'name' => $nameValue,
-                    'brand' => $brandValue,
-                    'price' => $priceValue,
-                    'category' => $categoryValue,
-                    'description' => $descriptionValue,
-                ]"
+                :id-prefix="$idPrefix"
+                :action="$formAction"
+                :http-method="$formMethod"
+                :fields="$fields"
+                :values="$resolvedValues"
             >
                 <div class="flex items-center gap-3">
-                    <x-buttons.primary type="submit" class="px-5 py-2.5">
-                        Update product
+                    <x-buttons.primary type="submit">
+                        {{ $submitLabel }}
                     </x-buttons.primary>
-                    <x-buttons.danger type="button" class="px-5 py-2.5">
-                        Delete
-                    </x-buttons.danger>
-                    <x-buttons.secondary :href="route('news.index')">
-                        Back
-                    </x-buttons.secondary>
+
+                    @if($deleteUrl)
+                        <x-buttons.danger type="submit" :form="$deleteFormId">
+                            {{ $deleteLabel }}
+                        </x-buttons.danger>
+                    @endif
+
+                    @if($backUrl)
+                        <x-buttons.secondary :href="$backUrl">
+                            {{ $backLabel }}
+                        </x-buttons.secondary>
+                    @else
+                        <x-buttons.secondary type="button">
+                            {{ $backLabel }}
+                        </x-buttons.secondary>
+                    @endif
                 </div>
             </x-crud.forms.update>
+
+            @if($deleteUrl)
+                <form id="{{ $deleteFormId }}" method="POST" action="{{ $deleteUrl }}" class="hidden">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            @endif
         </div>
     </div>
 </section>
