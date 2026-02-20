@@ -51,12 +51,12 @@
                         @php
                             $rowId = data_get($item, 'id') ?? uniqid('row_', true);
                         @endphp
-                        <x-crud.slots.row-actions
+                        <x-dropdown.row-actions
                             :button-id="'row-' . $rowId . '-dropdown-button'"
                             :dropdown-id="'row-' . $rowId . '-dropdown'"
                             >
                             {{ $actions ?? '' }}
-                        </x-crud.slots.row-actions>
+                        </x-dropdown.row-actions>
                     </td>
                 @endif
             </tr>
