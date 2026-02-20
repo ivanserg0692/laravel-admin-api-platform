@@ -45,8 +45,7 @@
                     <li>
                         <button
                             type="button"
-                            data-modal-target="updateProductModal"
-                            data-modal-toggle="updateProductModal"
+                            onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: 'update-product' }))"
                             class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
                         >
                             <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20"
@@ -62,8 +61,7 @@
                     <li>
                         <button
                             type="button"
-                            data-modal-target="readProductModal"
-                            data-modal-toggle="readProductModal"
+                            onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: 'read-product' }))"
                             class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
                         >
                             <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20"
@@ -78,8 +76,7 @@
                     <li>
                         <button
                             type="button"
-                            data-modal-target="deleteModal"
-                            data-modal-toggle="deleteModal"
+                            onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: 'delete-product' }))"
                             class="flex w-full items-center py-2 px-4 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-400"
                         >
                             <svg class="w-4 h-4 mr-2" viewbox="0 0 14 15" fill="none"
