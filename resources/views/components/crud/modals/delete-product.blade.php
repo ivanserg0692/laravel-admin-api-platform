@@ -23,12 +23,12 @@
             </svg>
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this item?</p>
             <div class="flex justify-center items-center space-x-4">
-                <x-secondary-button data-modal-toggle="deleteModal" type="button" class="py-2 px-3">
+                <x-buttons.secondary data-modal-toggle="deleteModal" type="button" class="py-2 px-3">
                     No, cancel
-                </x-secondary-button>
-                <x-danger-button type="submit" class="py-2 px-3">
+                </x-buttons.secondary>
+                <x-buttons.danger type="submit" class="py-2 px-3">
                     Yes, I'm sure
-                </x-danger-button>
+                </x-buttons.danger>
             </div>
         </div>
     </div>

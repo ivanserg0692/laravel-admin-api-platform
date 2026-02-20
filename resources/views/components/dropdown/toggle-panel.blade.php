@@ -5,11 +5,11 @@
     'panelClass' => '',
 ])
 
-<x-secondary-button id="{{ $buttonId }}" data-dropdown-toggle="{{ $dropdownId }}"
+<x-buttons.secondary id="{{ $buttonId }}" data-dropdown-toggle="{{ $dropdownId }}"
                     class="{{ $buttonClass }}"
                     type="button">
     {{ $trigger }}
-</x-secondary-button>
+</x-buttons.secondary>
 
 <div id="{{ $dropdownId }}" class="{{ $panelClass }}">
     {{ $content }}

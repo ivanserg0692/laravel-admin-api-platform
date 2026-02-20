@@ -60,10 +60,10 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <x-primary-button type="submit" class="px-5 py-2.5">
+                    <x-buttons.primary type="submit" class="px-5 py-2.5">
                         Update product
-                    </x-primary-button>
-                    <x-danger-button type="button" class="px-5 py-2.5">
+                    </x-buttons.primary>
+                    <x-buttons.danger type="button" class="px-5 py-2.5">
                         <svg class="mr-1 -ml-1 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -71,7 +71,7 @@
                                   clip-rule="evenodd"/>
                         </svg>
                         Delete
-                    </x-danger-button>
+                    </x-buttons.danger>
                 </div>
             </form>
         </div>

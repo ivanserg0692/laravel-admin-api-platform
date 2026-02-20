@@ -9,17 +9,17 @@
                     <div class="flex items-center">
                         <x-theme-toggle/>
                     </div>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-navigation.nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{--The main page navigation menu for desktop users.--}}
                         {{ __('Dashboard') }}
-                    </x-nav-link>
+                    </x-navigation.nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <!-- Desktop (sm+): user dropdown -->
             <div class="hidden sm:flex sm:items-center  sm:ms-6">
-                <x-dropdown align="right" width="48">
+                <x-dropdown.menu align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-300 bg-white dark:bg-gray-900 hover:text-gray-700 dark:hover:text-gray-100 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
@@ -33,22 +33,22 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown.link :href="route('profile.edit')">
                             {{ __('Profile') }}
-                        </x-dropdown-link>
+                        </x-dropdown.link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
+                            <x-dropdown.link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
-                            </x-dropdown-link>
+                            </x-dropdown.link>
                         </form>
                     </x-slot>
-                </x-dropdown>
+                </x-dropdown.menu>
             </div>
 
             <!-- Hamburger -->
@@ -70,10 +70,10 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-theme-toggle variant="menu" />
 
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-navigation.responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{--The main page navigation menu for mobile users.--}}
                 {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            </x-navigation.responsive-nav-link>
         </div>
 
         <!-- Mobile (< sm): responsive settings options -->
@@ -85,19 +85,19 @@
 
             <div class="mt-3 space-y-1">
 
-            <x-responsive-nav-link :href="route('profile.edit')">
+            <x-navigation.responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
-                </x-responsive-nav-link>
+                </x-navigation.responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('logout')"
+                    <x-navigation.responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
-                    </x-responsive-nav-link>
+                    </x-navigation.responsive-nav-link>
                 </form>
             </div>
         </div>
