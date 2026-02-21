@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use App\Models\News;
+use App\UI\Forms\NewsFormConfig;
 
 class NewsController extends Controller
 {
+    public function __construct(protected NewsFormConfig $newsFormConfig)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -18,7 +23,13 @@ class NewsController extends Controller
             ->latest('id')
             ->paginate(10);
 
-        return view('news.index', compact('news'));
+        return view('news.index', [
+            'news' => $news,
+            'newsCreateFields' => $this->newsFormConfig->fields(),
+            'newsUpdateFields' => $this->newsFormConfig->fields(),
+            'newsCreateValues' => $this->newsFormConfig->createValues(),
+            'newsUpdateValues' => $this->newsFormConfig->modalUpdateValues(),
+        ]);
     }
 
     /**
@@ -26,7 +37,9 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('news.create');
+        return view('news.create', [
+            'newsFields' => $this->newsFormConfig->fields(),
+        ]);
     }
 
     /**
@@ -49,7 +62,11 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        return view('news.update', compact('news'));
+        return view('news.update', [
+            'news' => $news,
+            'newsFields' => $this->newsFormConfig->fields(),
+            'newsValues' => $this->newsFormConfig->updateValues($news),
+        ]);
     }
 
     /**
