@@ -109,6 +109,19 @@ resources/views/components/
 - `theme-toggle.blade.php` (`x-theme-toggle`): `resources/views/layouts/navigation.blade.php`, `resources/views/welcome.blade.php`
 
 ## Конвенции Form Factory
+- `x-forms.factory` — опциональный компонент.
+- Сейчас он используется в CRUD-сценариях, но не ограничен CRUD и может применяться для любых других форм.
+- Использование `x-forms.factory` не является обязательным при разработке форм.
+- Преимущества:
+  - единый контракт schema-driven полей (`FormFieldDto`);
+  - единая отрисовка label/input/select/textarea/error;
+  - единая поддержка `old()`/`errorBag`/`nameMode`;
+  - меньше дублирования разметки и классов между формами.
+- Текущие примеры использования:
+  - [`resources/views/components/crud/forms/create.blade.php`](resources/views/components/crud/forms/create.blade.php)
+  - [`resources/views/components/crud/forms/update.blade.php`](resources/views/components/crud/forms/update.blade.php)
+  - [`resources/views/news/create.blade.php`](resources/views/news/create.blade.php)
+  - [`resources/views/news/update.blade.php`](resources/views/news/update.blade.php)
 - `x-forms.factory` поддерживает `errorBag` для изоляции ошибок между формами.
 - Если `errorBag` не передан:
   - bag выводится из `idPrefix` (camelCase), fallback — `default`.

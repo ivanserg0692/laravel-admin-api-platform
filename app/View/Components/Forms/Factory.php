@@ -11,6 +11,8 @@ use Illuminate\View\Component;
 
 class Factory extends Component
 {
+    // Optional schema-driven form renderer: currently used by CRUD flows,
+    // but intentionally framework-agnostic for any other form scenarios.
     public const DEFAULT_ERROR_BAG = 'default';
     public const MODE_PLAIN = 'plain';
     public const MODE_DOT = 'dot';

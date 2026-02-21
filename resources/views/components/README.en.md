@@ -109,6 +109,19 @@ resources/views/components/
 - `theme-toggle.blade.php` (`x-theme-toggle`): `resources/views/layouts/navigation.blade.php`, `resources/views/welcome.blade.php`
 
 ## Form Factory Conventions
+- `x-forms.factory` is an optional component.
+- It is currently used by CRUD flows, but it is not CRUD-limited and can be used for any other form scenarios.
+- Using `x-forms.factory` is not mandatory when building forms.
+- Benefits:
+  - unified schema-driven field contract (`FormFieldDto`);
+  - unified rendering for label/input/select/textarea/error;
+  - shared handling of `old()` / `errorBag` / `nameMode`;
+  - less duplicated markup and classes across forms.
+- Current usage examples:
+  - [`resources/views/components/crud/forms/create.blade.php`](resources/views/components/crud/forms/create.blade.php)
+  - [`resources/views/components/crud/forms/update.blade.php`](resources/views/components/crud/forms/update.blade.php)
+  - [`resources/views/news/create.blade.php`](resources/views/news/create.blade.php)
+  - [`resources/views/news/update.blade.php`](resources/views/news/update.blade.php)
 - `x-forms.factory` supports `errorBag` to isolate validation messages between forms.
 - If `errorBag` is not provided:
   - bag is derived from `idPrefix` (camelCase), fallback is `default`.
