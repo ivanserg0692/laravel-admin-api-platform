@@ -13,6 +13,11 @@ class Show extends Component
     public ?string $primaryMetaValue;
     public ?string $secondaryMetaValue;
     public array $metaItems;
+    public ?string $deleteConfirmModalId;
+    public ?string $deleteFormId;
+    public string $submitLabel;
+    public string $deleteLabel;
+    public string $backLabel;
 
     public function __construct(
         public mixed   $item,
@@ -24,8 +29,18 @@ class Show extends Component
         public ?string $editUrl = null,
         public ?string $previewUrl = null,
         public ?string $deleteUrl = null,
+        public ?string $backUrl = null,
+        public string  $idPrefix = 'page-show-item',
+        ?string        $submitLabel = null,
+        ?string        $deleteLabel = null,
+        ?string        $backLabel = null,
     )
     {
+        $this->deleteConfirmModalId = $idPrefix . '-delete-confirm';
+        $this->deleteFormId = $idPrefix . '-delete-form';
+        $this->submitLabel = $submitLabel ?? __('crud.save_label');
+        $this->deleteLabel = $deleteLabel ?? __('crud.delete_label');
+        $this->backLabel = $backLabel ?? __('crud.back_label');
         $this->titleValue = $title
             ?? data_get($item, 'title')
             ?? data_get($item, 'name')

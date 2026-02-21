@@ -9,11 +9,11 @@
     'errorBag' => null,
     'nameMode' => 'plain',
     'inputNamespace' => null,
-    'submitLabel' => 'Save',
+    'submitLabel' => __('crud.save_label'),
     'deleteUrl' => null,
-    'deleteLabel' => 'Delete',
+    'deleteLabel' => __('crud.delete_label'),
     'backUrl' => null,
-    'backLabel' => 'Back',
+    'backLabel' => __('crud.back_label'),
 ])
 
 @php
@@ -66,10 +66,6 @@
                         <x-buttons.secondary :href="$backUrl">
                             {{ $backLabel }}
                         </x-buttons.secondary>
-                    @else
-                        <x-buttons.secondary type="button">
-                            {{ $backLabel }}
-                        </x-buttons.secondary>
                     @endif
                 </div>
             </x-crud.forms.update>
@@ -80,26 +76,10 @@
                     @method('DELETE')
                 </form>
 
-                <x-modals.panel
+                <x-crud.modals.confirm-delete
                     :name="$deleteConfirmModalId"
-                    maxWidth="md"
-                    panelClass="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5"
-                >
-                    <p class="mb-4 text-gray-500 dark:text-gray-300">
-                        {{ __('crud.delete_confirm_message') }}
-                    </p>
-                    <div class="flex justify-center items-center gap-3">
-                        <x-buttons.secondary
-                            type="button"
-                            x-on:click="$dispatch('close-modal', '{{ $deleteConfirmModalId }}')"
-                        >
-                            {{ __('crud.no_cancel') }}
-                        </x-buttons.secondary>
-                        <x-buttons.danger type="submit" :form="$deleteFormId">
-                            {{ __('crud.yes_delete') }}
-                        </x-buttons.danger>
-                    </div>
-                </x-modals.panel>
+                    :form-id="$deleteFormId"
+                />
             @endif
         </div>
     </div>

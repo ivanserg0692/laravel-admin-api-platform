@@ -6,6 +6,7 @@ use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use App\Models\News;
 use App\UI\Forms\NewsFormConfig;
+use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
@@ -16,8 +17,10 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->session()->put('news.index.query', $request->query());
+
         $news = News::query()
             ->latest('published_at')
             ->latest('id')
@@ -54,7 +57,10 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        return view('news.show', compact('news'));
+        return view('news.show', [
+            'news' => $news,
+            'backUrl' => route('news.index', session('news.index.query', [])),
+        ]);
     }
 
     /**
@@ -66,6 +72,7 @@ class NewsController extends Controller
             'news' => $news,
             'newsFields' => $this->newsFormConfig->fields(),
             'newsValues' => $this->newsFormConfig->updateValues($news),
+            'backUrl' => route('news.index', session('news.index.query', [])),
         ]);
     }
 
