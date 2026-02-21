@@ -19,6 +19,7 @@
 @php
     $resolvedValues = $values;
     $deleteFormId = $idPrefix . '-delete-form';
+    $deleteConfirmModalId = $idPrefix . '-delete-confirm';
 
     if (empty($resolvedValues) && $item) {
         foreach ($fields as $field) {
@@ -53,7 +54,10 @@
                     </x-buttons.primary>
 
                     @if($deleteUrl)
-                        <x-buttons.danger type="submit" :form="$deleteFormId">
+                        <x-buttons.danger
+                            type="button"
+                            onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $deleteConfirmModalId }}' }))"
+                        >
                             {{ $deleteLabel }}
                         </x-buttons.danger>
                     @endif
@@ -75,6 +79,27 @@
                     @csrf
                     @method('DELETE')
                 </form>
+
+                <x-modals.panel
+                    :name="$deleteConfirmModalId"
+                    maxWidth="md"
+                    panelClass="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5"
+                >
+                    <p class="mb-4 text-gray-500 dark:text-gray-300">
+                        {{ __('crud.delete_confirm_message') }}
+                    </p>
+                    <div class="flex justify-center items-center gap-3">
+                        <x-buttons.secondary
+                            type="button"
+                            x-on:click="$dispatch('close-modal', '{{ $deleteConfirmModalId }}')"
+                        >
+                            {{ __('crud.no_cancel') }}
+                        </x-buttons.secondary>
+                        <x-buttons.danger type="submit" :form="$deleteFormId">
+                            {{ __('crud.yes_delete') }}
+                        </x-buttons.danger>
+                    </div>
+                </x-modals.panel>
             @endif
         </div>
     </div>
