@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-crud.index
         :items="$news"
+        detail-route-name="news.show"
         :columns="[
             ['key' => 'id', 'label' => 'ID'],
             ['key' => 'title', 'label' => 'Title'],

@@ -3,6 +3,7 @@
     'columns' => [],
     'showActions' => true,
     'emptyText' => 'No data found.',
+    'detailRouteName' => null,
 ])
 
 <div class="overflow-x-auto">
@@ -23,7 +24,18 @@
         </thead>
         <tbody>
         @forelse($items as $item)
-            <tr class="border-b dark:border-gray-700">
+            @php
+                $rowUrl = $detailRouteName ? route($detailRouteName, $item) : null;
+                $rowClass = $rowUrl
+                    ? 'border-b dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                    : 'border-b dark:border-gray-700';
+            @endphp
+            <tr
+                class="{{ $rowClass }}"
+                @if($rowUrl)
+                    onclick='window.location.href = @json($rowUrl)'
+                @endif
+            >
                 @foreach($columns as $index => $column)
                     @php
                         $value = data_get($item, $column['key']);
@@ -47,7 +59,7 @@
                 @endforeach
 
                 @if($showActions)
-                    <td class="px-4 py-3 flex items-center justify-end">
+                    <td class="px-4 py-3 flex items-center justify-end" onclick="event.stopPropagation()">
                         @php
                             $rowId = data_get($item, 'id') ?? uniqid('row_', true);
                         @endphp

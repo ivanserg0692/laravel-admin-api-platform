@@ -5,6 +5,7 @@
     'createValues' => [],
     'updateFields' => [],
     'updateValues' => [],
+    'detailRouteName' => null,
 ])
 <!-- Start block -->
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
@@ -43,6 +44,7 @@
             <x-lists.table
                 :items="$items"
                 :columns="$columns"
+                :detail-route-name="$detailRouteName"
             >
                 <x-slot:actions>
                     {{$actionsBefore ?? ''}}
