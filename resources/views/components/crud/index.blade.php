@@ -1,6 +1,10 @@
 @props([
     'items' => collect(),
     'columns' => [],
+    'createFields' => [],
+    'createValues' => [],
+    'updateFields' => [],
+    'updateValues' => [],
 ])
 <!-- Start block -->
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
@@ -103,7 +107,13 @@
     </div>
 </section>
 <!-- End block -->
-@include('components.crud.modals.create-product')
-@include('components.crud.modals.update-product')
+@include('components.crud.modals.create-product', [
+    'fields' => $createFields,
+    'values' => $createValues,
+])
+@include('components.crud.modals.update-product', [
+    'fields' => $updateFields,
+    'values' => $updateValues,
+])
 @include('components.crud.modals.read-product')
 @include('components.crud.modals.delete-product')
