@@ -23,6 +23,7 @@ class NewsController extends Controller
 
         $news = News::query()
             ->latest('published_at')
+            ->latest('sort_order')
             ->latest('id')
             ->paginate(10);
 
