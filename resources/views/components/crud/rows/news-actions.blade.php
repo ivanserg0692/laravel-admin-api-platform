@@ -1,0 +1,126 @@
+@props([
+    'item',
+    'rowId' => null,
+])
+
+@php
+    $resolvedRowId = $rowId ?: (data_get($item, 'id') ?? uniqid('row_', true));
+    $editInitUrl = route('news.edit-init', $item);
+    $previewUrl = route('news.show', $item);
+    $deleteUrl = route('news.destroy', $item);
+    $deleteFormId = 'row-' . $resolvedRowId . '-delete-form';
+    $deleteModalId = 'row-' . $resolvedRowId . '-delete-confirm';
+@endphp
+
+<li>
+    <x-dropdown.link
+        href="#"
+        onclick="window.newsEditInit(event, this)"
+        class="js-news-edit-init-link flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
+        data-edit-init-url="{{ $editInitUrl }}"
+        data-edit-modal="update-product"
+    >
+        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20"
+             fill="currentColor" aria-hidden="true">
+            <path
+                d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"/>
+        </svg>
+        Edit
+    </x-dropdown.link>
+</li>
+
+<li>
+    <x-dropdown.link
+        href="{{ $previewUrl }}"
+        class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
+    >
+        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20"
+             fill="currentColor" aria-hidden="true">
+            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        Preview
+    </x-dropdown.link>
+</li>
+
+<li>
+    <x-dropdown.link
+        href="#"
+        x-on:click.prevent="window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $deleteModalId }}' }))"
+        class="flex items-center text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-400"
+    >
+        <svg class="w-4 h-4 mr-2" viewbox="0 0 14 15" fill="none"
+             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd" fill="currentColor"
+                  d="M6.09922 0.300781C5.93212 0.30087 5.76835 0.347476 5.62625 0.435378C5.48414 0.523281 5.36931 0.649009 5.29462 0.798481L4.64302 2.10078H1.59922C1.36052 2.10078 1.13161 2.1956 0.962823 2.36439C0.79404 2.53317 0.699219 2.76209 0.699219 3.00078C0.699219 3.23948 0.79404 3.46839 0.962823 3.63718C1.13161 3.80596 1.36052 3.90078 1.59922 3.90078V12.9008C1.59922 13.3782 1.78886 13.836 2.12643 14.1736C2.46399 14.5111 2.92183 14.7008 3.39922 14.7008H10.5992C11.0766 14.7008 11.5344 14.5111 11.872 14.1736C12.2096 13.836 12.3992 13.3782 12.3992 12.9008V3.90078C12.6379 3.90078 12.8668 3.80596 13.0356 3.63718C13.2044 3.46839 13.2992 3.23948 13.2992 3.00078C13.2992 2.76209 13.2044 2.53317 13.0356 2.36439C12.8668 2.1956 12.6379 2.10078 12.3992 2.10078H9.35542L8.70382 0.798481C8.62913 0.649009 8.5143 0.523281 8.37219 0.435378C8.23009 0.347476 8.06631 0.30087 7.89922 0.300781H6.09922Z"/>
+        </svg>
+        {{ __('crud.delete_label') }}
+    </x-dropdown.link>
+</li>
+
+<form id="{{ $deleteFormId }}" method="POST" action="{{ $deleteUrl }}" class="hidden">
+    @csrf
+    @method('DELETE')
+</form>
+
+<x-crud.modals.confirm-delete
+    :name="$deleteModalId"
+    :form-id="$deleteFormId"
+/>
+
+@once
+    @push('scripts')
+        <script>
+            window.newsEditInit = async (event, link) => {
+                if (!link) {
+                    return;
+                }
+
+                const editInitUrl = link.dataset.editInitUrl;
+                if (!editInitUrl) {
+                    return;
+                }
+
+                event.preventDefault();
+                const editModal = link.dataset.editModal;
+                if (editModal) {
+                    window.dispatchEvent(new CustomEvent('open-modal', {detail: editModal}));
+                }
+
+                if (link.dataset.loading === '1') {
+                    return;
+                }
+
+                link.dataset.loading = '1';
+                const previousPointerEvents = link.style.pointerEvents;
+                link.style.pointerEvents = 'none';
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+                try {
+                    const response = await fetch(editInitUrl, {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken ?? '',
+                        },
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('edit-init request failed');
+                    }
+                    await response.json();
+                } catch (_) {
+                    // Keep modal open; request can be retried without navigation.
+                } finally {
+                    link.dataset.loading = '0';
+                    link.style.pointerEvents = previousPointerEvents;
+                }
+            };
+        </script>
+    @endpush
+@endonce

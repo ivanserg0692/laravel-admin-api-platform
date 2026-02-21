@@ -2,6 +2,7 @@
     <x-crud.index
         :items="$news"
         detail-route-name="news.show"
+        row-actions-component="crud.rows.news-actions"
         :columns="[
             ['key' => 'id', 'label' => 'ID'],
             ['key' => 'title', 'label' => 'Title'],

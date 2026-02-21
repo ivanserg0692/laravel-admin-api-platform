@@ -1,9 +1,9 @@
 @props([
     'items' => collect(),
     'columns' => [],
-    'showActions' => true,
     'emptyText' => 'No data found.',
     'detailRouteName' => null,
+    'rowActionsComponent' => null,
 ])
 
 <div class="overflow-x-auto">
@@ -15,7 +15,7 @@
                     {{ $column['label'] }}
                 </th>
             @endforeach
-            @if($showActions)
+            @if($rowActionsComponent)
                 <th scope="col" class="px-4 py-3">
                     <span class="sr-only">Actions</span>
                 </th>
@@ -58,7 +58,7 @@
                     @endif
                 @endforeach
 
-                @if($showActions)
+                @if($rowActionsComponent)
                     <td class="px-4 py-3 flex items-center justify-end" onclick="event.stopPropagation()">
                         @php
                             $rowId = data_get($item, 'id') ?? uniqid('row_', true);
@@ -66,15 +66,19 @@
                         <x-dropdown.row-actions
                             :button-id="'row-' . $rowId . '-dropdown-button'"
                             :dropdown-id="'row-' . $rowId . '-dropdown'"
-                            >
-                            {{ $actions ?? '' }}
+                        >
+                            <x-dynamic-component
+                                :component="$rowActionsComponent"
+                                :item="$item"
+                                :row-id="$rowId"
+                            />
                         </x-dropdown.row-actions>
                     </td>
                 @endif
             </tr>
         @empty
             <tr>
-                <td colspan="{{ count($columns) + ($showActions ? 1 : 0) }}"
+                <td colspan="{{ count($columns) + ($rowActionsComponent ? 1 : 0) }}"
                     class="px-4 py-6 text-center text-gray-500 dark:text-gray-400">
                     {{ $emptyText }}
                 </td>

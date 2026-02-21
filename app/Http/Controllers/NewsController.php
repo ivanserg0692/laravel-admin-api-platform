@@ -92,4 +92,13 @@ class NewsController extends Controller
     {
         //
     }
+
+    public function editInit(News $news)
+    {
+        return response()->json([
+            'status' => 'ok',
+            'news_id' => $news->id,
+            'redirect_url' => route('news.edit', $news),
+        ]);
+    }
 }
