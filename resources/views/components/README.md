@@ -45,6 +45,8 @@ resources/views/components/
     input-error.blade.php
     input-label.blade.php
     search.blade.php
+    select.blade.php
+    textarea.blade.php
     text-input.blade.php
   lists/
     table.blade.php
@@ -59,7 +61,7 @@ resources/views/components/
 ## Структурные правила
 - `buttons/`: только кнопки и их визуальные варианты (`primary`, `secondary`, `danger`). Не хранить здесь dropdown/menu-компоненты.
 - `dropdown/`: каркасы и элементы выпадающих меню (trigger/content wrappers, links, row-actions).
-- `forms/`: базовые поля формы и вспомогательные части (`input-label`, `input-error`, `text-input`, `search`).
+- `forms/`: базовые поля формы и вспомогательные части (`input-label`, `input-error`, `text-input`, `textarea`, `select`, `search`).
 - `navigation/`: компоненты навигации шапки/меню (`nav-link`, `responsive-nav-link`).
 - `lists/`: табличные и списочные представления данных.
 - `modals/`: общие модальные обертки (`modal`, `panel`) для переиспользования между доменами.
@@ -93,10 +95,12 @@ resources/views/components/
 - `dropdown/menu.blade.php` (`x-dropdown.menu`): `resources/views/layouts/navigation.blade.php`
 - `dropdown/row-actions.blade.php` (`x-dropdown.row-actions`): `resources/views/components/lists/table.blade.php`
 - `dropdown/toggle-panel.blade.php` (`x-dropdown.toggle-panel`): `resources/views/components/crud/toolbar/actions-dropdown.blade.php`, `resources/views/components/crud/toolbar/filter-dropdown.blade.php`
-- `forms/input-error.blade.php` (`x-forms.input-error`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/cloudflare-captcha.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
-- `forms/input-label.blade.php` (`x-forms.input-label`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/input-error.blade.php` (`x-forms.input-error`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/cloudflare-captcha.blade.php`, `resources/views/components/crud/forms/form.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/input-label.blade.php` (`x-forms.input-label`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/crud/forms/form.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
 - `forms/search.blade.php` (`x-forms.search`): `resources/views/components/crud/index.blade.php`
-- `forms/text-input.blade.php` (`x-forms.text-input`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/select.blade.php` (`x-forms.select`): `resources/views/components/crud/forms/form.blade.php`
+- `forms/textarea.blade.php` (`x-forms.textarea`): `resources/views/components/crud/forms/form.blade.php`
+- `forms/text-input.blade.php` (`x-forms.text-input`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/crud/forms/form.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
 - `lists/table.blade.php` (`x-lists.table`): `resources/views/components/crud/index.blade.php`
 - `modals/modal.blade.php` (`x-modals.modal`): `resources/views/components/modals/panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
 - `modals/panel.blade.php` (`x-modals.panel`): `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/components/crud/modals/read-product.blade.php`, `resources/views/components/crud/modals/delete-product.blade.php`
