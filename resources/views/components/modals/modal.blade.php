@@ -42,6 +42,7 @@ $maxWidth = [
     x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
     x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
     x-on:close.stop="show = false"
+    x-on:click.self="show = false"
     x-on:keydown.escape.window="show = false"
     x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
     x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
@@ -52,8 +53,7 @@ $maxWidth = [
     {{-- Backdrop layer: darkens the page behind the modal and closes on outside click. --}}
     <div
         x-show="show"
-        class="fixed inset-0 z-40 transform transition-all"
-        x-on:click="show = false"
+        class="fixed inset-0 z-40 transform transition-all pointer-events-none"
         {{-- Fade-in/fade-out animation for the backdrop. --}}
         x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0"
