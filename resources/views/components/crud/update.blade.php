@@ -6,6 +6,9 @@
     'idPrefix' => 'page-update-item',
     'fields' => [],
     'values' => [],
+    'errorBag' => null,
+    'nameMode' => 'plain',
+    'inputNamespace' => null,
     'submitLabel' => 'Save',
     'deleteUrl' => null,
     'deleteLabel' => 'Delete',
@@ -40,6 +43,9 @@
                 :http-method="$formMethod"
                 :fields="$fields"
                 :values="$resolvedValues"
+                :error-bag="$errorBag"
+                :name-mode="$nameMode"
+                :input-namespace="$inputNamespace"
             >
                 <div class="flex items-center gap-3">
                     <x-buttons.primary type="submit">

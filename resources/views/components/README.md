@@ -107,3 +107,18 @@ resources/views/components/
 - `navigation/nav-link.blade.php` (`x-navigation.nav-link`): `resources/views/layouts/navigation.blade.php`
 - `navigation/responsive-nav-link.blade.php` (`x-navigation.responsive-nav-link`): `resources/views/layouts/navigation.blade.php`
 - `theme-toggle.blade.php` (`x-theme-toggle`): `resources/views/layouts/navigation.blade.php`, `resources/views/welcome.blade.php`
+
+## Конвенции Form Factory
+- `x-forms.factory` поддерживает `errorBag` для изоляции ошибок между формами.
+- Если `errorBag` не передан:
+  - bag выводится из `idPrefix` (camelCase), fallback — `default`.
+- `nameMode` задает формат `name`:
+  - `plain` (по умолчанию): `field`
+  - `dot`: `namespace.field`
+  - `bracket`: `namespace[field]`
+- `inputNamespace` можно передать явно; если не передан, для `dot/bracket` namespace выводится из `errorBag` или `idPrefix`.
+- Для `old()` и ошибок используется согласованный key:
+  - `plain`: `field`
+  - `dot`: `namespace.field`
+  - `bracket`: `namespace.field`
+- Пример чтения на backend: `$request->input('createNews.title')`.

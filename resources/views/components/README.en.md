@@ -107,3 +107,18 @@ resources/views/components/
 - `navigation/nav-link.blade.php` (`x-navigation.nav-link`): `resources/views/layouts/navigation.blade.php`
 - `navigation/responsive-nav-link.blade.php` (`x-navigation.responsive-nav-link`): `resources/views/layouts/navigation.blade.php`
 - `theme-toggle.blade.php` (`x-theme-toggle`): `resources/views/layouts/navigation.blade.php`, `resources/views/welcome.blade.php`
+
+## Form Factory Conventions
+- `x-forms.factory` supports `errorBag` to isolate validation messages between forms.
+- If `errorBag` is not provided:
+  - bag is derived from `idPrefix` (camelCase), fallback is `default`.
+- `nameMode` controls the HTML field name format:
+  - `plain` (default): `field`
+  - `dot`: `namespace.field`
+  - `bracket`: `namespace[field]`
+- `inputNamespace` can be passed explicitly; if omitted and `dot/bracket` is used, namespace is derived from `errorBag` or `idPrefix`.
+- `old()` and validation keys are aligned as:
+  - `plain`: `field`
+  - `dot`: `namespace.field`
+  - `bracket`: `namespace.field`
+- Backend access example: `$request->input('createNews.title')`.

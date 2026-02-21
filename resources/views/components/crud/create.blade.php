@@ -4,6 +4,9 @@
     'idPrefix' => 'page-create-item',
     'fields' => [],
     'values' => [],
+    'errorBag' => null,
+    'nameMode' => 'plain',
+    'inputNamespace' => null,
     'submitLabel' => 'Create',
     'cancelUrl' => null,
     'cancelLabel' => 'Cancel',
@@ -16,7 +19,15 @@
                 <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $title }}</h1>
             </div>
 
-            <x-crud.forms.create :id-prefix="$idPrefix" :action="$formAction" :fields="$fields" :values="$values">
+            <x-crud.forms.create
+                :id-prefix="$idPrefix"
+                :action="$formAction"
+                :fields="$fields"
+                :values="$values"
+                :error-bag="$errorBag"
+                :name-mode="$nameMode"
+                :input-namespace="$inputNamespace"
+            >
                 <div class="flex items-center gap-3">
                     <x-buttons.primary type="submit">
                         {{ $submitLabel }}
