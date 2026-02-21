@@ -7,7 +7,7 @@
 
 <form method="POST" action="{{ $action }}">
     @csrf
-    <x-crud.forms.form :id-prefix="$idPrefix" :fields="$fields" :values="$values" />
+    <x-forms.factory :id-prefix="$idPrefix" :fields="$fields" :values="$values" />
 
     {{ $slot }}
 </form>

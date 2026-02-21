@@ -23,7 +23,6 @@ resources/views/components/
     create.blade.php
     forms/
       create.blade.php
-      form.blade.php
       update.blade.php
     index.blade.php
     show.blade.php
@@ -42,6 +41,7 @@ resources/views/components/
     row-actions.blade.php
     toggle-panel.blade.php
   forms/
+    factory.blade.php
     input-error.blade.php
     input-label.blade.php
     search.blade.php
@@ -81,7 +81,6 @@ resources/views/components/
 - `crud/index.blade.php` (`x-crud.index`): `resources/views/news/index.blade.php`
 - `crud/create.blade.php` (`x-crud.create`): `resources/views/news/create.blade.php`
 - `crud/forms/create.blade.php` (`x-crud.forms.create`): `resources/views/components/crud/create.blade.php`, `resources/views/components/crud/modals/create-product.blade.php`
-- `crud/forms/form.blade.php` (`x-crud.forms.form`): `resources/views/components/crud/forms/create.blade.php`, `resources/views/components/crud/forms/update.blade.php`
 - `crud/forms/update.blade.php` (`x-crud.forms.update`): `resources/views/components/crud/update.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`
 - `crud/show.blade.php` (`x-crud.show`): `resources/views/news/show.blade.php`
 - `crud/update.blade.php` (`x-crud.update`): `resources/views/news/update.blade.php`
@@ -95,12 +94,13 @@ resources/views/components/
 - `dropdown/menu.blade.php` (`x-dropdown.menu`): `resources/views/layouts/navigation.blade.php`
 - `dropdown/row-actions.blade.php` (`x-dropdown.row-actions`): `resources/views/components/lists/table.blade.php`
 - `dropdown/toggle-panel.blade.php` (`x-dropdown.toggle-panel`): `resources/views/components/crud/toolbar/actions-dropdown.blade.php`, `resources/views/components/crud/toolbar/filter-dropdown.blade.php`
-- `forms/input-error.blade.php` (`x-forms.input-error`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/cloudflare-captcha.blade.php`, `resources/views/components/crud/forms/form.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
-- `forms/input-label.blade.php` (`x-forms.input-label`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/crud/forms/form.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/factory.blade.php` (`x-forms.factory`): `resources/views/components/crud/forms/create.blade.php`, `resources/views/components/crud/forms/update.blade.php`
+- `forms/input-error.blade.php` (`x-forms.input-error`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/cloudflare-captcha.blade.php`, `resources/views/components/forms/factory.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/input-label.blade.php` (`x-forms.input-label`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/forms/factory.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
 - `forms/search.blade.php` (`x-forms.search`): `resources/views/components/crud/index.blade.php`
-- `forms/select.blade.php` (`x-forms.select`): `resources/views/components/crud/forms/form.blade.php`
-- `forms/textarea.blade.php` (`x-forms.textarea`): `resources/views/components/crud/forms/form.blade.php`
-- `forms/text-input.blade.php` (`x-forms.text-input`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/crud/forms/form.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/select.blade.php` (`x-forms.select`): `resources/views/components/forms/factory.blade.php`
+- `forms/textarea.blade.php` (`x-forms.textarea`): `resources/views/components/forms/factory.blade.php`
+- `forms/text-input.blade.php` (`x-forms.text-input`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/forms/factory.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
 - `lists/table.blade.php` (`x-lists.table`): `resources/views/components/crud/index.blade.php`
 - `modals/modal.blade.php` (`x-modals.modal`): `resources/views/components/modals/panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
 - `modals/panel.blade.php` (`x-modals.panel`): `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/components/crud/modals/read-product.blade.php`, `resources/views/components/crud/modals/delete-product.blade.php`
