@@ -3,6 +3,7 @@
 namespace App\UI\Forms;
 
 use App\Models\News;
+use App\UI\Forms\DTO\FormFieldDto;
 use Illuminate\Support\Carbon;
 
 class NewsFormConfig
@@ -10,16 +11,16 @@ class NewsFormConfig
     public function fields(): array
     {
         return [
-            ['name' => 'title', 'label' => 'Title', 'placeholder' => 'Enter news title', 'required' => true],
-            ['name' => 'slug', 'label' => 'Slug', 'placeholder' => 'news-title-slug', 'required' => true],
-            ['name' => 'status', 'label' => 'Status', 'type' => 'select', 'options' => ['draft' => 'Draft', 'published' => 'Published', 'archived' => 'Archived'], 'required' => true],
-            ['name' => 'published_at', 'label' => 'Published at', 'type' => 'datetime-local'],
-            ['name' => 'preview', 'label' => 'Preview', 'type' => 'textarea', 'rows' => 3, 'full_width' => true],
-            ['name' => 'content', 'label' => 'Content', 'type' => 'textarea', 'rows' => 7, 'required' => true, 'full_width' => true],
-            ['name' => 'cover_image', 'label' => 'Cover image URL', 'type' => 'url', 'placeholder' => 'https://example.com/cover.jpg', 'full_width' => true],
-            ['name' => 'meta_title', 'label' => 'Meta title', 'placeholder' => 'SEO title'],
-            ['name' => 'meta_description', 'label' => 'Meta description', 'placeholder' => 'SEO description'],
-            ['name' => 'sort_order', 'label' => 'Sort order', 'type' => 'number', 'value' => 0],
+            new FormFieldDto(name: 'title', label: 'Title', placeholder: 'Enter news title', required: true),
+            new FormFieldDto(name: 'slug', label: 'Slug', placeholder: 'news-title-slug', required: true),
+            new FormFieldDto(name: 'status', label: 'Status', type: 'select', options: ['draft' => 'Draft', 'published' => 'Published', 'archived' => 'Archived'], required: true),
+            new FormFieldDto(name: 'published_at', label: 'Published at', type: 'datetime-local'),
+            new FormFieldDto(name: 'preview', label: 'Preview', type: 'textarea', rows: 3, fullWidth: true),
+            new FormFieldDto(name: 'content', label: 'Content', type: 'textarea', rows: 7, required: true, fullWidth: true),
+            new FormFieldDto(name: 'cover_image', label: 'Cover image URL', type: 'url', placeholder: 'https://example.com/cover.jpg', fullWidth: true),
+            new FormFieldDto(name: 'meta_title', label: 'Meta title', placeholder: 'SEO title'),
+            new FormFieldDto(name: 'meta_description', label: 'Meta description', placeholder: 'SEO description'),
+            new FormFieldDto(name: 'sort_order', label: 'Sort order', type: 'number', value: 0),
         ];
     }
 
