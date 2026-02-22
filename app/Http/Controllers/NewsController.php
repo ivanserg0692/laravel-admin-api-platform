@@ -95,10 +95,14 @@ class NewsController extends Controller
 
     public function editInit(News $news)
     {
+        $values = $this->newsFormConfig->updateValues($news);
+
         return response()->json([
-            'status' => 'ok',
-            'news_id' => $news->id,
-            'redirect_url' => route('news.edit', $news),
+            'ok' => true,
+            'data' => [
+                'id' => $news->id,
+                'values' => $values,
+            ],
         ]);
     }
 }

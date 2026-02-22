@@ -4,6 +4,7 @@
     'emptyText' => 'No data found.',
     'detailRouteName' => null,
     'rowActionsComponent' => null,
+    'editModal' => null,
 ])
 
 <div class="overflow-x-auto">
@@ -71,6 +72,7 @@
                                 :component="$rowActionsComponent"
                                 :item="$item"
                                 :row-id="$rowId"
+                                :edit-modal="$editModal"
                             />
                         </x-dropdown.row-actions>
                     </td>

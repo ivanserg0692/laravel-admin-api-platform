@@ -20,6 +20,7 @@
                     placeholder="{{ $field->placeholder }}"
                     :required="$field->required"
                     class="{{ $controlClass }}"
+                    :x-model="$field->alpineModel"
                 >{{ $field->value }}</x-forms.textarea>
             @elseif($field->type === 'select')
                 <x-forms.select
@@ -27,6 +28,7 @@
                     name="{{ $field->htmlName ?? $field->name }}"
                     :required="$field->required"
                     class="{{ $controlClass }}"
+                    :x-model="$field->alpineModel"
                 >
                     @foreach($field->options as $optionValue => $optionLabel)
                         @php
@@ -46,6 +48,7 @@
                     placeholder="{{ $field->placeholder }}"
                     :required="$field->required"
                     class="{{ $controlClass }}"
+                    :x-model="$field->alpineModel"
                 />
             @endif
 

@@ -8,6 +8,10 @@
     'detailRouteName' => null,
     'rowActionsComponent' => null,
 ])
+@php
+    $crudInstanceId = uniqid('crud-', true);
+    $updateModalName = 'update-product-' . $crudInstanceId;
+@endphp
 <!-- Start block -->
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
     <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
@@ -47,6 +51,7 @@
                 :columns="$columns"
                 :detail-route-name="$detailRouteName"
                 :row-actions-component="$rowActionsComponent"
+                :edit-modal="$updateModalName"
             />
 
             <nav
@@ -68,6 +73,7 @@
 @include('components.crud.modals.update-product', [
     'fields' => $updateFields,
     'values' => $updateValues,
+    'name' => $updateModalName,
 ])
 @include('components.crud.modals.read-product')
 @include('components.crud.modals.delete-product')

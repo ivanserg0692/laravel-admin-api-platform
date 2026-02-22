@@ -31,6 +31,7 @@ class Factory extends Component
         public array  $values = [],
         public ?string $errorBag = null,
         public ?string $inputNamespace = null,
+        public ?string $alpineModelRoot = null,
         public string $nameMode = self::MODE_PLAIN,
         public string $gridClass = 'grid gap-4 mb-4 sm:grid-cols-2',
     )
@@ -61,6 +62,7 @@ class Factory extends Component
             $fieldId = $field->id ?? ($this->idPrefix . '-' . $field->name);
             ['htmlName' => $htmlName, 'oldKey' => $oldKey] = $this->resolveFieldNames($field->name);
             $resolvedValue = old($oldKey, data_get($this->values, $field->name, $field->value));
+            $alpineModel = $this->resolveAlpineModelExpression($field->name);
 
             $normalized[] = new FormFieldDto(
                 name: $field->name,
@@ -75,6 +77,7 @@ class Factory extends Component
                 value: $resolvedValue,
                 htmlName: $htmlName,
                 oldKey: $oldKey,
+                alpineModel: $alpineModel,
             );
         }
 
@@ -157,5 +160,14 @@ class Factory extends Component
         }
 
         return $nameMode;
+    }
+
+    private function resolveAlpineModelExpression(string $fieldName): ?string
+    {
+        if (!filled($this->alpineModelRoot)) {
+            return null;
+        }
+
+        return $this->alpineModelRoot . '.' . $fieldName;
     }
 }

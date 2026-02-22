@@ -7,6 +7,7 @@
     'errorBag' => null,
     'nameMode' => 'plain',
     'inputNamespace' => null,
+    'alpineModelRoot' => null,
 ])
 
 {{-- Intentionally kept as a CRUD wrapper: this is an extension point for future update-specific behavior. --}}
@@ -20,6 +21,7 @@
         :error-bag="$errorBag"
         :name-mode="$nameMode"
         :input-namespace="$inputNamespace"
+        :alpine-model-root="$alpineModelRoot"
     />
 
     {{ $slot }}

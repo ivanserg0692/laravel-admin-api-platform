@@ -20,6 +20,7 @@ readonly class FormFieldDto
         public mixed   $value = null, // Default/current field value.
         public ?string $htmlName = null, // Resolved HTML name after name mode/namespace processing.
         public ?string $oldKey = null, // Key used for old input and validation messages.
+        public ?string $alpineModel = null, // Optional Alpine model expression, e.g. "form.title".
     )
     {
     }

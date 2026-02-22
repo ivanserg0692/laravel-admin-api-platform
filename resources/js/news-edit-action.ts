@@ -5,6 +5,7 @@ export class NewsEditAction {
     private readonly modal: string;
     private readonly csrfToken: string;
     private readonly previousPointerEvents: string;
+    private static readonly VALUES_LOADED_EVENT = 'news-edit-values-loaded';
 
     constructor(link: HTMLElement | null, event: Event) {
         this.link = link;
@@ -51,7 +52,7 @@ export class NewsEditAction {
         this.link.style.pointerEvents = this.previousPointerEvents;
     }
 
-    private async requestInit(): Promise<void> {
+    private async requestInit(): Promise<EditInitResponse> {
         const response = await fetch(this.url, {
             method: 'POST',
             credentials: 'same-origin',
@@ -65,7 +66,23 @@ export class NewsEditAction {
             throw new Error('edit-init request failed');
         }
 
-        await response.json();
+        return (await response.json()) as EditInitResponse;
+    }
+
+    private dispatchLoadedValues(payload: EditInitResponse): void {
+        if (!payload.ok || !payload.data || !isRecord(payload.data.values)) {
+            return;
+        }
+
+        window.dispatchEvent(
+            new CustomEvent(NewsEditAction.VALUES_LOADED_EVENT, {
+                detail: {
+                    modal: this.modal,
+                    id: payload.data.id,
+                    values: payload.data.values,
+                },
+            }),
+        );
     }
 
     private async run(): Promise<void> {
@@ -83,9 +100,24 @@ export class NewsEditAction {
 
         try {
             const payload = await this.requestInit();
+            this.dispatchLoadedValues(payload);
             this.openModal();
+        } catch (_) {
+            // Keep modal open; request can be retried without navigation.
         } finally {
             this.unlock();
         }
     }
+}
+
+interface EditInitResponse {
+    ok: boolean;
+    data?: {
+        id?: number | string;
+        values?: Record<string, unknown>;
+    };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null;
 }
