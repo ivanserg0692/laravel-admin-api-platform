@@ -74,7 +74,6 @@ export class NewsEditAction {
         }
 
         this.event.preventDefault();
-        this.openModal();
 
         if (this.isLoading) {
             return;
@@ -83,9 +82,8 @@ export class NewsEditAction {
         this.lock();
 
         try {
-            await this.requestInit();
-        } catch (_) {
-            // Keep modal open; request can be retried without navigation.
+            const payload = await this.requestInit();
+            this.openModal();
         } finally {
             this.unlock();
         }
