@@ -6,6 +6,7 @@ export class NewsEditAction {
     private readonly csrfToken: string;
     private readonly previousPointerEvents: string;
     private static readonly VALUES_LOADED_EVENT = 'news-edit-values-loaded';
+    private static readonly PREVIEW_LOADED_EVENT = 'news-preview-loaded';
 
     constructor(link: HTMLElement | null, event: Event) {
         this.link = link;
@@ -20,6 +21,66 @@ export class NewsEditAction {
     static async handle(event: Event, link: HTMLElement | null): Promise<void> {
         const action = new NewsEditAction(link, event);
         await action.run();
+    }
+
+    static async handlePreview(event: Event, link: HTMLElement | null): Promise<void> {
+        if (!link) {
+            return;
+        }
+
+        const previewInitUrl = link.dataset.previewInitUrl;
+        const previewModal = link.dataset.previewModal;
+
+        if (!previewInitUrl || !previewModal) {
+            return;
+        }
+
+        event.preventDefault();
+
+        if (link.dataset.loading === '1') {
+            return;
+        }
+
+        link.dataset.loading = '1';
+        const previousPointerEvents = link.style.pointerEvents;
+        link.style.pointerEvents = 'none';
+
+        const csrfToken =
+            document.querySelector('meta[name=\"csrf-token\"]')?.getAttribute('content') ?? '';
+
+        try {
+            const response = await fetch(previewInitUrl, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('preview-init request failed');
+            }
+
+            const payload = (await response.json()) as PreviewInitResponse;
+            if (payload.ok && payload.data && isRecord(payload.data.preview)) {
+                window.dispatchEvent(
+                    new CustomEvent(NewsEditAction.PREVIEW_LOADED_EVENT, {
+                        detail: {
+                            modal: previewModal,
+                            id: payload.data.id,
+                            preview: payload.data.preview,
+                        },
+                    }),
+                );
+                window.dispatchEvent(new CustomEvent('open-modal', { detail: previewModal }));
+            }
+        } catch (_) {
+            // Keep current state; preview can be retried without navigation.
+        } finally {
+            link.dataset.loading = '0';
+            link.style.pointerEvents = previousPointerEvents;
+        }
     }
 
     private get isLoading(): boolean {
@@ -115,6 +176,14 @@ interface EditInitResponse {
     data?: {
         id?: number | string;
         values?: Record<string, unknown>;
+    };
+}
+
+interface PreviewInitResponse {
+    ok: boolean;
+    data?: {
+        id?: number | string;
+        preview?: Record<string, unknown>;
     };
 }
 

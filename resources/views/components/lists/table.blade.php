@@ -5,6 +5,7 @@
     'detailRouteName' => null,
     'rowActionsComponent' => null,
     'editModal' => null,
+    'previewModal' => null,
 ])
 
 <div class="overflow-x-auto">
@@ -73,6 +74,7 @@
                                 :item="$item"
                                 :row-id="$rowId"
                                 :edit-modal="$editModal"
+                                :preview-modal="$previewModal"
                             />
                         </x-dropdown.row-actions>
                     </td>

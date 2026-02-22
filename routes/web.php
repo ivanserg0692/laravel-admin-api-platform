@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('api/session')->group(function () {
         Route::post('/news/{news}/edit-init', [NewsController::class, 'editInit'])
             ->name('news.edit-init');
+        Route::post('/news/{news}/preview-init', [NewsController::class, 'previewInit'])
+            ->name('news.preview-init');
     });
 });
 

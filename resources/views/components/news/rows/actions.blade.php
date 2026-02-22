@@ -2,12 +2,13 @@
     'item',
     'rowId' => null,
     'editModal' => 'update-product',
+    'previewModal' => 'read-product',
 ])
 
 @php
     $resolvedRowId = $rowId ?: (data_get($item, 'id') ?? uniqid('row_', true));
     $editInitUrl = route('news.edit-init', $item);
-    $previewUrl = route('news.show', $item);
+    $previewInitUrl = route('news.preview-init', $item);
     $deleteUrl = route('news.destroy', $item);
     $deleteFormId = 'row-' . $resolvedRowId . '-delete-form';
     $deleteModalId = 'row-' . $resolvedRowId . '-delete-confirm';
@@ -34,8 +35,11 @@
 
 <li>
     <x-dropdown.link
-        href="{{ $previewUrl }}"
+        href="#"
+        onclick="window.App.UI.NewsActions.previewInit(event, this)"
         class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
+        data-preview-init-url="{{ $previewInitUrl }}"
+        data-preview-modal="{{ $previewModal }}"
     >
         <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20"
              fill="currentColor" aria-hidden="true">

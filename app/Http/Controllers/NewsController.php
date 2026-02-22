@@ -105,4 +105,27 @@ class NewsController extends Controller
             ],
         ]);
     }
+
+    public function previewInit(News $news)
+    {
+        $publishedAt = data_get($news, 'published_at');
+        $preview = [
+            'title' => data_get($news, 'title'),
+            'status' => data_get($news, 'status'),
+            'published_at' => $publishedAt instanceof \DateTimeInterface
+                ? $publishedAt->format('Y-m-d H:i')
+                : null,
+            'preview' => data_get($news, 'preview'),
+            'content' => data_get($news, 'content'),
+            'cover_image' => data_get($news, 'cover_image'),
+        ];
+
+        return response()->json([
+            'ok' => true,
+            'data' => [
+                'id' => $news->id,
+                'preview' => $preview,
+            ],
+        ]);
+    }
 }

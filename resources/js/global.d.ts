@@ -6,6 +6,7 @@ declare global {
             UI: {
                 NewsActions: {
                     editInit: (event: Event, link: HTMLElement | null) => Promise<void>;
+                    previewInit: (event: Event, link: HTMLElement | null) => Promise<void>;
                 };
             };
         };

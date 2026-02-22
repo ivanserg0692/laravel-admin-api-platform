@@ -13,6 +13,7 @@ window.App.UI = window.App.UI || {};
 window.App.UI.NewsActions = window.App.UI.NewsActions || {};
 
 window.App.UI.NewsActions.editInit = (event, link) => NewsEditAction.handle(event, link);
+window.App.UI.NewsActions.previewInit = (event, link) => NewsEditAction.handlePreview(event, link);
 window.newsEditInit = window.App.UI.NewsActions.editInit;
 
 document.addEventListener('DOMContentLoaded', () => {

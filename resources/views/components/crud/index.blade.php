@@ -11,6 +11,7 @@
 @php
     $crudInstanceId = uniqid('crud-', true);
     $updateModalName = 'update-product-' . $crudInstanceId;
+    $previewModalName = 'read-product-' . $crudInstanceId;
 @endphp
 <!-- Start block -->
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
@@ -52,6 +53,7 @@
                 :detail-route-name="$detailRouteName"
                 :row-actions-component="$rowActionsComponent"
                 :edit-modal="$updateModalName"
+                :preview-modal="$previewModalName"
             />
 
             <nav
@@ -75,5 +77,7 @@
     'values' => $updateValues,
     'name' => $updateModalName,
 ])
-@include('components.crud.modals.read-product')
+@include('components.crud.modals.read-product', [
+    'name' => $previewModalName,
+])
 @include('components.crud.modals.delete-product')
