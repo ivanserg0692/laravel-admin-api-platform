@@ -15,7 +15,7 @@
 <li>
     <x-dropdown.link
         href="#"
-        onclick="window.newsEditInit(event, this)"
+        onclick="window.App.UI.NewsActions.editInit(event, this)"
         class="js-news-edit-init-link flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
         data-edit-init-url="{{ $editInitUrl }}"
         data-edit-modal="update-product"
@@ -70,57 +70,3 @@
     :name="$deleteModalId"
     :form-id="$deleteFormId"
 />
-
-@once
-    @push('scripts')
-        <script>
-            window.newsEditInit = async (event, link) => {
-                if (!link) {
-                    return;
-                }
-
-                const editInitUrl = link.dataset.editInitUrl;
-                if (!editInitUrl) {
-                    return;
-                }
-
-                event.preventDefault();
-                const editModal = link.dataset.editModal;
-                if (editModal) {
-                    window.dispatchEvent(new CustomEvent('open-modal', {detail: editModal}));
-                }
-
-                if (link.dataset.loading === '1') {
-                    return;
-                }
-
-                link.dataset.loading = '1';
-                const previousPointerEvents = link.style.pointerEvents;
-                link.style.pointerEvents = 'none';
-
-                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-                try {
-                    const response = await fetch(editInitUrl, {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken ?? '',
-                        },
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('edit-init request failed');
-                    }
-                    await response.json();
-                } catch (_) {
-                    // Keep modal open; request can be retried without navigation.
-                } finally {
-                    link.dataset.loading = '0';
-                    link.style.pointerEvents = previousPointerEvents;
-                }
-            };
-        </script>
-    @endpush
-@endonce

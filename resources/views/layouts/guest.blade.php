@@ -20,7 +20,7 @@
         })();
     </script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.ts'])
 </head>
 <body class="antialiased bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
 <section class="bg-white dark:bg-gray-950">
