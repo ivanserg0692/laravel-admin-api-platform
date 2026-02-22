@@ -28,7 +28,7 @@
             <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"/>
         </svg>
-        Edit
+        {{ __('crud.edit_label') }}
     </x-dropdown.link>
 </li>
 
@@ -43,7 +43,7 @@
             <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
         </svg>
-        Preview
+        {{ __('crud.preview_label') }}
     </x-dropdown.link>
 </li>
 
