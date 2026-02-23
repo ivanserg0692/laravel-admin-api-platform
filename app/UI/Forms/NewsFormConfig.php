@@ -11,16 +11,26 @@ class NewsFormConfig
     public function fields(): array
     {
         return [
-            new FormFieldDto(name: 'title', label: 'Title', placeholder: 'Enter news title', required: true),
-            new FormFieldDto(name: 'slug', label: 'Slug', placeholder: 'news-title-slug', required: true),
-            new FormFieldDto(name: 'status', label: 'Status', type: 'select', options: ['draft' => 'Draft', 'published' => 'Published', 'archived' => 'Archived'], required: true),
-            new FormFieldDto(name: 'published_at', label: 'Published at', type: 'datetime-local'),
-            new FormFieldDto(name: 'preview', label: 'Preview', type: 'textarea', rows: 3, fullWidth: true),
-            new FormFieldDto(name: 'content', label: 'Content', type: 'textarea', rows: 7, required: true, fullWidth: true),
-            new FormFieldDto(name: 'cover_image', label: 'Cover image URL', type: 'url', placeholder: 'https://example.com/cover.jpg', fullWidth: true),
-            new FormFieldDto(name: 'meta_title', label: 'Meta title', placeholder: 'SEO title'),
-            new FormFieldDto(name: 'meta_description', label: 'Meta description', placeholder: 'SEO description'),
-            new FormFieldDto(name: 'sort_order', label: 'Sort order', type: 'number', value: 0),
+            new FormFieldDto(name: 'title', label: __('news.labels.title'), placeholder: __('news.placeholders.title'), required: true),
+            new FormFieldDto(name: 'slug', label: __('news.labels.slug'), placeholder: __('news.placeholders.slug'), required: true),
+            new FormFieldDto(
+                name: 'status',
+                label: __('news.labels.status'),
+                type: 'select',
+                options: [
+                    'draft' => __('news.labels.status_options.draft'),
+                    'published' => __('news.labels.status_options.published'),
+                    'archived' => __('news.labels.status_options.archived'),
+                ],
+                required: true
+            ),
+            new FormFieldDto(name: 'published_at', label: __('news.labels.published_at'), type: 'datetime-local'),
+            new FormFieldDto(name: 'preview', label: __('news.labels.preview'), type: 'textarea', rows: 3, fullWidth: true),
+            new FormFieldDto(name: 'content', label: __('news.labels.content'), type: 'textarea', rows: 7, required: true, fullWidth: true),
+            new FormFieldDto(name: 'cover_image', label: __('news.labels.cover_image'), type: 'url', placeholder: __('news.placeholders.cover_image'), fullWidth: true),
+            new FormFieldDto(name: 'meta_title', label: __('news.labels.meta_title'), placeholder: __('news.placeholders.meta_title')),
+            new FormFieldDto(name: 'meta_description', label: __('news.labels.meta_description'), placeholder: __('news.placeholders.meta_description')),
+            new FormFieldDto(name: 'sort_order', label: __('news.labels.sort_order'), type: 'number', value: 0),
         ];
     }
 

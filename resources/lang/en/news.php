@@ -1,6 +1,38 @@
 <?php
 
 return [
+    'create_button_label' => 'Add news',
+    'create_modal_title' => 'Add news',
+    'create_submit_label' => 'Add news',
+    'labels' => [
+        'id' => 'ID',
+        'title' => 'Title',
+        'slug' => 'Slug',
+        'status' => 'Status',
+        'published' => 'Published',
+        'published_at' => 'Published at',
+        'author' => 'Author',
+        'views' => 'Views',
+        'preview' => 'Preview',
+        'content' => 'Content',
+        'cover_image' => 'Cover image URL',
+        'meta_title' => 'Meta title',
+        'meta_description' => 'Meta description',
+        'sort_order' => 'Sort order',
+        'status_options' => [
+            'draft' => 'Draft',
+            'published' => 'Published',
+            'archived' => 'Archived',
+        ],
+    ],
+    'placeholders' => [
+        'search' => 'Search news',
+        'title' => 'Enter news title',
+        'slug' => 'news-title-slug',
+        'cover_image' => 'https://example.com/cover.jpg',
+        'meta_title' => 'SEO title',
+        'meta_description' => 'SEO description',
+    ],
     'update_modal_title' => 'Update news',
     'preview_modal_title' => 'Preview news',
     'delete_confirm_title' => 'Delete news',
