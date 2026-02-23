@@ -64,7 +64,7 @@
                 @if($rowActionsComponent)
                     <td class="px-4 py-3 flex items-center justify-end" onclick="event.stopPropagation()">
                         @php
-                            $rowId = data_get($item, 'id') ?? uniqid('row_', true);
+                            $rowId = data_get($item, 'id') ?? \Illuminate\Support\Str::uuid()->toString();
                         @endphp
                         <x-dropdown.row-actions
                             :button-id="'row-' . $rowId . '-dropdown-button'"

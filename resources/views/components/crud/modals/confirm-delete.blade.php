@@ -1,14 +1,14 @@
 @props([
     'name',
-    'formId' => null,
     'title' => __('crud.delete_confirm_title'),
-    'message' => __('crud.delete_confirm_template'),
+    'message' => __('crud.delete_confirm_message'),
+    'deleteUrl' => null,
     'cancelLabel' => __('crud.no_cancel'),
     'confirmLabel' => __('crud.yes_delete'),
 ])
 
 @php
-    $resolvedFormId = $formId ?: 'delete-form-' . preg_replace('/[^a-zA-Z0-9_-]/', '-', (string) $name);
+    $resolvedFormId = 'delete-form-' . preg_replace('/[^a-zA-Z0-9_-]/', '-', (string) $name);
 @endphp
 
 <x-modals.panel
@@ -19,9 +19,8 @@
     <div
         x-data="{
             modalName: @js($name),
-            formId: @js($resolvedFormId),
             messageTemplate: @js($message),
-            deleteUrl: '',
+            deleteUrl: @js($deleteUrl),
             id: null,
             title: '',
             renderMessage() {
@@ -41,12 +40,10 @@
     >
         <p class="mb-4 text-gray-500 dark:text-gray-300" x-text="renderMessage()"></p>
 
-        @if(!$formId)
-            <form :id="formId" method="POST" x-bind:action="deleteUrl || '#'" class="hidden">
-                @csrf
-                @method('DELETE')
-            </form>
-        @endif
+        <form id="{{ $resolvedFormId }}" method="POST" x-bind:action="deleteUrl || '#'" class="hidden">
+            @csrf
+            @method('DELETE')
+        </form>
     </div>
     <div class="flex justify-center items-center gap-3">
         <x-buttons.secondary

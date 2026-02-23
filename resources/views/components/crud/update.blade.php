@@ -18,7 +18,6 @@
 
 @php
     $resolvedValues = $values;
-    $deleteFormId = $idPrefix . '-delete-form';
     $deleteConfirmModalId = $idPrefix . '-delete-confirm';
 
     if (empty($resolvedValues) && $item) {
@@ -71,14 +70,9 @@
             </x-crud.forms.update>
 
             @if($deleteUrl)
-                <form id="{{ $deleteFormId }}" method="POST" action="{{ $deleteUrl }}" class="hidden">
-                    @csrf
-                    @method('DELETE')
-                </form>
-
                 <x-crud.modals.confirm-delete
                     :name="$deleteConfirmModalId"
-                    :form-id="$deleteFormId"
+                    :delete-url="$deleteUrl"
                 />
             @endif
         </div>

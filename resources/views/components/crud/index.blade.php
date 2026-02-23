@@ -13,7 +13,7 @@
     'deleteModalMessage' => __('crud.delete_confirm_template'),
 ])
 @php
-    $crudInstanceId = uniqid('crud-', true);
+    $crudInstanceId = \Illuminate\Support\Str::uuid()->toString();
     $updateModalName = 'update-product-' . $crudInstanceId;
     $previewModalName = 'read-product-' . $crudInstanceId;
     $deleteModalName = 'delete-product-' . $crudInstanceId;

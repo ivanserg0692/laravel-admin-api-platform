@@ -4,6 +4,7 @@ namespace App\View\Components\Crud;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
 class Show extends Component
@@ -36,7 +37,7 @@ class Show extends Component
         ?string        $backLabel = null,
     )
     {
-        $this->deleteConfirmModalId = $idPrefix . '-delete-confirm';
+        $this->deleteConfirmModalId = $idPrefix . '-delete-confirm' . Str::uuid()->toString();
         $this->deleteFormId = $idPrefix . '-delete-form';
         $this->submitLabel = $submitLabel ?? __('crud.save_label');
         $this->deleteLabel = $deleteLabel ?? __('crud.delete_label');
