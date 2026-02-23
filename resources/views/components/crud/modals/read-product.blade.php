@@ -47,11 +47,11 @@
 
             <dl class="space-y-4">
                 <div>
-                    <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Preview</dt>
+                    <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">{{ __('news.labels.preview') }}</dt>
                     <dd class="font-light text-gray-500 dark:text-gray-400 whitespace-pre-line" x-text="preview.preview || '-'"></dd>
                 </div>
                 <div>
-                    <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Content</dt>
+                    <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">{{ __('news.labels.content') }}</dt>
                     <dd class="font-light text-gray-500 dark:text-gray-400 whitespace-pre-line" x-text="preview.content || '-'"></dd>
                 </div>
             </dl>
