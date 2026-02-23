@@ -50,10 +50,10 @@
                         {{ $createButtonLabel }}
                     </x-buttons.primary>
 
-                    <div class="flex items-center space-x-3 w-full md:w-auto">
-                        {{--<x-crud.toolbar.actions-dropdown/>--}}
+                    {{--<div class="flex items-center space-x-3 w-full md:w-auto">
+                        <x-crud.toolbar.actions-dropdown/>
                         <x-crud.toolbar.filter-dropdown/>
-                    </div>
+                    </div>--}}
                 </div>
             </div>
 
