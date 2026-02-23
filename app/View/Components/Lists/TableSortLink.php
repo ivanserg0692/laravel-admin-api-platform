@@ -49,9 +49,6 @@ class TableSortLink extends Component
             $query['sort'] = $querySorts;
         }
 
-        unset($query['direction']);
-        $query['page'] = 1;
-
         $url = request()->url();
         $queryString = http_build_query($query);
 
