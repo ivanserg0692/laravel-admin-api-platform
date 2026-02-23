@@ -1,6 +1,7 @@
 @props([
     'items' => collect(),
     'columns' => [],
+    'sorts' => [],
     'emptyText' => 'No data found.',
     'detailRouteName' => null,
     'rowActionsComponent' => null,
@@ -9,13 +10,69 @@
     'deleteModal' => null,
 ])
 
+@php
+    $rawSorts = $sorts;
+    if (is_string($rawSorts)) {
+        $rawSorts = [$rawSorts];
+    }
+
+    if (!is_array($rawSorts)) {
+        $rawSorts = [];
+    }
+
+    $activeSorts = collect($rawSorts)
+        ->map(function ($item) {
+            if (!is_string($item)) {
+                return null;
+            }
+
+            [$key, $direction] = array_pad(explode(':', $item, 2), 2, null);
+            $key = trim((string) $key);
+            $direction = strtolower(trim((string) $direction));
+
+            if ($key === '' || !in_array($direction, ['asc', 'desc'], true)) {
+                return null;
+            }
+
+            return [
+                'key' => $key,
+                'direction' => $direction,
+            ];
+        })
+        ->filter()
+        ->values()
+        ->all();
+
+    $activeSortMap = collect($activeSorts)->keyBy('key')->all();
+    $sortPriorityMap = [];
+
+    foreach ($activeSorts as $index => $activeSort) {
+        $sortPriorityMap[$activeSort['key']] = $index + 1;
+    }
+@endphp
+
 <div class="overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
             @foreach($columns as $column)
-                <th scope="col" class="{{ $column['header_class'] ?? 'px-4 py-3' }}">
-                    {{ $column['label'] }}
+                @php
+                    $sortKey = $column->sortKey ?? $column->key;
+                    $currentDirection = data_get($activeSortMap, $sortKey . '.direction');
+                    $priority = $sortPriorityMap[$sortKey] ?? null;
+                @endphp
+                <th scope="col" class="{{ $column->headerClass ?? 'px-4 py-3' }}">
+                    @if($column->sortable)
+                        <x-lists.table-sort-link
+                            :sort-key="$sortKey"
+                            :label="$column->label"
+                            :active-sorts="$activeSorts"
+                            :current-direction="$currentDirection"
+                            :priority="$priority"
+                        />
+                    @else
+                        {{ $column->label }}
+                    @endif
                 </th>
             @endforeach
             @if($rowActionsComponent)
@@ -41,7 +98,7 @@
             >
                 @foreach($columns as $index => $column)
                     @php
-                        $value = data_get($item, $column['key']);
+                        $value = data_get($item, $column->key);
 
                         if ($value instanceof \DateTimeInterface) {
                             $value = $value->format('Y-m-d H:i');
@@ -53,11 +110,11 @@
 
                     @if($isPrimary)
                         <th scope="row"
-                            class="{{ $column['cell_class'] ?? 'px-4 py-3' }} font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="{{ $column->cellClass ?? 'px-4 py-3' }} font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $value }}
                         </th>
                     @else
-                        <td class="{{ $column['cell_class'] ?? 'px-4 py-3' }}">{{ $value }}</td>
+                        <td class="{{ $column->cellClass ?? 'px-4 py-3' }}">{{ $value }}</td>
                     @endif
                 @endforeach
 

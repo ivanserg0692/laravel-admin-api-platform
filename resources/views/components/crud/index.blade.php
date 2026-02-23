@@ -1,6 +1,7 @@
 @props([
     'items' => collect(),
     'columns' => [],
+    'sorts' => [],
     'createFields' => [],
     'createValues' => [],
     'updateFields' => [],
@@ -55,6 +56,7 @@
             <x-lists.table
                 :items="$items"
                 :columns="$columns"
+                :sorts="$sorts"
                 :detail-route-name="$detailRouteName"
                 :row-actions-component="$rowActionsComponent"
                 :edit-modal="$updateModalName"

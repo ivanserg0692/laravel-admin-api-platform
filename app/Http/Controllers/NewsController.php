@@ -21,11 +21,30 @@ class NewsController extends Controller
     {
         $request->session()->put('news.index.query', $request->query());
 
-        $news = News::query()
-            ->latest('published_at')
-            ->latest('sort_order')
-            ->latest('id')
-            ->paginate(10);
+        $allowedSortColumns = [
+            'id',
+            'title',
+            'status',
+            'published_at',
+            'author_id',
+            'views_count',
+        ];
+
+        $sortOrders = $this->buildSortOrders($request, $allowedSortColumns);
+
+        $newsQuery = News::query();
+
+        if (!empty($sortOrders)) {
+            foreach ($sortOrders as $sortOrder) {
+                $newsQuery->orderBy($sortOrder['column'], $sortOrder['direction']);
+            }
+        } else {
+            $newsQuery->orderByDesc('published_at');
+        }
+
+        $news = $newsQuery
+            ->paginate(10)
+            ->appends($request->query());
 
         return view('news.index', [
             'news' => $news,
@@ -142,4 +161,49 @@ class NewsController extends Controller
             ],
         ]);
     }
+
+    /**
+     * @param array<int, string> $allowedSortColumns
+     * @return array<int, array{column:string, direction:string}>
+     */
+    private function buildSortOrders(Request $request, array $allowedSortColumns): array
+    {
+        $rawSorts = $request->query('sort', []);
+
+
+        if (!is_array($rawSorts)) {
+            return [];
+        }
+
+        $orders = [];
+        $seenColumns = [];
+
+        foreach ($rawSorts as $sortEntry) {
+            if (!is_string($sortEntry)) {
+                continue;
+            }
+
+            [$column, $direction] = array_pad(explode(':', $sortEntry, 2), 2, null);
+            $column = trim((string) $column);
+            $direction = strtolower(trim((string) $direction));
+
+            if (
+                $column === ''
+                || !in_array($column, $allowedSortColumns, true)
+                || !in_array($direction, ['asc', 'desc'], true)
+                || isset($seenColumns[$column])
+            ) {
+                continue;
+            }
+
+            $orders[] = [
+                'column' => $column,
+                'direction' => $direction,
+            ];
+            $seenColumns[$column] = true;
+        }
+
+        return $orders;
+    }
 }
+
