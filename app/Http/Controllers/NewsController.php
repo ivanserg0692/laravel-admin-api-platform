@@ -101,6 +101,8 @@ class NewsController extends Controller
             'ok' => true,
             'data' => [
                 'id' => $news->id,
+                'title' => (string) data_get($news, 'title', ''),
+                'delete_url' => route('news.destroy', $news),
                 'values' => $values,
             ],
         ]);

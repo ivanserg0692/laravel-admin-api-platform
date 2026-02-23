@@ -83,6 +83,7 @@
     'values' => $updateValues,
     'name' => $updateModalName,
     'title' => $updateModalTitle,
+    'deleteModal' => $deleteModalName,
 ])
 @include('components.crud.modals.read-product', [
     'name' => $previewModalName,

@@ -22,6 +22,8 @@ export const newsEditActionConfig: NewsModalActionConfig = {
         return {
             modal: modalName,
             id: typed.data.id,
+            title: isString(typed.data.title) ? typed.data.title : '',
+            deleteUrl: isString(typed.data.delete_url) ? typed.data.delete_url : '',
             values: typed.data.values,
         };
     },
@@ -72,6 +74,8 @@ interface EditInitResponse {
     ok: boolean;
     data?: {
         id?: number | string;
+        title?: string;
+        delete_url?: string;
         values?: Record<string, unknown>;
     };
 }
