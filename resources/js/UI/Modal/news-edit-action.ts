@@ -85,7 +85,7 @@ export class NewsModalAction {
 
     private async requestJson(url: string): Promise<unknown> {
         const response = await fetch(url, {
-            method: 'POST',
+            method: 'GET',
             credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',

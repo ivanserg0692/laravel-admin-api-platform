@@ -29,11 +29,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/news', NewsController::class);
     Route::prefix('api/session')->group(function () {
-        Route::post('/news/{news}/edit-init', [NewsController::class, 'editInit'])
+        Route::get('/news/{news}/edit-init', [NewsController::class, 'editInit'])
             ->name('news.edit-init');
-        Route::post('/news/{news}/preview-init', [NewsController::class, 'previewInit'])
+        Route::get('/news/{news}/preview-init', [NewsController::class, 'previewInit'])
             ->name('news.preview-init');
-        Route::post('/news/{news}/delete-init', [NewsController::class, 'deleteInit'])
+        Route::get('/news/{news}/delete-init', [NewsController::class, 'deleteInit'])
             ->name('news.delete-init');
     });
 });
