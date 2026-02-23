@@ -1,3 +1,5 @@
+import type {NewsModalActionConfig} from './news-action-configs';
+
 export class NewsModalAction {
     private readonly event: Event;
     private readonly link: HTMLElement | null;
@@ -9,7 +11,7 @@ export class NewsModalAction {
         this.link = link;
         this.config = config;
         this.csrfToken =
-            document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
+            document.querySelector('meta[name=\'csrf-token\']')?.getAttribute('content') ?? '';
     }
 
     async run(): Promise<void> {
@@ -93,13 +95,4 @@ export class NewsModalAction {
     private openModal(modalName: string): void {
         window.dispatchEvent(new CustomEvent('open-modal', { detail: modalName }));
     }
-}
-
-export interface NewsModalActionConfig {
-    urlDataKey: keyof DOMStringMap;
-    modalDataKey: keyof DOMStringMap;
-    eventName: string;
-    requestErrorMessage: string;
-    openModalMode: 'always' | 'when_detail';
-    buildDetail: (payload: unknown, modalName: string) => Record<string, unknown> | null;
 }

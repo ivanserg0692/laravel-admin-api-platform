@@ -18,14 +18,15 @@ The flow is event-driven:
 - [`resources/views/components/news/rows/actions.blade.php`](../resources/views/components/news/rows/actions.blade.php)
 - [`resources/views/components/crud/modals/update-product.blade.php`](../resources/views/components/crud/modals/update-product.blade.php)
 - [`resources/views/components/crud/modals/read-product.blade.php`](../resources/views/components/crud/modals/read-product.blade.php)
-- [`resources/js/news-edit-action.ts`](../resources/js/news-edit-action.ts)
+- [`resources/js/news-edit-action.ts`](../resources/js/UI/Modal/news-edit-action.ts)
 - [`resources/js/app.ts`](../resources/js/app.ts)
 - [`routes/web.php`](../routes/web.php)
 - [`app/Http/Controllers/NewsController.php`](../app/Http/Controllers/NewsController.php)
 
 ## Frontend Architecture
 Frontend now uses a single reusable action runner:
-- [`resources/js/news-edit-action.ts`](../resources/js/news-edit-action.ts) exports `NewsModalAction`
+
+- [`resources/js/news-edit-action.ts`](../resources/js/UI/Modal/news-edit-action.ts) exports `NewsModalAction`
 - [`resources/js/app.ts`](../resources/js/app.ts) defines two configs:
   - `newsEditActionConfig`
   - `newsPreviewActionConfig`
@@ -73,7 +74,8 @@ The same generated modal name is passed through all layers.
    - `data-edit-modal="{{ $editModal }}"`
    - `data-preview-modal="{{ $previewModal }}"`
 
-5. Read names in TS and include them in event payload/open call in [`resources/js/news-edit-action.ts`](../resources/js/news-edit-action.ts):
+5. Read names in TS and include them in event payload/open call in [
+   `resources/js/news-edit-action.ts`](../resources/js/UI/Modal/news-edit-action.ts):
    - `link.dataset.editModal` / `link.dataset.previewModal`
    - `detail.modal = ...`
    - `window.dispatchEvent(new CustomEvent('open-modal', { detail: modalName }))`
@@ -161,7 +163,8 @@ Controller methods:
 ```
 
 ## Custom Events
-Dispatched from [`resources/js/news-edit-action.ts`](../resources/js/news-edit-action.ts):
+
+Dispatched from [`resources/js/news-edit-action.ts`](../resources/js/UI/Modal/news-edit-action.ts):
 
 Edit:
 - Event: `news-edit-values-loaded`
