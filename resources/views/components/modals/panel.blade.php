@@ -4,14 +4,14 @@
     'title' => null,
     'panelClass' => 'relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5',
     'headerClass' => 'flex items-center justify-between pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600',
-    'titleClass' => 'text-lg font-semibold text-gray-900 dark:text-white',
+    'titleClass' => 'w-full text-center text-lg font-semibold text-gray-900 dark:text-white',
 ])
 
 <x-modals.modal :name="$name" :maxWidth="$maxWidth">
     <div class="{{ $panelClass }}">
         @if(isset($header) || $title)
             <div class="{{ $headerClass }}">
-                <div>
+                <div class="w-full">
                     @isset($header)
                         {{ $header }}
                     @else

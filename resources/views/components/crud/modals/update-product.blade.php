@@ -3,7 +3,7 @@
     'fields' => [],
     'values' => [],
     'action' => '#',
-    'title' => 'Update Product',
+    'title' => __('crud.edit_label'),
     'submitLabel' => 'Update product',
 ])
 

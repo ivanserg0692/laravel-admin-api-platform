@@ -15,6 +15,10 @@
         :create-values="$newsCreateValues"
         :update-fields="$newsUpdateFields"
         :update-values="$newsUpdateValues"
+        :update-modal-title="__('news.update_modal_title')"
+        :preview-modal-title="__('news.preview_modal_title')"
+        :delete-modal-title="__('news.delete_confirm_title')"
+        :delete-modal-message="__('news.delete_confirm_template')"
     >
     </x-crud.index>
 </x-app-layout>

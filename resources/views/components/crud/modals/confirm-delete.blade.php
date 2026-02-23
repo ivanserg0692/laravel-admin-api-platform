@@ -1,6 +1,7 @@
 @props([
     'name',
     'formId' => null,
+    'title' => __('crud.delete_confirm_title'),
     'message' => __('crud.delete_confirm_template'),
     'cancelLabel' => __('crud.no_cancel'),
     'confirmLabel' => __('crud.yes_delete'),
@@ -13,6 +14,7 @@
 <x-modals.panel
     :name="$name"
     maxWidth="2xl"
+    :title="$title"
 >
     <div
         x-data="{

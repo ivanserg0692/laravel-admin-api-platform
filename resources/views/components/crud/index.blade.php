@@ -7,6 +7,10 @@
     'updateValues' => [],
     'detailRouteName' => null,
     'rowActionsComponent' => null,
+    'updateModalTitle' => __('crud.edit_label'),
+    'previewModalTitle' => __('crud.preview_label'),
+    'deleteModalTitle' => __('crud.delete_confirm_title'),
+    'deleteModalMessage' => __('crud.delete_confirm_template'),
 ])
 @php
     $crudInstanceId = uniqid('crud-', true);
@@ -78,10 +82,14 @@
     'fields' => $updateFields,
     'values' => $updateValues,
     'name' => $updateModalName,
+    'title' => $updateModalTitle,
 ])
 @include('components.crud.modals.read-product', [
     'name' => $previewModalName,
+    'title' => $previewModalTitle,
 ])
 @include('components.crud.modals.confirm-delete', [
     'name' => $deleteModalName,
+    'title' => $deleteModalTitle,
+    'message' => $deleteModalMessage,
 ])
