@@ -9,6 +9,11 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             @endif
         </svg>
+    @else
+        <svg class="h-3 w-3 text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7l4-4 4 4"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 17l-4 4-4-4"/>
+        </svg>
     @endif
 
     @if($priority !== null)
