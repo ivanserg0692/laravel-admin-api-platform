@@ -19,9 +19,8 @@ export class NewsModalAction {
             return;
         }
 
-        const requestUrl = this.link.dataset[this.config.urlDataKey];
         const modalName = this.link.dataset[this.config.modalDataKey];
-        if (!requestUrl || !modalName) {
+        if (!modalName) {
             return;
         }
 
@@ -33,10 +32,9 @@ export class NewsModalAction {
         const previousPointerEvents = this.lock();
 
         try {
-            const payload = await this.requestJson(requestUrl);
-            const detail = this.config.buildDetail(payload, modalName);
+            const detail = await this.buildDetail(modalName);
 
-            if (detail) {
+            if (detail && this.config.eventName) {
                 this.dispatchEvent(this.config.eventName, detail);
             }
 
@@ -48,6 +46,20 @@ export class NewsModalAction {
         } finally {
             this.unlock(previousPointerEvents);
         }
+    }
+
+    private async buildDetail(modalName: string): Promise<Record<string, unknown> | null> {
+        if (this.config.urlDataKey) {
+            const requestUrl = this.link?.dataset[this.config.urlDataKey];
+            if (!requestUrl) {
+                return null;
+            }
+
+            const payload = await this.requestJson(requestUrl);
+            return this.config.buildDetail(payload, modalName);
+        }
+
+        return this.config.buildDetail(null, modalName);
     }
 
     private lock(): string {
@@ -82,7 +94,7 @@ export class NewsModalAction {
         });
 
         if (!response.ok) {
-            throw new Error(this.config.requestErrorMessage);
+            throw new Error(this.config.requestErrorMessage ?? 'request failed');
         }
 
         return response.json();

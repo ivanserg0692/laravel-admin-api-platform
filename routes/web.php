@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
             ->name('news.edit-init');
         Route::post('/news/{news}/preview-init', [NewsController::class, 'previewInit'])
             ->name('news.preview-init');
+        Route::post('/news/{news}/delete-init', [NewsController::class, 'deleteInit'])
+            ->name('news.delete-init');
     });
 });
 

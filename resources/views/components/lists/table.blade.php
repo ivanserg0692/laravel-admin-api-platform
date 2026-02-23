@@ -6,6 +6,7 @@
     'rowActionsComponent' => null,
     'editModal' => null,
     'previewModal' => null,
+    'deleteModal' => null,
 ])
 
 <div class="overflow-x-auto">
@@ -72,9 +73,9 @@
                             <x-dynamic-component
                                 :component="$rowActionsComponent"
                                 :item="$item"
-                                :row-id="$rowId"
                                 :edit-modal="$editModal"
                                 :preview-modal="$previewModal"
+                                :delete-modal="$deleteModal"
                             />
                         </x-dropdown.row-actions>
                     </td>

@@ -128,4 +128,16 @@ class NewsController extends Controller
             ],
         ]);
     }
+
+    public function deleteInit(News $news)
+    {
+        return response()->json([
+            'ok' => true,
+            'data' => [
+                'id' => $news->id,
+                'title' => (string) data_get($news, 'title', ''),
+                'delete_url' => route('news.destroy', $news),
+            ],
+        ]);
+    }
 }

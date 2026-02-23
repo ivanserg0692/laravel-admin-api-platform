@@ -1,19 +1,51 @@
 @props([
     'name',
-    'formId',
-    'message' => __('crud.delete_confirm_message'),
+    'formId' => null,
+    'message' => __('crud.delete_confirm_template'),
     'cancelLabel' => __('crud.no_cancel'),
     'confirmLabel' => __('crud.yes_delete'),
 ])
 
+@php
+    $resolvedFormId = $formId ?: 'delete-form-' . preg_replace('/[^a-zA-Z0-9_-]/', '-', (string) $name);
+@endphp
+
 <x-modals.panel
     :name="$name"
-    maxWidth="md"
-    panelClass="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5"
+    maxWidth="2xl"
 >
-    <p class="mb-4 text-gray-500 dark:text-gray-300">
-        {{ $message }}
-    </p>
+    <div
+        x-data="{
+            modalName: @js($name),
+            formId: @js($resolvedFormId),
+            messageTemplate: @js($message),
+            deleteUrl: '',
+            id: null,
+            title: '',
+            renderMessage() {
+                const resolvedId = this.id ?? '?';
+                const resolvedTitle = this.title || '';
+                return this.messageTemplate
+                    .replace('{id}', String(resolvedId))
+                    .replace('{title}', resolvedTitle);
+            },
+        }"
+        x-on:news-delete-values-loaded.window="
+            if ($event.detail?.modal !== modalName) return;
+            id = $event.detail?.id ?? null;
+            title = typeof $event.detail?.title === 'string' ? $event.detail.title : '';
+            deleteUrl = typeof $event.detail?.deleteUrl === 'string' ? $event.detail.deleteUrl : '';
+        "
+    >
+        <p class="mb-4 text-gray-500 dark:text-gray-300" x-text="renderMessage()"></p>
+
+        @if(!$formId)
+            <form :id="formId" method="POST" x-bind:action="deleteUrl || '#'" class="hidden">
+                @csrf
+                @method('DELETE')
+            </form>
+        @endif
+    </div>
     <div class="flex justify-center items-center gap-3">
         <x-buttons.secondary
             type="button"
@@ -21,7 +53,7 @@
         >
             {{ $cancelLabel }}
         </x-buttons.secondary>
-        <x-buttons.danger type="submit" :form="$formId">
+        <x-buttons.danger type="submit" :form="$resolvedFormId" x-bind:disabled="!deleteUrl">
             {{ $confirmLabel }}
         </x-buttons.danger>
     </div>

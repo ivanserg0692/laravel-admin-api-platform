@@ -1,8 +1,8 @@
 export interface NewsModalActionConfig {
-    urlDataKey: keyof DOMStringMap;
+    urlDataKey?: keyof DOMStringMap;
     modalDataKey: keyof DOMStringMap;
-    eventName: string;
-    requestErrorMessage: string;
+    eventName?: string;
+    requestErrorMessage?: string;
     openModalMode: 'always' | 'when_detail';
     buildDetail: (payload: unknown, modalName: string) => Record<string, unknown> | null;
 }
@@ -47,6 +47,27 @@ export const newsPreviewActionConfig: NewsModalActionConfig = {
     },
 };
 
+export const newsDeleteActionConfig: NewsModalActionConfig = {
+    urlDataKey: 'deleteInitUrl',
+    modalDataKey: 'deleteModal',
+    eventName: 'news-delete-values-loaded',
+    requestErrorMessage: 'delete-init request failed',
+    openModalMode: 'when_detail',
+    buildDetail(payload, modalName) {
+        const typed = payload as DeleteInitResponse;
+        if (!typed.ok || !typed.data || !isString(typed.data.title) || !isString(typed.data.delete_url)) {
+            return null;
+        }
+
+        return {
+            modal: modalName,
+            id: typed.data.id,
+            title: typed.data.title,
+            deleteUrl: typed.data.delete_url,
+        };
+    },
+};
+
 interface EditInitResponse {
     ok: boolean;
     data?: {
@@ -63,6 +84,19 @@ interface PreviewInitResponse {
     };
 }
 
+interface DeleteInitResponse {
+    ok: boolean;
+    data?: {
+        id?: number | string;
+        title?: string;
+        delete_url?: string;
+    };
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === 'object' && value !== null;
+}
+
+function isString(value: unknown): value is string {
+    return typeof value === 'string';
 }

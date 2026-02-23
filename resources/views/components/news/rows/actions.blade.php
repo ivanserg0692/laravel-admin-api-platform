@@ -1,17 +1,14 @@
 @props([
     'item',
-    'rowId' => null,
     'editModal' => 'update-product',
     'previewModal' => 'read-product',
+    'deleteModal' => 'delete-product',
 ])
 
 @php
-    $resolvedRowId = $rowId ?: (data_get($item, 'id') ?? uniqid('row_', true));
     $editInitUrl = route('news.edit-init', $item);
     $previewInitUrl = route('news.preview-init', $item);
-    $deleteUrl = route('news.destroy', $item);
-    $deleteFormId = 'row-' . $resolvedRowId . '-delete-form';
-    $deleteModalId = 'row-' . $resolvedRowId . '-delete-confirm';
+    $deleteInitUrl = route('news.delete-init', $item);
 @endphp
 
 <li>
@@ -54,8 +51,10 @@
 <li>
     <x-dropdown.link
         href="#"
-        x-on:click.prevent="window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $deleteModalId }}' }))"
+        onclick="window.App.UI.NewsActions.deleteInit(event, this)"
         class="flex items-center text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-400"
+        data-delete-init-url="{{ $deleteInitUrl }}"
+        data-delete-modal="{{ $deleteModal }}"
     >
         <svg class="w-4 h-4 mr-2" viewbox="0 0 14 15" fill="none"
              xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -65,13 +64,3 @@
         {{ __('crud.delete_label') }}
     </x-dropdown.link>
 </li>
-
-<form id="{{ $deleteFormId }}" method="POST" action="{{ $deleteUrl }}" class="hidden">
-    @csrf
-    @method('DELETE')
-</form>
-
-<x-crud.modals.confirm-delete
-    :name="$deleteModalId"
-    :form-id="$deleteFormId"
-/>

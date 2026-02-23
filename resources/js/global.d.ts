@@ -7,6 +7,7 @@ declare global {
                 NewsActions: {
                     editInit: (event: Event, link: HTMLElement | null) => Promise<void>;
                     previewInit: (event: Event, link: HTMLElement | null) => Promise<void>;
+                    deleteInit: (event: Event, link: HTMLElement | null) => Promise<void>;
                 };
             };
         };

@@ -1,6 +1,10 @@
 import './bootstrap';
 import {NewsModalAction} from './UI/Modal/news-edit-action';
-import {newsEditActionConfig, newsPreviewActionConfig} from './UI/Modal/news-action-configs';
+import {
+    newsDeleteActionConfig,
+    newsEditActionConfig,
+    newsPreviewActionConfig,
+} from './UI/Modal/news-action-configs';
 
 import Alpine from 'alpinejs';
 import 'flowbite';
@@ -17,6 +21,8 @@ window.App.UI.NewsActions.editInit = (event, link) =>
     new NewsModalAction(event, link, newsEditActionConfig).run();
 window.App.UI.NewsActions.previewInit = (event, link) =>
     new NewsModalAction(event, link, newsPreviewActionConfig).run();
+window.App.UI.NewsActions.deleteInit = (event, link) =>
+    new NewsModalAction(event, link, newsDeleteActionConfig).run();
 window.newsEditInit = window.App.UI.NewsActions.editInit;
 
 document.addEventListener('DOMContentLoaded', () => {

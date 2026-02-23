@@ -7,6 +7,7 @@ return [
     'delete_label' => 'Удалить',
     'back_label' => 'Назад',
     'delete_confirm_message' => 'Вы уверены, что хотите удалить этот элемент?',
+    'delete_confirm_template' => 'Вы уверены, что хотите удалить новость №{id} "{title}"?',
     'no_cancel' => 'Нет',
     'yes_delete' => 'Да',
 ];
