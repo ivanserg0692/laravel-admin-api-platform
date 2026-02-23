@@ -11,6 +11,8 @@
 ])
 
 @php
+    use App\UI\Lists\DTO\SortOrderDto;
+
     $rawSorts = $sorts;
     if (is_string($rawSorts)) {
         $rawSorts = [$rawSorts];
@@ -34,20 +36,21 @@
                 return null;
             }
 
-            return [
-                'key' => $key,
-                'direction' => $direction,
-            ];
+            return new SortOrderDto(
+                key: $key,
+                direction: $direction,
+            );
         })
         ->filter()
         ->values()
         ->all();
 
-    $activeSortMap = collect($activeSorts)->keyBy('key')->all();
+    $activeSortByKey = [];
     $sortPriorityMap = [];
 
     foreach ($activeSorts as $index => $activeSort) {
-        $sortPriorityMap[$activeSort['key']] = $index + 1;
+        $activeSortByKey[$activeSort->key] = $activeSort;
+        $sortPriorityMap[$activeSort->key] = $index + 1;
     }
 @endphp
 
@@ -58,7 +61,7 @@
             @foreach($columns as $column)
                 @php
                     $sortKey = $column->sortKey ?? $column->key;
-                    $currentDirection = data_get($activeSortMap, $sortKey . '.direction');
+                    $currentDirection = $activeSortByKey[$sortKey]->direction ?? null;
                     $priority = $sortPriorityMap[$sortKey] ?? null;
                 @endphp
                 <th scope="col" class="{{ $column->headerClass ?? 'px-4 py-3' }}">
