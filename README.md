@@ -1,4 +1,4 @@
-﻿# Learning Laravel in 2026
+# Learning Laravel in 2026
 
 Short project based on Laravel 12 + Breeze (Blade + Tailwind) with Sail for local Docker development.
 
@@ -7,8 +7,9 @@ Short project based on Laravel 12 + Breeze (Blade + Tailwind) with Sail for loca
 - PHP `^8.3`
 - Laravel `^12.10`
 - Laravel Breeze `^2.0`
+- Livewire `^4.1`
+- Alpine.js `^3.4.2`
 - Vite `^5`
-- alpinejs `^3`
 - Tailwind CSS `^4`
 - MySQL + Redis + Mailpit (via Sail)
 
@@ -74,3 +75,10 @@ npm run build
   - added theme toggle and component documentation (RU/EN)
   - details: [TASK-003-homepage-ui-and-dashboard-style-alignment.md](docs/tasks/TASK-003-homepage-ui-and-dashboard-style-alignment.md)
   - MR: [#2](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/2)
+
+- `TASK-004` News CRUD UI and Livewire integration:
+  - converted news index flow to a Livewire root component
+  - added reactive search and query-based sorting with page preservation
+  - extracted list query logic into a dedicated service and updated component docs/tests
+  - details: [TASK-004-ai-crud-layer-news-admin.md](docs/tasks/TASK-004-ai-crud-layer-news-admin.md)
+  - MR: [#3](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/3)

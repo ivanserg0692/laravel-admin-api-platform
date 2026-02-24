@@ -2,226 +2,142 @@
 
 Папка: `resources/views/components`
 
-## Содержание
+## Общие правила
+- Использование: `<x-имя-компонента />`.
+- Для вложенных папок: `<x-folder.component />` (пример: `<x-buttons.primary />`).
+- Крупные составные блоки можно подключать через `@include(...)`, но базовые UI-части лучше держать в компонентах.
 
-### Branding
-- [`application-logo`](#application-logo)
-
-### Form Controls
-- [`input-label`](#input-label)
-- [`text-input`](#text-input)
-- [`input-error`](#input-error)
-- [`cloudflare-captcha`](#cloudflare-captcha)
-
-### Buttons
-- [`primary-button`](#primary-button)
-- [`secondary-button`](#secondary-button)
-- [`danger-button`](#danger-button)
-
-### Navigation & Links
-- [`nav-link`](#nav-link)
-- [`responsive-nav-link`](#responsive-nav-link)
-- [`dropdown-link`](#dropdown-link)
-
-### Overlays & Menus
-- [`dropdown`](#dropdown)
-- [`modal`](#modal)
-
-## Общие правила использования
-- Компоненты подключаются как `<x-имя-компонента>`.
-- Все компоненты поддерживают передачу HTML-атрибутов через `$attributes`.
-- Для логики отображения/состояний используются `@props`, Alpine.js и стандартные Blade-слоты.
-
-## Список компонентов
-
-### `application-logo`
-- Файл: `application-logo.blade.php`
-- Назначение: SVG-логотип приложения.
-- Props: нет.
-- Слот: нет.
-- Пример:
-
-```blade
-<x-application-logo class="h-10 w-10 text-gray-500" />
+## Текущая структура
+```text
+resources/views/components/
+  application-logo.blade.php
+  auth-session-status.blade.php
+  cloudflare-captcha.blade.php
+  theme-toggle.blade.php
+  buttons/
+    danger.blade.php
+    icon-close.blade.php
+    primary.blade.php
+    secondary.blade.php
+  crud/
+    create.blade.php
+    forms/
+      create.blade.php
+      update.blade.php
+    index.blade.php
+    show.blade.php
+    update.blade.php
+    modals/
+      create-product.blade.php
+      confirm-delete.blade.php
+      read-product.blade.php
+      update-product.blade.php
+    toolbar/
+      actions-dropdown.blade.php
+      filter-dropdown.blade.php
+  dropdown/
+    link.blade.php
+    menu.blade.php
+    row-actions.blade.php
+    toggle-panel.blade.php
+  forms/
+    factory.blade.php
+    input-error.blade.php
+    input-label.blade.php
+    search.blade.php
+    select.blade.php
+    textarea.blade.php
+    text-input.blade.php
+  lists/
+    table.blade.php
+    table-sort-link.blade.php
+  modals/
+    modal.blade.php
+    panel.blade.php
+  navigation/
+    nav-link.blade.php
+    responsive-nav-link.blade.php
 ```
 
-### `auth-session-status`
-- Файл: `auth-session-status.blade.php`
-- Назначение: выводит статус сессии (например, сообщение после восстановления пароля).
-- Props:
-  - `status`.
-- Рендерится только если `status` не пустой.
-- Пример:
+## Структурные правила
+- `buttons/`: только кнопки и их визуальные варианты (`primary`, `secondary`, `danger`). Не хранить здесь dropdown/menu-компоненты.
+- `dropdown/`: каркасы и элементы выпадающих меню (trigger/content wrappers, links, row-actions).
+- `forms/`: базовые поля формы и вспомогательные части (`input-label`, `input-error`, `text-input`, `textarea`, `select`, `search`).
+- `navigation/`: компоненты навигации шапки/меню (`nav-link`, `responsive-nav-link`).
+- `lists/`: табличные и списочные представления данных.
+- `modals/`: общие модальные обертки (`modal`, `panel`) для переиспользования между доменами.
+- `crud/`: доменные CRUD-компоненты (index, модалки, тулбар-части), привязанные к CRUD-сценарию.
+- `crud/forms/`: общие формы CRUD-операций (create/update), переиспользуемые страницами и модалками.
+- Корень `components/`: только truly shared компоненты, которые не относятся к конкретной папке-домену (`theme-toggle`, `application-logo`, `auth-session-status`, `cloudflare-captcha`).
+- Новый компонент класть в максимально узкую папку по назначению; если он становится cross-domain, переносить в общий слой.
 
-```blade
-<x-auth-session-status :status="session('status')" class="mb-4" />
-```
+## Карта компонентов и использование
+- `application-logo.blade.php` (`x-application-logo`): `resources/views/layouts/guest.blade.php`
+- `auth-session-status.blade.php` (`x-auth-session-status`): `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`
+- `buttons/danger.blade.php` (`x-buttons.danger`): `resources/views/components/crud/modals/confirm-delete.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
+- `buttons/icon-close.blade.php` (`x-buttons.icon-close`): `resources/views/components/modals/panel.blade.php`
+- `buttons/primary.blade.php` (`x-buttons.primary`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/index.blade.php`, `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `buttons/secondary.blade.php` (`x-buttons.secondary`): `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/modals/confirm-delete.blade.php`, `resources/views/components/dropdown/toggle-panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
+- `cloudflare-captcha.blade.php` (`x-cloudflare-captcha`): `resources/views/auth/register.blade.php`
+- `crud/index.blade.php` (`x-crud.index`): `resources/views/livewire/news/index.blade.php`
+- `crud/create.blade.php` (`x-crud.create`): `resources/views/news/create.blade.php`
+- `crud/forms/create.blade.php` (`x-crud.forms.create`): `resources/views/components/crud/create.blade.php`, `resources/views/components/crud/modals/create-product.blade.php`
+- `crud/forms/update.blade.php` (`x-crud.forms.update`): `resources/views/components/crud/update.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`
+- `crud/show.blade.php` (`x-crud.show`): `resources/views/news/show.blade.php`
+- `crud/update.blade.php` (`x-crud.update`): `resources/views/news/update.blade.php`
+- `crud/modals/create-product.blade.php` (`x-crud.modals.create-product`): `resources/views/components/crud/index.blade.php`
+- `crud/modals/confirm-delete.blade.php` (`x-crud.modals.confirm-delete`): `resources/views/components/crud/index.blade.php`
+- `crud/modals/read-product.blade.php` (`x-crud.modals.read-product`): `resources/views/components/crud/index.blade.php`
+- `crud/modals/update-product.blade.php` (`x-crud.modals.update-product`): `resources/views/components/crud/index.blade.php`
+- `crud/toolbar/actions-dropdown.blade.php` (`x-crud.toolbar.actions-dropdown`): `resources/views/components/crud/index.blade.php`
+- `crud/toolbar/filter-dropdown.blade.php` (`x-crud.toolbar.filter-dropdown`): `resources/views/components/crud/index.blade.php`
+- `dropdown/link.blade.php` (`x-dropdown.link`): `resources/views/layouts/navigation.blade.php`
+- `dropdown/menu.blade.php` (`x-dropdown.menu`): `resources/views/layouts/navigation.blade.php`
+- `dropdown/row-actions.blade.php` (`x-dropdown.row-actions`): `resources/views/components/lists/table.blade.php`
+- `dropdown/toggle-panel.blade.php` (`x-dropdown.toggle-panel`): `resources/views/components/crud/toolbar/actions-dropdown.blade.php`, `resources/views/components/crud/toolbar/filter-dropdown.blade.php`
+- `forms/factory.blade.php` (`x-forms.factory`): `resources/views/components/crud/forms/create.blade.php`, `resources/views/components/crud/forms/update.blade.php`
+- `forms/input-error.blade.php` (`x-forms.input-error`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/cloudflare-captcha.blade.php`, `resources/views/components/forms/factory.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/input-label.blade.php` (`x-forms.input-label`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/forms/factory.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `forms/search.blade.php` (`x-forms.search`): `resources/views/components/crud/index.blade.php`
+- `forms/select.blade.php` (`x-forms.select`): `resources/views/components/forms/factory.blade.php`
+- `forms/textarea.blade.php` (`x-forms.textarea`): `resources/views/components/forms/factory.blade.php`
+- `forms/text-input.blade.php` (`x-forms.text-input`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/forms/factory.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
+- `lists/table.blade.php` (`x-lists.table`): `resources/views/components/crud/index.blade.php`
+- `lists/table-sort-link.blade.php` (`x-lists.table-sort-link`): `resources/views/components/lists/table.blade.php`
+- `modals/modal.blade.php` (`x-modals.modal`): `resources/views/components/modals/panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
+- `modals/panel.blade.php` (`x-modals.panel`): `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/components/crud/modals/read-product.blade.php`, `resources/views/components/crud/modals/confirm-delete.blade.php`
+- `navigation/nav-link.blade.php` (`x-navigation.nav-link`): `resources/views/layouts/navigation.blade.php`
+- `navigation/responsive-nav-link.blade.php` (`x-navigation.responsive-nav-link`): `resources/views/layouts/navigation.blade.php`
+- `theme-toggle.blade.php` (`x-theme-toggle`): `resources/views/layouts/navigation.blade.php`, `resources/views/welcome.blade.php`
 
-### `cloudflare-captcha`
-- Файл: `cloudflare-captcha.blade.php`
-- Назначение: виджет Cloudflare Turnstile + отображение ошибки валидации.
-- Props: нет.
-- Особенности:
-  - Добавляет скрипт через `@push('scripts')`.
-  - Использует `config('services.cloudflare.site_key')`.
-  - Выводит ошибки `cf-turnstile-response` через `x-input-error`.
-- Пример:
+## Конвенции Form Factory
+- `x-forms.factory` — опциональный компонент.
+- Сейчас он используется в CRUD-сценариях, но не ограничен CRUD и может применяться для любых других форм.
+- Использование `x-forms.factory` не является обязательным при разработке форм.
+- Преимущества:
+  - единый контракт schema-driven полей (`FormFieldDto`);
+  - единая отрисовка label/input/select/textarea/error;
+  - единая поддержка `old()`/`errorBag`/`nameMode`;
+  - меньше дублирования разметки и классов между формами.
+- Текущие примеры использования:
+  - [`resources/views/components/crud/forms/create.blade.php`](resources/views/components/crud/forms/create.blade.php)
+  - [`resources/views/components/crud/forms/update.blade.php`](resources/views/components/crud/forms/update.blade.php)
+  - [`resources/views/news/create.blade.php`](resources/views/news/create.blade.php)
+  - [`resources/views/news/update.blade.php`](resources/views/news/update.blade.php)
+- `x-forms.factory` поддерживает `errorBag` для изоляции ошибок между формами.
+- Если `errorBag` не передан:
+  - bag выводится из `idPrefix` (camelCase), fallback — `default`.
+- `nameMode` задает формат `name`:
+  - `plain` (по умолчанию): `field`
+  - `dot`: `namespace.field`
+  - `bracket`: `namespace[field]`
+- `inputNamespace` можно передать явно; если не передан, для `dot/bracket` namespace выводится из `errorBag` или `idPrefix`.
+- Для `old()` и ошибок используется согласованный key:
+  - `plain`: `field`
+  - `dot`: `namespace.field`
+  - `bracket`: `namespace.field`
+- Пример чтения на backend: `$request->input('createNews.title')`.
 
-```blade
-<x-cloudflare-captcha class="mt-4" />
-```
-
-### `danger-button`
-- Файл: `danger-button.blade.php`
-- Назначение: красная кнопка для опасных действий.
-- Props: нет (по умолчанию `type="submit"`).
-- Слот: текст/контент кнопки.
-- Пример:
-
-```blade
-<x-danger-button>
-    Delete
-</x-danger-button>
-```
-
-### `dropdown-link`
-- Файл: `dropdown-link.blade.php`
-- Назначение: элемент ссылки внутри dropdown-меню.
-- Props: нет.
-- Слот: содержимое ссылки.
-- Пример:
-
-```blade
-<x-dropdown-link :href="route('profile.edit')">
-    Profile
-</x-dropdown-link>
-```
-
-### `dropdown`
-- Файл: `dropdown.blade.php`
-- Назначение: выпадающее меню на Alpine.js.
-- Props:
-  - `align` (`right` по умолчанию; поддерживаются `right`, `left`, `top`).
-  - `width` (`48` по умолчанию, преобразуется в `w-48`).
-  - `contentClasses` (`py-1 bg-white dark:bg-gray-800` по умолчанию).
-- Слоты:
-  - `trigger` - элемент, по клику на который открывается меню.
-  - `content` - содержимое выпадающего блока.
-- Пример:
-
-```blade
-<x-dropdown align="right" width="48">
-    <x-slot name="trigger">
-        <button type="button">Menu</button>
-    </x-slot>
-
-    <x-slot name="content">
-        <x-dropdown-link :href="route('logout')">Logout</x-dropdown-link>
-    </x-slot>
-</x-dropdown>
-```
-
-### `input-error`
-- Файл: `input-error.blade.php`
-- Назначение: список сообщений об ошибках валидации.
-- Props:
-  - `messages` (массив или строка).
-- Рендерится только если `messages` не пустой.
-- Пример:
-
-```blade
-<x-input-error :messages="$errors->get('email')" class="mt-2" />
-```
-
-### `input-label`
-- Файл: `input-label.blade.php`
-- Назначение: label для поля ввода.
-- Props:
-  - `value` (опционально; если нет, берётся `$slot`).
-- Пример:
-
-```blade
-<x-input-label for="email" :value="__('Email')" />
-```
-
-### `modal`
-- Файл: `modal.blade.php`
-- Назначение: модальное окно на Alpine.js с ловушкой фокуса.
-- Props:
-  - `name` (имя модалки для событий `open-modal`/`close-modal`).
-  - `show` (`false` по умолчанию).
-  - `maxWidth` (`2xl` по умолчанию; поддерживаются `sm`, `md`, `lg`, `xl`, `2xl`).
-- Слот: содержимое модального окна.
-- Особенности:
-  - Блокирует прокрутку `body` при открытии.
-  - Поддерживает опциональный атрибут `focusable` для автофокуса.
-- Пример:
-
-```blade
-<x-modal name="confirm-user-deletion" :show="false" maxWidth="md">
-    <div class="p-6">...</div>
-</x-modal>
-```
-
-### `nav-link`
-- Файл: `nav-link.blade.php`
-- Назначение: ссылка верхней навигации с активным/неактивным стилем.
-- Props:
-  - `active` (`bool`).
-- Пример:
-
-```blade
-<x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-    Dashboard
-</x-nav-link>
-```
-
-### `primary-button`
-- Файл: `primary-button.blade.php`
-- Назначение: основная тёмная кнопка.
-- Props: нет (по умолчанию `type="submit"`).
-- Слот: текст/контент кнопки.
-- Пример:
-
-```blade
-<x-primary-button>
-    Save
-</x-primary-button>
-```
-
-### `responsive-nav-link`
-- Файл: `responsive-nav-link.blade.php`
-- Назначение: ссылка для мобильной/адаптивной навигации.
-- Props:
-  - `active` (`bool`).
-- Пример:
-
-```blade
-<x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
-    Profile
-</x-responsive-nav-link>
-```
-
-### `secondary-button`
-- Файл: `secondary-button.blade.php`
-- Назначение: вторичная светлая кнопка.
-- Props: нет (по умолчанию `type="button"`).
-- Слот: текст/контент кнопки.
-- Пример:
-
-```blade
-<x-secondary-button>
-    Cancel
-</x-secondary-button>
-```
-
-### `text-input`
-- Файл: `text-input.blade.php`
-- Назначение: универсальный input с базовыми стилями.
-- Props:
-  - `disabled` (`false` по умолчанию).
-- Пример:
-
-```blade
-<x-text-input id="email" name="email" type="email" :value="old('email')" required autofocus />
-```
+## Примечание по Search
+- `x-forms.search` в текущей реализации ориентирован на Livewire и использует `wire:model.live.debounce.300ms`.
+- Для корректной работы передавайте `livewireModel` (например: `search`).

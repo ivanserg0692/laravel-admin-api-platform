@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ __('welcome.meta_title') }}</title>
     <script>
@@ -19,7 +20,8 @@
         })();
     </script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.ts'])
+    @livewireStyles
 </head>
 <body class="antialiased bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
 <section class="bg-white dark:bg-gray-950">
@@ -56,6 +58,7 @@
         </footer>
     </div>
 </section>
+@livewireScripts
 @stack('scripts')
 </body>
 </html>

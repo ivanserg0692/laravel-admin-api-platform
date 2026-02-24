@@ -1,0 +1,40 @@
+<?php
+
+return [
+    'create_button_label' => 'Добавить новость',
+    'create_modal_title' => 'Добавить новость',
+    'create_submit_label' => 'Добавить новость',
+    'labels' => [
+        'id' => 'ID',
+        'title' => 'Заголовок',
+        'slug' => 'Slug',
+        'status' => 'Статус',
+        'published' => 'Опубликовано',
+        'published_at' => 'Дата публикации',
+        'author' => 'Автор',
+        'views' => 'Просмотры',
+        'preview' => 'Превью',
+        'content' => 'Контент',
+        'cover_image' => 'URL обложки',
+        'meta_title' => 'Meta title',
+        'meta_description' => 'Meta description',
+        'sort_order' => 'Порядок сортировки',
+        'status_options' => [
+            'draft' => 'Черновик',
+            'published' => 'Опубликовано',
+            'archived' => 'Архив',
+        ],
+    ],
+    'placeholders' => [
+        'search' => 'Поиск новостей',
+        'title' => 'Введите заголовок новости',
+        'slug' => 'slug-novosti',
+        'cover_image' => 'https://example.com/cover.jpg',
+        'meta_title' => 'SEO заголовок',
+        'meta_description' => 'SEO описание',
+    ],
+    'update_modal_title' => 'Редактирование новости',
+    'preview_modal_title' => 'Предпросмотр новости',
+    'delete_confirm_title' => 'Удаление новости',
+    'delete_confirm_template' => 'Вы уверены, что хотите удалить новость №{id} "{title}"?',
+];

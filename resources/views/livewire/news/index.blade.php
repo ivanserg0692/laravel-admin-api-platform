@@ -1,0 +1,25 @@
+<div>
+    <x-crud.index
+        :items="$items"
+        :columns="$columns"
+        :sorts="$sorts"
+        :create-fields="$hydratedNewsCreateFields"
+        :create-values="$newsCreateValues"
+        :update-fields="$hydratedNewsUpdateFields"
+        :update-values="$newsUpdateValues"
+        :detail-route-name="$detailRouteName"
+        :row-actions-component="$rowActionsComponent"
+        :update-modal-title="$updateModalTitle"
+        :preview-modal-title="$previewModalTitle"
+        :delete-modal-title="$deleteModalTitle"
+        :delete-modal-message="$deleteModalMessage"
+        :create-button-label="$createButtonLabel"
+        :create-modal-title="$createModalTitle"
+        :create-submit-label="$createSubmitLabel"
+        :search-placeholder="$searchPlaceholder"
+        :livewire-model="'search'"
+        :update-modal="$updateModalName"
+        :preview-modal="$previewModalName"
+        :delete-modal="$deleteModalName"
+    />
+</div>

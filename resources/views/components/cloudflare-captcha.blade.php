@@ -6,4 +6,4 @@
      data-sitekey="{{ config('services.cloudflare.site_key') }}">
 </div>
 
-<x-input-error :messages="$errors->get('cf-turnstile-response')" class="mt-2" />
+<x-forms.input-error :messages="$errors->get('cf-turnstile-response')" class="mt-2" />

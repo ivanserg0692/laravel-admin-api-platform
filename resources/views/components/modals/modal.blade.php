@@ -42,6 +42,7 @@ $maxWidth = [
     x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
     x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
     x-on:close.stop="show = false"
+    x-on:click.self="show = false"
     x-on:keydown.escape.window="show = false"
     x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
     x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
@@ -49,10 +50,11 @@ $maxWidth = [
     class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
     style="display: {{ $show ? 'block' : 'none' }};"
 >
+    {{-- Backdrop layer: darkens the page behind the modal and closes on outside click. --}}
     <div
         x-show="show"
-        class="fixed inset-0 z-40 transform transition-all"
-        x-on:click="show = false"
+        class="fixed inset-0 z-40 transform transition-all pointer-events-none"
+        {{-- Fade-in/fade-out animation for the backdrop. --}}
         x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"
@@ -60,6 +62,7 @@ $maxWidth = [
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
     >
+        {{-- Semi-transparent overlay that visually separates modal content from page. --}}
         <div class="absolute inset-0 bg-gray-500/75 dark:bg-gray-950/80"></div>
     </div>
 
