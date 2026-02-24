@@ -33,6 +33,16 @@ class NewsController extends Controller
         $sortOrders = $this->buildSortOrders($request, $allowedSortColumns);
 
         $newsQuery = News::query();
+        $search = trim((string) $request->query('search', ''));
+
+        if ($search !== '') {
+            $newsQuery->where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('slug', 'like', '%' . $search . '%')
+                    ->orWhere('preview', 'like', '%' . $search . '%')
+                    ->orWhere('content', 'like', '%' . $search . '%');
+            });
+        }
 
         if (!empty($sortOrders)) {
             foreach ($sortOrders as $sortOrder) {
@@ -206,4 +216,3 @@ class NewsController extends Controller
         return $orders;
     }
 }
-
