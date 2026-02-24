@@ -52,6 +52,8 @@
         $activeSortByKey[$activeSort->key] = $activeSort;
         $sortPriorityMap[$activeSort->key] = $index + 1;
     }
+
+    $currentPage = method_exists($items, 'currentPage') ? (int) $items->currentPage() : null;
 @endphp
 
 <div class="overflow-x-auto">
@@ -72,6 +74,7 @@
                             :active-sorts="$activeSorts"
                             :current-direction="$currentDirection"
                             :priority="$priority"
+                            :current-page="$currentPage"
                         />
                     @else
                         {{ $column->label }}

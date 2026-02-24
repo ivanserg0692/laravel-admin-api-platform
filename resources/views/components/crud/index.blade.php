@@ -16,12 +16,16 @@
     'createModalTitle' => 'Add Product',
     'createSubmitLabel' => 'Add new product',
     'searchPlaceholder' => 'Search',
+    'livewireModel' => null,
+    'updateModal' => null,
+    'previewModal' => null,
+    'deleteModal' => null,
 ])
 @php
     $crudInstanceId = \Illuminate\Support\Str::uuid()->toString();
-    $updateModalName = 'update-product-' . $crudInstanceId;
-    $previewModalName = 'read-product-' . $crudInstanceId;
-    $deleteModalName = 'delete-product-' . $crudInstanceId;
+    $updateModalName = $updateModal ?: 'update-product-' . $crudInstanceId;
+    $previewModalName = $previewModal ?: 'read-product-' . $crudInstanceId;
+    $deleteModalName = $deleteModal ?: 'delete-product-' . $crudInstanceId;
 @endphp
 <!-- Start block -->
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
@@ -34,7 +38,7 @@
             Return this block after CRUD toolbar task is completed. --}}
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div class="w-full md:w-1/2">
-                    <x-forms.search :placeholder="$searchPlaceholder"/>
+                    <x-forms.search :placeholder="$searchPlaceholder" :livewire-model="$livewireModel"/>
                 </div>
 
                 <div

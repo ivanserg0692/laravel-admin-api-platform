@@ -21,6 +21,7 @@
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.ts'])
+    @livewireStyles
 </head>
 <body class="antialiased bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
 <section class="bg-white dark:bg-gray-950">
@@ -57,6 +58,7 @@
         </footer>
     </div>
 </section>
+@livewireScripts
 @stack('scripts')
 </body>
 </html>

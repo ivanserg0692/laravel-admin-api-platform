@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Lists;
 
+use App\Support\Http\RequestContextResolver;
 use App\UI\Lists\DTO\SortOrderDto;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -21,6 +22,7 @@ class TableSortLink extends Component
         public array   $activeSorts = [],
         public ?string $currentDirection = null, // Current direction for this column: asc|desc|null.
         public ?int    $priority = null, // 1-based priority badge for this column in multi-sort.
+        public ?int    $currentPage = null, // Current paginator page to preserve while toggling sort.
     )
     {
         $this->direction = $this->resolveDirection($this->currentDirection);
@@ -37,7 +39,9 @@ class TableSortLink extends Component
 
     private function buildSortUrl(): string
     {
-        $query = request()->query();
+        $resolver = app(RequestContextResolver::class);
+        ['url' => $url, 'query' => $query] = $resolver->resolveUrlAndQuery(request());
+
         $querySorts = array_map(
             static fn(SortOrderDto $sortItem): string => $sortItem->toQueryValue(),
             $this->buildSortsForNextDirection(),
@@ -49,7 +53,12 @@ class TableSortLink extends Component
             $query['sort'] = $querySorts;
         }
 
-        $url = request()->url();
+        if ($this->currentPage !== null && $this->currentPage > 1) {
+            $query['page'] = $this->currentPage;
+        } else {
+            unset($query['page']);
+        }
+
         $queryString = http_build_query($query);
 
         return $queryString !== '' ? $url . '?' . $queryString : $url;

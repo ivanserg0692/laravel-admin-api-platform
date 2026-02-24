@@ -1,18 +1,9 @@
 @props([
     'placeholder' => __('news.placeholders.search'),
+    'livewireModel' => null,
 ])
 
-@php
-    $searchValue = request()->query('search', '');
-    $queryWithoutSearch = request()->except('search');
-    $actionUrl = request()->url();
-
-    if (!empty($queryWithoutSearch)) {
-        $actionUrl .= '?' . http_build_query($queryWithoutSearch);
-    }
-@endphp
-
-<form method="GET" action="{{ $actionUrl }}" class="flex items-stretch gap-2">
+<div class="flex items-stretch gap-2">
     <label for="simple-search" class="sr-only">{{ $placeholder }}</label>
     <div class="relative w-full">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -23,14 +14,15 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <input type="text" id="simple-search" name="search"
+        <input type="text" id="simple-search"
+               wire:model.live.debounce.300ms="{{ $livewireModel }}"
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full h-10 pl-10 pr-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-               placeholder="{{ $placeholder }}" value="{{ is_string($searchValue) ? $searchValue : '' }}">
+               placeholder="{{ $placeholder }}">
     </div>
-    <x-buttons.secondary type="submit" class="!h-10 !px-4 !font-medium" aria-label="{{ $placeholder }}">
+    <x-buttons.secondary type="button" class="!h-10 !px-4" aria-label="{{ $placeholder }}">
         <svg aria-hidden="true" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="m21 21-4.35-4.35M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"/>
         </svg>
     </x-buttons.secondary>
-</form>
+</div>
