@@ -44,16 +44,17 @@
             @csrf
             @method('DELETE')
         </form>
-    </div>
-    <div class="flex justify-center items-center gap-3">
-        <x-buttons.secondary
-            type="button"
-            x-on:click="$dispatch('close-modal', '{{ $name }}')"
-        >
-            {{ $cancelLabel }}
-        </x-buttons.secondary>
-        <x-buttons.danger type="submit" :form="$resolvedFormId" x-bind:disabled="!deleteUrl">
-            {{ $confirmLabel }}
-        </x-buttons.danger>
+
+        <div class="flex justify-center items-center gap-3">
+            <x-buttons.secondary
+                type="button"
+                x-on:click="$dispatch('close-modal', '{{ $name }}')"
+            >
+                {{ $cancelLabel }}
+            </x-buttons.secondary>
+            <x-buttons.danger type="submit" :form="$resolvedFormId" x-bind:disabled="!deleteUrl">
+                {{ $confirmLabel }}
+            </x-buttons.danger>
+        </div>
     </div>
 </x-modals.panel>

@@ -6,12 +6,7 @@ import {
     newsPreviewActionConfig,
 } from './UI/Modal/news-action-configs';
 
-import Alpine from 'alpinejs';
-import 'flowbite';
-
-window.Alpine = Alpine;
-
-Alpine.start();
+import {initFlowbite} from 'flowbite';
 
 window.App = window.App || {};
 window.App.UI = window.App.UI || {};
@@ -25,6 +20,27 @@ window.App.UI.NewsActions.deleteInit = (event, link) =>
     new NewsModalAction(event, link, newsDeleteActionConfig).run();
 window.newsEditInit = window.App.UI.NewsActions.editInit;
 
+const reinitUi = (root?: HTMLElement): void => {
+    initFlowbite();
+
+    const alpine = (window as any).Alpine;
+    if (root instanceof HTMLElement && alpine?.initTree) {
+        alpine.initTree(root);
+    }
+};
+
+document.addEventListener('livewire:init', () => {
+    const livewire = (window as any).Livewire;
+
+    if (!livewire?.hook) {
+        return;
+    }
+
+    livewire.hook('morph.updated', ({el}: { el?: Element }) => {
+        reinitUi(el instanceof HTMLElement ? el : undefined);
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach((toggle) => {
         toggle.addEventListener('click', () => {
@@ -32,4 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
     });
+
+    reinitUi();
 });

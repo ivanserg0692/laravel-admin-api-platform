@@ -101,6 +101,13 @@ class Index extends Component
             'hydratedNewsUpdateFields' => $this->hydrateFields($this->newsUpdateFields),
         ]);
     }
+    
+    protected function queryString(): array
+    {
+        return [
+            'search' => ['except' => ''],
+        ];
+    }
 
     /**
      * @return array<int, ListColumnDto>
