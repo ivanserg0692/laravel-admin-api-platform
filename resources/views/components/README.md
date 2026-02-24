@@ -29,7 +29,7 @@ resources/views/components/
     update.blade.php
     modals/
       create-product.blade.php
-      delete-product.blade.php
+      confirm-delete.blade.php
       read-product.blade.php
       update-product.blade.php
     toolbar/
@@ -50,6 +50,7 @@ resources/views/components/
     text-input.blade.php
   lists/
     table.blade.php
+    table-sort-link.blade.php
   modals/
     modal.blade.php
     panel.blade.php
@@ -73,19 +74,19 @@ resources/views/components/
 ## Карта компонентов и использование
 - `application-logo.blade.php` (`x-application-logo`): `resources/views/layouts/guest.blade.php`
 - `auth-session-status.blade.php` (`x-auth-session-status`): `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`
-- `buttons/danger.blade.php` (`x-buttons.danger`): `resources/views/components/crud/modals/delete-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
+- `buttons/danger.blade.php` (`x-buttons.danger`): `resources/views/components/crud/modals/confirm-delete.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
 - `buttons/icon-close.blade.php` (`x-buttons.icon-close`): `resources/views/components/modals/panel.blade.php`
 - `buttons/primary.blade.php` (`x-buttons.primary`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/index.blade.php`, `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
-- `buttons/secondary.blade.php` (`x-buttons.secondary`): `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/modals/delete-product.blade.php`, `resources/views/components/dropdown/toggle-panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
+- `buttons/secondary.blade.php` (`x-buttons.secondary`): `resources/views/auth/verify-email.blade.php`, `resources/views/components/crud/modals/confirm-delete.blade.php`, `resources/views/components/dropdown/toggle-panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
 - `cloudflare-captcha.blade.php` (`x-cloudflare-captcha`): `resources/views/auth/register.blade.php`
-- `crud/index.blade.php` (`x-crud.index`): `resources/views/news/index.blade.php`
+- `crud/index.blade.php` (`x-crud.index`): `resources/views/livewire/news/index.blade.php`
 - `crud/create.blade.php` (`x-crud.create`): `resources/views/news/create.blade.php`
 - `crud/forms/create.blade.php` (`x-crud.forms.create`): `resources/views/components/crud/create.blade.php`, `resources/views/components/crud/modals/create-product.blade.php`
 - `crud/forms/update.blade.php` (`x-crud.forms.update`): `resources/views/components/crud/update.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`
 - `crud/show.blade.php` (`x-crud.show`): `resources/views/news/show.blade.php`
 - `crud/update.blade.php` (`x-crud.update`): `resources/views/news/update.blade.php`
 - `crud/modals/create-product.blade.php` (`x-crud.modals.create-product`): `resources/views/components/crud/index.blade.php`
-- `crud/modals/delete-product.blade.php` (`x-crud.modals.delete-product`): `resources/views/components/crud/index.blade.php`
+- `crud/modals/confirm-delete.blade.php` (`x-crud.modals.confirm-delete`): `resources/views/components/crud/index.blade.php`
 - `crud/modals/read-product.blade.php` (`x-crud.modals.read-product`): `resources/views/components/crud/index.blade.php`
 - `crud/modals/update-product.blade.php` (`x-crud.modals.update-product`): `resources/views/components/crud/index.blade.php`
 - `crud/toolbar/actions-dropdown.blade.php` (`x-crud.toolbar.actions-dropdown`): `resources/views/components/crud/index.blade.php`
@@ -102,8 +103,9 @@ resources/views/components/
 - `forms/textarea.blade.php` (`x-forms.textarea`): `resources/views/components/forms/factory.blade.php`
 - `forms/text-input.blade.php` (`x-forms.text-input`): `resources/views/auth/confirm-password.blade.php`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `resources/views/auth/reset-password.blade.php`, `resources/views/components/forms/factory.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`, `resources/views/profile/partials/update-password-form.blade.php`, `resources/views/profile/partials/update-profile-information-form.blade.php`
 - `lists/table.blade.php` (`x-lists.table`): `resources/views/components/crud/index.blade.php`
+- `lists/table-sort-link.blade.php` (`x-lists.table-sort-link`): `resources/views/components/lists/table.blade.php`
 - `modals/modal.blade.php` (`x-modals.modal`): `resources/views/components/modals/panel.blade.php`, `resources/views/profile/partials/delete-user-form.blade.php`
-- `modals/panel.blade.php` (`x-modals.panel`): `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/components/crud/modals/read-product.blade.php`, `resources/views/components/crud/modals/delete-product.blade.php`
+- `modals/panel.blade.php` (`x-modals.panel`): `resources/views/components/crud/modals/create-product.blade.php`, `resources/views/components/crud/modals/update-product.blade.php`, `resources/views/components/crud/modals/read-product.blade.php`, `resources/views/components/crud/modals/confirm-delete.blade.php`
 - `navigation/nav-link.blade.php` (`x-navigation.nav-link`): `resources/views/layouts/navigation.blade.php`
 - `navigation/responsive-nav-link.blade.php` (`x-navigation.responsive-nav-link`): `resources/views/layouts/navigation.blade.php`
 - `theme-toggle.blade.php` (`x-theme-toggle`): `resources/views/layouts/navigation.blade.php`, `resources/views/welcome.blade.php`
@@ -135,3 +137,7 @@ resources/views/components/
   - `dot`: `namespace.field`
   - `bracket`: `namespace.field`
 - Пример чтения на backend: `$request->input('createNews.title')`.
+
+## Примечание по Search
+- `x-forms.search` в текущей реализации ориентирован на Livewire и использует `wire:model.live.debounce.300ms`.
+- Для корректной работы передавайте `livewireModel` (например: `search`).
