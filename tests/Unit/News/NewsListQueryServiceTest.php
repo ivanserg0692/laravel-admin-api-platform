@@ -1,19 +1,19 @@
 <?php
 
-namespace Tests\Feature\News;
+namespace Tests\Unit\News;
 
 use App\Models\News;
-use App\Models\User;
+use App\Support\News\NewsListQueryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class NewsSortingTest extends TestCase
+class NewsListQueryServiceTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_news_can_be_sorted_by_multiple_columns(): void
     {
-        $user = User::factory()->create();
+        $service = app(NewsListQueryService::class);
 
         $draftBanana = News::factory()->create([
             'status' => 'draft',
@@ -39,16 +39,14 @@ class NewsSortingTest extends TestCase
             'published_at' => now()->subDays(4),
         ]);
 
-        $response = $this
-            ->actingAs($user)
-            ->get(route('news.index', [
-                'sort' => ['status:asc', 'title:desc'],
-            ]));
+        $paginator = $service->paginate(
+            search: '',
+            rawSorts: ['status:asc', 'title:desc'],
+            allowedSortColumns: ['id', 'title', 'status', 'published_at', 'author_id', 'views_count'],
+            searchColumns: ['title', 'slug', 'preview', 'content'],
+            perPage: 10,
+        );
 
-        $response->assertOk();
-
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $paginator */
-        $paginator = $response->viewData('news');
         $sortedIds = collect($paginator->items())->pluck('id')->all();
 
         $this->assertSame([
@@ -61,7 +59,7 @@ class NewsSortingTest extends TestCase
 
     public function test_invalid_sort_entries_are_ignored(): void
     {
-        $user = User::factory()->create();
+        $service = app(NewsListQueryService::class);
 
         $alphaOlder = News::factory()->create([
             'title' => 'Alpha',
@@ -78,22 +76,20 @@ class NewsSortingTest extends TestCase
             'published_at' => now()->subDay(),
         ]);
 
-        $response = $this
-            ->actingAs($user)
-            ->get(route('news.index', [
-                'sort' => [
-                    'unknown:asc',
-                    'title:bad',
-                    'title:asc',
-                    'title:desc',
-                    'id:desc',
-                ],
-            ]));
+        $paginator = $service->paginate(
+            search: '',
+            rawSorts: [
+                'unknown:asc',
+                'title:bad',
+                'title:asc',
+                'title:desc',
+                'id:desc',
+            ],
+            allowedSortColumns: ['id', 'title', 'status', 'published_at', 'author_id', 'views_count'],
+            searchColumns: ['title', 'slug', 'preview', 'content'],
+            perPage: 10,
+        );
 
-        $response->assertOk();
-
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $paginator */
-        $paginator = $response->viewData('news');
         $sortedIds = collect($paginator->items())->pluck('id')->all();
 
         $this->assertSame([
@@ -105,7 +101,7 @@ class NewsSortingTest extends TestCase
 
     public function test_default_sort_is_used_when_sort_query_is_empty(): void
     {
-        $user = User::factory()->create();
+        $service = app(NewsListQueryService::class);
 
         $oldest = News::factory()->create([
             'published_at' => now()->subDays(5),
@@ -119,14 +115,14 @@ class NewsSortingTest extends TestCase
             'published_at' => now()->subDay(),
         ]);
 
-        $response = $this
-            ->actingAs($user)
-            ->get(route('news.index'));
+        $paginator = $service->paginate(
+            search: '',
+            rawSorts: [],
+            allowedSortColumns: ['id', 'title', 'status', 'published_at', 'author_id', 'views_count'],
+            searchColumns: ['title', 'slug', 'preview', 'content'],
+            perPage: 10,
+        );
 
-        $response->assertOk();
-
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $paginator */
-        $paginator = $response->viewData('news');
         $sortedIds = collect($paginator->items())->pluck('id')->all();
 
         $this->assertSame([
@@ -136,3 +132,4 @@ class NewsSortingTest extends TestCase
         ], $sortedIds);
     }
 }
+
