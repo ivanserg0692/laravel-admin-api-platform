@@ -346,8 +346,6 @@ class Index extends Component
                     'options' => $field->options,
                     'id' => $field->id,
                     'value' => $field->value,
-                    'htmlName' => $field->htmlName,
-                    'oldKey' => $field->oldKey,
                     'alpineModel' => $field->alpineModel,
                 ];
                 continue;
@@ -379,8 +377,6 @@ class Index extends Component
 
             $placeholder = data_get($field, 'placeholder');
             $id = data_get($field, 'id');
-            $htmlName = data_get($field, 'htmlName');
-            $oldKey = data_get($field, 'oldKey');
             $alpineModel = data_get($field, 'alpineModel');
 
             $hydrated[] = new FormFieldDto(
@@ -394,8 +390,6 @@ class Index extends Component
                 options: (array) data_get($field, 'options', []),
                 id: is_string($id) ? $id : null,
                 value: data_get($field, 'value'),
-                htmlName: is_string($htmlName) ? $htmlName : null,
-                oldKey: is_string($oldKey) ? $oldKey : null,
                 alpineModel: is_string($alpineModel) ? $alpineModel : null,
             );
         }

@@ -10,7 +10,7 @@
     @foreach($normalizedFields as $field)
         @php
             $wireModel = filled($livewireModelRoot) ? $livewireModelRoot . '.' . $field->name : null;
-            $errorKey = $wireModel ?: ($field->oldKey ?? $field->name);
+            $errorKey = $wireModel ?: $field->name;
             $hasError = $errorBag->has($errorKey);
             $errorClass = $hasError
                 ? '!border-red-500 focus:!border-red-500 focus:!ring-red-500 dark:!border-red-500 dark:focus:!border-red-500 dark:focus:!ring-red-500'
@@ -31,7 +31,7 @@
             @if($field->type === 'textarea')
                 <x-forms.textarea
                     id="{{ $field->id }}"
-                    name="{{ $field->htmlName ?? $field->name }}"
+                    name="{{ $field->name }}"
                     rows="{{ $field->rows }}"
                     placeholder="{{ $field->placeholder }}"
                     class="{{ $controlClass }} {{ $errorClass }}"
@@ -41,7 +41,7 @@
             @elseif($field->type === 'select')
                 <x-forms.select
                     id="{{ $field->id }}"
-                    name="{{ $field->htmlName ?? $field->name }}"
+                    name="{{ $field->name }}"
                     class="{{ $controlClass }} {{ $errorClass }}"
                     :x-model="$field->alpineModel"
                     :attributes="$modelBinding"
@@ -59,7 +59,7 @@
                 <x-forms.text-input
                     :type="$field->type"
                     id="{{ $field->id }}"
-                    name="{{ $field->htmlName ?? $field->name }}"
+                    name="{{ $field->name }}"
                     :value="$field->value"
                     placeholder="{{ $field->placeholder }}"
                     class="{{ $controlClass }} {{ $errorClass }}"

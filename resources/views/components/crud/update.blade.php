@@ -7,8 +7,7 @@
     'fields' => [],
     'values' => [],
     'errorBag' => null,
-    'nameMode' => 'plain',
-    'inputNamespace' => null,
+    'alpineModelRoot' => null,
     'submitLabel' => __('crud.save_label'),
     'deleteUrl' => null,
     'deleteLabel' => __('crud.delete_label'),
@@ -44,8 +43,7 @@
                 :fields="$fields"
                 :values="$resolvedValues"
                 :error-bag="$errorBag"
-                :name-mode="$nameMode"
-                :input-namespace="$inputNamespace"
+                :alpine-model-root="$alpineModelRoot"
             >
                 <div class="flex items-center gap-3">
                     <x-buttons.primary type="submit">

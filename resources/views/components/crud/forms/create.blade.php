@@ -4,8 +4,6 @@
     'fields' => [],
     'values' => [],
     'errorBag' => null,
-    'nameMode' => 'plain',
-    'inputNamespace' => null,
     'livewireModelRoot' => null,
     'wireSubmit' => null,
     'livewireValidationActive' => false,
@@ -25,8 +23,6 @@
         :fields="$fields"
         :values="$values"
         :error-bag="$errorBag"
-        :name-mode="$nameMode"
-        :input-namespace="$inputNamespace"
         :livewire-model-root="$livewireModelRoot"
         :livewire-validation-active="$livewireValidationActive"
     />
