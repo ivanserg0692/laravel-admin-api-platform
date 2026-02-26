@@ -1,0 +1,19 @@
+<div>
+    <x-crud.update
+        :item="$itemForCrudUpdate"
+        :title="$pageTitle"
+        id-prefix="page-update-news"
+        :fields="$newsFields"
+        :values="$newsUpdateValues"
+        :error-bag="'default'"
+        :submit-label="$submitLabel"
+        :delete-label="$deleteLabel"
+        :back-url="$backUrl"
+        :back-label="$backLabel"
+        :livewire-model-root="'newsUpdateValues'"
+        :livewire-validation-active="$updateValidationActive"
+        :delete-modal-name="$deleteModalName"
+        :delete-modal-title="$deleteModalTitle"
+        :delete-modal-message="$deleteModalMessage"
+    />
+</div>

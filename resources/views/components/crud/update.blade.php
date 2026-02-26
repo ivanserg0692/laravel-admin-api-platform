@@ -8,15 +8,23 @@
     'values' => [],
     'errorBag' => null,
     'alpineModelRoot' => null,
+    'livewireModelRoot' => null,
+    'livewireValidationActive' => false,
     'submitLabel' => __('crud.save_label'),
     'deleteLabel' => __('crud.delete_label'),
     'backUrl' => null,
     'backLabel' => __('crud.back_label'),
+    'deleteModalName' => null,
+    'deleteModalTitle' => __('crud.delete_confirm_title'),
+    'deleteModalMessage' => __('crud.delete_confirm_message'),
 ])
 
 @php
     $resolvedValues = $values;
-    $deleteConfirmModalId = $idPrefix . '-delete-confirm';
+    $deleteConfirmModalId = is_string($deleteModalName) && trim($deleteModalName) !== ''
+        ? trim($deleteModalName)
+        : ($idPrefix . '-delete-confirm');
+    $currentItemId = (int) (data_get($item, 'id') ?? 0);
 
     if (empty($resolvedValues) && $item) {
         foreach ($fields as $field) {
@@ -43,8 +51,9 @@
                 :values="$resolvedValues"
                 :error-bag="$errorBag"
                 :alpine-model-root="$alpineModelRoot"
+                :livewire-model-root="$livewireModelRoot"
+                :livewire-validation-active="$livewireValidationActive"
                 :wire-submit="'saveUpdate'"
-                :livewireModelRoot="'newsUpdateValues'"
             >
                 <div class="flex items-center gap-3">
                     <x-buttons.primary type="submit">
@@ -53,7 +62,10 @@
 
                     <x-buttons.danger
                         type="button"
-                        onclick="window.dispatchEvent(new CustomEvent('news-delete-values-loaded', { detail: {modal:'{{ $deleteConfirmModalId }}', id: {{ (int) data_get($item, 'id') }} }}))"
+                        :disabled="$currentItemId <= 0"
+                        wire:click="openDeleteModal({{ $currentItemId }})"
+                        wire:loading.attr="disabled"
+                        wire:target="openDeleteModal"
                     >{{ $deleteLabel }}</x-buttons.danger>
 
                     @if($backUrl)
@@ -64,7 +76,9 @@
 
             <x-crud.modals.confirm-delete
                 :name="$deleteConfirmModalId"
-                :wireConfirmAction="'deleteSelectedNews'"
+                :title="$deleteModalTitle"
+                :message="$deleteModalMessage"
+                :wire-confirm-action="'deleteSelectedNews'"
             />
         </div>
     </div>

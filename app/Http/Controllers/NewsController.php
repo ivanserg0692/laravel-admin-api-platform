@@ -55,8 +55,6 @@ class NewsController extends Controller
     {
         return view('news.update', [
             'news' => $news,
-            'newsFields' => $this->newsFormConfig->fields(),
-            'newsValues' => $this->newsFormConfig->updateValues($news),
             'backUrl' => route('news.index', session('news.index.query', [])),
         ]);
     }
