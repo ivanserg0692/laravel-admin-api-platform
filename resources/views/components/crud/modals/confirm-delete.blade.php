@@ -2,15 +2,10 @@
     'name',
     'title' => __('crud.delete_confirm_title'),
     'message' => __('crud.delete_confirm_message'),
-    'deleteUrl' => null,
     'wireConfirmAction' => null,
     'cancelLabel' => __('crud.no_cancel'),
     'confirmLabel' => __('crud.yes_delete'),
 ])
-
-@php
-    $resolvedFormId = 'delete-form-' . preg_replace('/[^a-zA-Z0-9_-]/', '-', (string) $name);
-@endphp
 
 <x-modals.panel
     :name="$name"
@@ -21,7 +16,6 @@
         x-data="{
             modalName: @js($name),
             messageTemplate: @js($message),
-            deleteUrl: @js($deleteUrl),
             id: null,
             title: '',
             renderMessage() {
@@ -36,7 +30,6 @@
             if ($event.detail?.modal !== modalName) return;
             id = $event.detail?.id ?? null;
             title = typeof $event.detail?.title === 'string' ? $event.detail.title : '';
-            deleteUrl = typeof $event.detail?.deleteUrl === 'string' ? $event.detail.deleteUrl : '';
         "
     >
         <p class="mb-4 text-gray-500 dark:text-gray-300" x-text="renderMessage()"></p>

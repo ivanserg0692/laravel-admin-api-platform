@@ -68,7 +68,6 @@
                                 </x-buttons.secondary>
                             @endif
 
-                            @if($deleteUrl)
                                 @php
                                     $deleteConfirmMessage = strtr(
                                         __('news.delete_confirm_template'),
@@ -90,11 +89,9 @@
                                 </x-buttons.danger>
                                 <x-crud.modals.confirm-delete
                                     :name="$deleteConfirmModalId"
-                                    :delete-url="$deleteUrl"
                                     :title="__('news.delete_confirm_title')"
                                     :message="$deleteConfirmMessage"
                                 />
-                            @endif
                             @if($backUrl)
                                 <x-buttons.secondary :href="$backUrl">
                                     {{ $backLabel }}

@@ -9,7 +9,6 @@
     'errorBag' => null,
     'alpineModelRoot' => null,
     'submitLabel' => __('crud.save_label'),
-    'deleteUrl' => null,
     'deleteLabel' => __('crud.delete_label'),
     'backUrl' => null,
     'backLabel' => __('crud.back_label'),
@@ -50,14 +49,12 @@
                         {{ $submitLabel }}
                     </x-buttons.primary>
 
-                    @if($deleteUrl)
-                        <x-buttons.danger
-                            type="button"
-                            onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $deleteConfirmModalId }}' }))"
-                        >
-                            {{ $deleteLabel }}
-                        </x-buttons.danger>
-                    @endif
+                    <x-buttons.danger
+                        type="button"
+                        onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $deleteConfirmModalId }}' }))"
+                    >
+                        {{ $deleteLabel }}
+                    </x-buttons.danger>
 
                     @if($backUrl)
                         <x-buttons.secondary :href="$backUrl">
@@ -67,12 +64,9 @@
                 </div>
             </x-crud.forms.update>
 
-            @if($deleteUrl)
-                <x-crud.modals.confirm-delete
-                    :name="$deleteConfirmModalId"
-                    :delete-url="$deleteUrl"
-                />
-            @endif
+            <x-crud.modals.confirm-delete
+                :name="$deleteConfirmModalId"
+            />
         </div>
     </div>
 </section>
