@@ -30,6 +30,7 @@
             if ($event.detail?.modal !== modalName) return;
             id = $event.detail?.id ?? null;
             title = typeof $event.detail?.title === 'string' ? $event.detail.title : '';
+            window.dispatchEvent(new CustomEvent('open-modal', {detail: modalName}));
         "
     >
         <p class="mb-4 text-gray-500 dark:text-gray-300" x-text="renderMessage()"></p>
