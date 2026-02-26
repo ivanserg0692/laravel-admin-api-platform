@@ -8,7 +8,7 @@
     'alpineModelRoot' => null,
     'livewireModelRoot' => null,
     'wireSubmit' => null,
-    'livewireValidationActive' => false,
+    'livewireValidationActive' => true,
 ])
 
 {{-- Intentionally kept as a CRUD wrapper: this is an extension point for future update-specific behavior. --}}

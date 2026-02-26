@@ -2,7 +2,7 @@
     'name',
     'title' => __('crud.delete_confirm_title'),
     'message' => __('crud.delete_confirm_message'),
-    'wireConfirmAction' => null,
+    'wireConfirmAction' => 'deleteSelectedNews',
     'cancelLabel' => __('crud.no_cancel'),
     'confirmLabel' => __('crud.yes_delete'),
 ])

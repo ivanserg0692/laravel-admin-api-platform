@@ -43,6 +43,8 @@
                 :values="$resolvedValues"
                 :error-bag="$errorBag"
                 :alpine-model-root="$alpineModelRoot"
+                :wire-submit="'saveUpdate'"
+                :livewireModelRoot="'newsUpdateValues'"
             >
                 <div class="flex items-center gap-3">
                     <x-buttons.primary type="submit">
@@ -51,21 +53,18 @@
 
                     <x-buttons.danger
                         type="button"
-                        onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $deleteConfirmModalId }}' }))"
-                    >
-                        {{ $deleteLabel }}
-                    </x-buttons.danger>
+                        onclick="window.dispatchEvent(new CustomEvent('news-delete-values-loaded', { detail: {modal:'{{ $deleteConfirmModalId }}', id: {{ (int) data_get($item, 'id') }} }}))"
+                    >{{ $deleteLabel }}</x-buttons.danger>
 
                     @if($backUrl)
-                        <x-buttons.secondary :href="$backUrl">
-                            {{ $backLabel }}
-                        </x-buttons.secondary>
+                        <x-buttons.secondary :href="$backUrl">{{ $backLabel }}</x-buttons.secondary>
                     @endif
                 </div>
             </x-crud.forms.update>
 
             <x-crud.modals.confirm-delete
                 :name="$deleteConfirmModalId"
+                :wireConfirmAction="'deleteSelectedNews'"
             />
         </div>
     </div>
