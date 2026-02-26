@@ -19,6 +19,7 @@
         :create-open-action="'openCreateModal'"
         :create-submit-action="'saveCreate'"
         :create-livewire-model-root="'newsCreateValues'"
+        :create-modal="$createModalName"
         :search-placeholder="$searchPlaceholder"
         :livewire-model="'search'"
         :update-modal="$updateModalName"

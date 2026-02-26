@@ -15,6 +15,7 @@
     'createButtonLabel' => 'Add product',
     'createModalTitle' => 'Add Product',
     'createSubmitLabel' => 'Add new product',
+    'createModal' => null,
     'createOpenAction' => null,
     'createSubmitAction' => null,
     'createLivewireModelRoot' => null,
@@ -28,13 +29,9 @@
     'updateCurrentItemTitle' => '',
 ])
 @php
-    $crudInstanceId = \Illuminate\Support\Str::uuid()->toString();
-    $updateModalName = $updateModal ?: 'update-product-' . $crudInstanceId;
-    $previewModalName = $previewModal ?: 'read-product-' . $crudInstanceId;
-    $deleteModalName = $deleteModal ?: 'delete-product-' . $crudInstanceId;
     $resolvedTableLoadingTargets = is_string($tableLoadingTargets) && trim($tableLoadingTargets) !== ''
         ? trim($tableLoadingTargets)
-        : 'search,openCreateModal,openUpdateModal,openPreviewModal,openDeleteModal';
+        : 'openCreateModal,openUpdateModal,openPreviewModal,openDeleteModal';
 @endphp
 <!-- Start block -->
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
@@ -101,9 +98,9 @@
                         :sorts="$sorts"
                         :detail-route-name="$detailRouteName"
                         :row-actions-component="$rowActionsComponent"
-                        :edit-modal="$updateModalName"
-                        :preview-modal="$previewModalName"
-                        :delete-modal="$deleteModalName"
+                        :edit-modal="$updateModal"
+                        :preview-modal="$previewModal"
+                        :delete-modal="$deleteModal"
                     />
 
                     <nav
@@ -120,6 +117,7 @@
 </section>
 <!-- End block -->
 @include('components.crud.modals.create-product', [
+    'name' => $createModal,
     'fields' => $createFields,
     'values' => $createValues,
     'title' => $createModalTitle,
@@ -130,20 +128,20 @@
 @include('components.crud.modals.update-product', [
     'fields' => $updateFields,
     'values' => $updateValues,
-    'name' => $updateModalName,
+    'name' => $updateModal,
     'title' => $updateModalTitle,
-    'deleteModal' => $deleteModalName,
+    'deleteModal' => $deleteModal,
     'wireSubmit' => 'saveUpdate',
     'livewireModelRoot' => 'newsUpdateValues',
     'currentItemId' => $updateCurrentItemId,
     'currentItemTitle' => $updateCurrentItemTitle,
 ])
 @include('components.crud.modals.read-product', [
-    'name' => $previewModalName,
+    'name' => $previewModal,
     'title' => $previewModalTitle,
 ])
 @include('components.crud.modals.confirm-delete', [
-    'name' => $deleteModalName,
+    'name' => $deleteModal,
     'title' => $deleteModalTitle,
     'message' => $deleteModalMessage,
     'wireConfirmAction' => 'deleteSelectedNews',

@@ -1,4 +1,5 @@
 @props([
+    'name' => 'create-product',
     'fields' => [],
     'values' => [],
     'action' => '#',
@@ -8,7 +9,7 @@
     'livewireModelRoot' => null,
 ])
 
-<x-modals.panel name="create-product" maxWidth="2xl" :title="$title">
+<x-modals.panel :name="$name" maxWidth="2xl" :title="$title">
     <x-crud.forms.create
         id-prefix="create-product"
         :fields="$fields"

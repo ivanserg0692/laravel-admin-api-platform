@@ -46,6 +46,7 @@ class Index extends Component
     #[Url(except: '')]
     public string $search = '';
 
+    public string $createModalName = '';
     public string $updateModalName = '';
     public string $previewModalName = '';
     public string $deleteModalName = '';
@@ -76,6 +77,7 @@ class Index extends Component
         $this->searchPlaceholder = __('news.placeholders.search');
 
         $crudInstanceId = Str::uuid()->toString();
+        $this->createModalName = 'create-product-' . $crudInstanceId;
         $this->updateModalName = 'update-product-' . $crudInstanceId;
         $this->previewModalName = 'read-product-' . $crudInstanceId;
         $this->deleteModalName = 'delete-product-' . $crudInstanceId;
@@ -91,7 +93,7 @@ class Index extends Component
         $this->newsCreateValues = $this->createInitialValues();
         $this->resetValidation();
 
-        $this->dispatchModalEvent('open-modal', 'create-product');
+        $this->dispatchModalEvent('open-modal', $this->createModalName);
     }
 
     public function saveCreate(): void
@@ -120,7 +122,7 @@ class Index extends Component
         $this->newsCreateValues = $this->createInitialValues();
         $this->resetValidation();
 
-        $this->dispatchModalEvent('close-modal', 'create-product');
+        $this->dispatchModalEvent('close-modal', $this->createModalName);
     }
 
     public function render()
