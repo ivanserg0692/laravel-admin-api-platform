@@ -2,11 +2,15 @@
 
 namespace App\Livewire\News;
 
+use App\Models\News;
 use App\Support\News\NewsListQueryService;
+use App\UI\Forms\NewsFormConfig;
 use App\UI\Forms\DTO\FormFieldDto;
 use App\UI\Lists\DTO\ListColumnDto;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -45,6 +49,9 @@ class Index extends Component
     public string $updateModalName = '';
     public string $previewModalName = '';
     public string $deleteModalName = '';
+    public ?int $editingNewsId = null;
+    public ?int $deletingNewsId = null;
+    public string $deletingNewsTitle = '';
 
     public function mount(
         array $newsCreateFields = [],
@@ -79,6 +86,43 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function openCreateModal(): void
+    {
+        $this->newsCreateValues = $this->createInitialValues();
+        $this->resetValidation();
+
+        $this->dispatchModalEvent('open-modal', 'create-product');
+    }
+
+    public function saveCreate(): void
+    {
+        $validated = $this->validate(
+            rules: $this->newsRules('newsCreateValues'),
+            attributes: $this->newsValidationAttributes('newsCreateValues'),
+        );
+
+        $values = (array) data_get($validated, 'newsCreateValues', []);
+
+        $news = new News();
+        $news->title = (string) data_get($values, 'title', '');
+        $news->slug = (string) data_get($values, 'slug', '');
+        $news->status = (string) data_get($values, 'status', 'draft');
+        $news->published_at = $this->normalizePublishedAt(data_get($values, 'published_at'));
+        $news->preview = data_get($values, 'preview') ?: null;
+        $news->content = (string) data_get($values, 'content', '');
+        $news->cover_image = data_get($values, 'cover_image') ?: null;
+        $news->meta_title = data_get($values, 'meta_title') ?: null;
+        $news->meta_description = data_get($values, 'meta_description') ?: null;
+        $news->sort_order = (int) data_get($values, 'sort_order', 0);
+        $news->author_id = auth()->id();
+        $news->save();
+
+        $this->newsCreateValues = $this->createInitialValues();
+        $this->resetValidation();
+
+        $this->dispatchModalEvent('close-modal', 'create-product');
+    }
+
     public function render()
     {
         /** @var NewsListQueryService $service */
@@ -101,12 +145,109 @@ class Index extends Component
             'hydratedNewsUpdateFields' => $this->hydrateFields($this->newsUpdateFields),
         ]);
     }
-    
-    protected function queryString(): array
+
+    public function openUpdateModal(int $newsId): void
     {
-        return [
-            'search' => ['except' => ''],
-        ];
+        $news = News::query()->findOrFail($newsId);
+
+        $this->editingNewsId = (int)$news->id;
+        $this->newsUpdateValues = app(NewsFormConfig::class)->updateValues($news);
+        $this->resetValidation();
+
+        $this->dispatchModalEvent('open-modal', $this->updateModalName);
+    }
+
+    public function saveUpdate(): void
+    {
+        if (!$this->editingNewsId) {
+            return;
+        }
+
+
+        $news = News::query()->findOrFail($this->editingNewsId);
+
+        $validated = $this->validate(
+            rules: $this->newsRules('newsUpdateValues', $news->id),
+            attributes: $this->newsValidationAttributes('newsUpdateValues'),
+        );
+
+        $values = (array)data_get($validated, 'newsUpdateValues', []);
+
+        $news->title = (string)data_get($values, 'title', '');
+        $news->slug = (string)data_get($values, 'slug', '');
+        $news->status = (string)data_get($values, 'status', 'draft');
+        $news->published_at = $this->normalizePublishedAt(data_get($values, 'published_at'));
+        $news->preview = data_get($values, 'preview') ?: null;
+        $news->content = (string)data_get($values, 'content', '');
+        $news->cover_image = data_get($values, 'cover_image') ?: null;
+        $news->meta_title = data_get($values, 'meta_title') ?: null;
+        $news->meta_description = data_get($values, 'meta_description') ?: null;
+        $news->sort_order = (int)data_get($values, 'sort_order', 0);
+        $news->save();
+
+        $this->newsUpdateValues = app(NewsFormConfig::class)->updateValues($news);
+        $this->resetValidation();
+
+        $this->dispatchModalEvent('close-modal', $this->updateModalName);
+    }
+
+    public function openPreviewModal(int $newsId): void
+    {
+        $news = News::query()->findOrFail($newsId);
+        $publishedAt = data_get($news, 'published_at');
+
+        $this->dispatchWindowEvent('news-preview-loaded', [
+            'modal' => $this->previewModalName,
+            'id' => $news->id,
+            'preview' => [
+                'title' => data_get($news, 'title'),
+                'status' => data_get($news, 'status'),
+                'published_at' => $publishedAt instanceof \DateTimeInterface
+                    ? $publishedAt->format('Y-m-d H:i')
+                    : null,
+                'preview' => data_get($news, 'preview'),
+                'content' => data_get($news, 'content'),
+                'cover_image' => data_get($news, 'cover_image'),
+            ],
+        ]);
+
+        $this->dispatchModalEvent('open-modal', $this->previewModalName);
+    }
+
+    public function openDeleteModal(int $newsId): void
+    {
+        $news = News::query()->findOrFail($newsId);
+
+        $this->deletingNewsId = (int) $news->id;
+        $this->deletingNewsTitle = (string) data_get($news, 'title', '');
+
+        $this->dispatchWindowEvent('news-delete-values-loaded', [
+            'modal' => $this->deleteModalName,
+            'id' => $this->deletingNewsId,
+            'title' => $this->deletingNewsTitle,
+        ]);
+
+        $this->dispatchModalEvent('open-modal', $this->deleteModalName);
+    }
+
+    public function deleteSelectedNews(): void
+    {
+        if (!$this->deletingNewsId) {
+            return;
+        }
+
+        $news = News::query()->findOrFail($this->deletingNewsId);
+        $news->delete();
+
+        if ($this->editingNewsId === $this->deletingNewsId) {
+            $this->editingNewsId = null;
+            $this->dispatchModalEvent('close-modal', $this->updateModalName);
+        }
+
+        $this->deletingNewsId = null;
+        $this->deletingNewsTitle = '';
+
+        $this->dispatchModalEvent('close-modal', $this->deleteModalName);
     }
 
     /**
@@ -220,5 +361,98 @@ class Index extends Component
         }
 
         return $hydrated;
+    }
+
+    private function dispatchModalEvent(string $eventName, string $modalName): void
+    {
+        $this->dispatchWindowEvent($eventName, $modalName);
+    }
+
+    private function dispatchWindowEvent(string $eventName, mixed $detail): void
+    {
+        $this->js(
+            'window.dispatchEvent(new CustomEvent(' . json_encode($eventName) . ', { detail: ' . json_encode($detail) . ' }))'
+        );
+    }
+
+    private function normalizePublishedAt(mixed $value): ?string
+    {
+        if (!is_string($value) || trim($value) === '') {
+            return null;
+        }
+
+        try {
+            return Carbon::parse($value)->format('Y-m-d H:i:s');
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
+    /**
+     * @return array<string, array<int, mixed>>
+     */
+    private function newsRules(string $valueRoot, ?int $ignoreNewsId = null): array
+    {
+        $slugRule = Rule::unique('news', 'slug');
+        if ($ignoreNewsId !== null) {
+            $slugRule = $slugRule->ignore($ignoreNewsId);
+        }
+
+        return [
+            $valueRoot . '.title' => ['required', 'string', 'max:255'],
+            $valueRoot . '.slug' => ['required', 'string', 'max:255', $slugRule],
+            $valueRoot . '.status' => ['required', 'string', Rule::in(['draft', 'published', 'archived'])],
+            $valueRoot . '.published_at' => ['nullable', 'date'],
+            $valueRoot . '.preview' => ['nullable', 'string'],
+            $valueRoot . '.content' => ['required', 'string'],
+            $valueRoot . '.cover_image' => ['nullable', 'url', 'max:2048'],
+            $valueRoot . '.meta_title' => ['nullable', 'string', 'max:255'],
+            $valueRoot . '.meta_description' => ['nullable', 'string', 'max:255'],
+            $valueRoot . '.sort_order' => ['nullable', 'integer'],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function newsValidationAttributes(string $valueRoot): array
+    {
+        return [
+            $valueRoot . '.title' => __('news.labels.title'),
+            $valueRoot . '.slug' => __('news.labels.slug'),
+            $valueRoot . '.status' => __('news.labels.status'),
+            $valueRoot . '.published_at' => __('news.labels.published_at'),
+            $valueRoot . '.preview' => __('news.labels.preview'),
+            $valueRoot . '.content' => __('news.labels.content'),
+            $valueRoot . '.cover_image' => __('news.labels.cover_image'),
+            $valueRoot . '.meta_title' => __('news.labels.meta_title'),
+            $valueRoot . '.meta_description' => __('news.labels.meta_description'),
+            $valueRoot . '.sort_order' => __('news.labels.sort_order'),
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function createInitialValues(): array
+    {
+        $initial = [];
+
+        foreach ($this->newsCreateFields as $field) {
+            $name = data_get($field, 'name');
+            if (!is_string($name) || $name === '') {
+                continue;
+            }
+
+            $initial[$name] = '';
+        }
+
+        foreach (app(NewsFormConfig::class)->createValues() as $key => $value) {
+            if (is_string($key) && $key !== '') {
+                $initial[$key] = $value;
+            }
+        }
+
+        return $initial;
     }
 }

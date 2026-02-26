@@ -3,6 +3,7 @@
     'title' => __('crud.delete_confirm_title'),
     'message' => __('crud.delete_confirm_message'),
     'deleteUrl' => null,
+    'wireConfirmAction' => null,
     'cancelLabel' => __('crud.no_cancel'),
     'confirmLabel' => __('crud.yes_delete'),
 ])
@@ -40,11 +41,6 @@
     >
         <p class="mb-4 text-gray-500 dark:text-gray-300" x-text="renderMessage()"></p>
 
-        <form id="{{ $resolvedFormId }}" method="POST" x-bind:action="deleteUrl || '#'" class="hidden">
-            @csrf
-            @method('DELETE')
-        </form>
-
         <div class="flex justify-center items-center gap-3">
             <x-buttons.secondary
                 type="button"
@@ -52,8 +48,18 @@
             >
                 {{ $cancelLabel }}
             </x-buttons.secondary>
-            <x-buttons.danger type="submit" :form="$resolvedFormId" x-bind:disabled="!deleteUrl">
-                {{ $confirmLabel }}
+            <x-buttons.danger
+                type="button"
+                wire:click="{{ $wireConfirmAction }}"
+                x-bind:disabled="!id"
+                wire:loading.attr="disabled"
+                wire:target="{{ $wireConfirmAction }}"
+            >
+                <span wire:loading.remove wire:target="{{ $wireConfirmAction }}">{{ $confirmLabel }}</span>
+                <span wire:loading.inline-flex wire:target="{{ $wireConfirmAction }}" class="items-center">
+                    <x-ui.spinner size-class="h-4 w-4" class="-ml-1 mr-2 text-white" />
+                    {{ $confirmLabel }}
+                </span>
             </x-buttons.danger>
         </div>
     </div>

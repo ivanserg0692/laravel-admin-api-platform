@@ -32,6 +32,7 @@ class Factory extends Component
         public ?string $errorBag = null,
         public ?string $inputNamespace = null,
         public ?string $alpineModelRoot = null,
+        public ?string $livewireModelRoot = null,
         public string $nameMode = self::MODE_PLAIN,
         public string $gridClass = 'grid gap-4 mb-4 sm:grid-cols-2',
     )

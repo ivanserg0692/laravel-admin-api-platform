@@ -1,23 +1,12 @@
 @props([
     'item',
-    'editModal' => 'update-product',
-    'previewModal' => 'read-product',
-    'deleteModal' => 'delete-product',
 ])
-
-@php
-    $editInitUrl = route('news.edit-init', $item);
-    $previewInitUrl = route('news.preview-init', $item);
-    $deleteInitUrl = route('news.delete-init', $item);
-@endphp
 
 <li>
     <x-dropdown.link
         href="#"
-        onclick="window.App.UI.NewsActions.editInit(event, this)"
-        class="js-news-edit-init-link flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-        data-edit-init-url="{{ $editInitUrl }}"
-        data-edit-modal="{{ $editModal }}"
+        wire:click.prevent="openUpdateModal({{ (int) data_get($item, 'id') }})"
+        class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
     >
         <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20"
              fill="currentColor" aria-hidden="true">
@@ -33,10 +22,8 @@
 <li>
     <x-dropdown.link
         href="#"
-        onclick="window.App.UI.NewsActions.previewInit(event, this)"
+        wire:click.prevent="openPreviewModal({{ (int) data_get($item, 'id') }})"
         class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200"
-        data-preview-init-url="{{ $previewInitUrl }}"
-        data-preview-modal="{{ $previewModal }}"
     >
         <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20"
              fill="currentColor" aria-hidden="true">
@@ -51,10 +38,8 @@
 <li>
     <x-dropdown.link
         href="#"
-        onclick="window.App.UI.NewsActions.deleteInit(event, this)"
+        wire:click.prevent="openDeleteModal({{ (int) data_get($item, 'id') }})"
         class="flex items-center text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-red-400"
-        data-delete-init-url="{{ $deleteInitUrl }}"
-        data-delete-modal="{{ $deleteModal }}"
     >
         <svg class="w-4 h-4 mr-2" viewbox="0 0 14 15" fill="none"
              xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

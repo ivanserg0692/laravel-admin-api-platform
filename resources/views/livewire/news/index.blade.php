@@ -16,10 +16,15 @@
         :create-button-label="$createButtonLabel"
         :create-modal-title="$createModalTitle"
         :create-submit-label="$createSubmitLabel"
+        :create-open-action="'openCreateModal'"
+        :create-submit-action="'saveCreate'"
+        :create-livewire-model-root="'newsCreateValues'"
         :search-placeholder="$searchPlaceholder"
         :livewire-model="'search'"
         :update-modal="$updateModalName"
         :preview-modal="$previewModalName"
         :delete-modal="$deleteModalName"
+        :update-current-item-id="$editingNewsId"
+        :update-current-item-title="(string) data_get($newsUpdateValues, 'title', '')"
     />
 </div>
