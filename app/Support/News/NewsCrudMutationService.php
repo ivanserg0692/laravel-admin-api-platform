@@ -79,6 +79,7 @@ class NewsCrudMutationService
         $this->crudUiService->dispatchModalEvent($component, 'open-modal', $component->createModalName);
     }
 
+    //entity methods
     public function saveCreate(): void
     {
         if (!$this->isIndexComponent()) {
@@ -102,21 +103,6 @@ class NewsCrudMutationService
         $component->createValidationActive = false;
         $component->resetValidation();
         $this->crudUiService->dispatchModalEvent($component, 'close-modal', $component->createModalName);
-    }
-
-    public function openUpdateModal(int $newsId): void
-    {
-        if (!$this->isIndexComponent()) {
-            return;
-        }
-
-        $component = $this->component();
-        $news = $this->findOrFail($newsId);
-        $component->editingNewsId = (int)$news->id;
-        $component->newsUpdateValues = $this->newsFormConfig->updateValues($news);
-        $component->updateValidationActive = false;
-        $component->resetValidation();
-        $this->crudUiService->dispatchModalEvent($component, 'open-modal', $component->updateModalName);
     }
 
     public function saveUpdate(): void
@@ -144,6 +130,50 @@ class NewsCrudMutationService
         if ($this->isIndexComponent()) {
             $this->crudUiService->dispatchModalEvent($component, 'close-modal', $component->updateModalName);
         }
+    }
+
+    public function deleteSelectedNews(): mixed
+    {
+        $component = $this->component();
+        if (!$component->deletingNewsId) {
+            return null;
+        }
+
+        $deletedId = (int)$component->deletingNewsId;
+        $this->deleteNewsById($deletedId);
+
+        $component->deletingNewsId = null;
+        $component->deletingNewsTitle = '';
+
+        if ($this->isIndexComponent()) {
+            if ($component->editingNewsId === $deletedId) {
+                $component->editingNewsId = null;
+                $this->crudUiService->dispatchModalEvent($component, 'close-modal', $component->updateModalName);
+            }
+
+            $this->crudUiService->dispatchModalEvent($component, 'close-modal', $component->deleteModalName);
+
+            return null;
+        }
+
+        return redirect()->route('news.index', session('news.index.query', []));
+    }
+
+    //modals-methods
+
+    public function openUpdateModal(int $newsId): void
+    {
+        if (!$this->isIndexComponent()) {
+            return;
+        }
+
+        $component = $this->component();
+        $news = $this->findOrFail($newsId);
+        $component->editingNewsId = (int)$news->id;
+        $component->newsUpdateValues = $this->newsFormConfig->updateValues($news);
+        $component->updateValidationActive = false;
+        $component->resetValidation();
+        $this->crudUiService->dispatchModalEvent($component, 'open-modal', $component->updateModalName);
     }
 
     public function openPreviewModal(int $newsId): void
@@ -175,34 +205,7 @@ class NewsCrudMutationService
         }
     }
 
-    public function deleteSelectedNews(): mixed
-    {
-        $component = $this->component();
-        if (!$component->deletingNewsId) {
-            return null;
-        }
-
-        $deletedId = (int)$component->deletingNewsId;
-        $this->deleteNewsById($deletedId);
-
-        $component->deletingNewsId = null;
-        $component->deletingNewsTitle = '';
-
-        if ($this->isIndexComponent()) {
-            if ($component->editingNewsId === $deletedId) {
-                $component->editingNewsId = null;
-                $this->crudUiService->dispatchModalEvent($component, 'close-modal', $component->updateModalName);
-            }
-
-            $this->crudUiService->dispatchModalEvent($component, 'close-modal', $component->deleteModalName);
-
-            return null;
-        }
-
-        return redirect()->route('news.index', session('news.index.query', []));
-    }
-
-    public function findOrFail(int $id): News
+    protected function findOrFail(int $id): News
     {
         return News::query()->findOrFail($id);
     }
@@ -210,7 +213,7 @@ class NewsCrudMutationService
     /**
      * @param array<string, mixed> $values
      */
-    public function createNewsFromValues(array $values, ?int $authorId): News
+    protected function createNewsFromValues(array $values, ?int $authorId): News
     {
         $news = new News();
         $news->title = (string)data_get($values, 'title', '');
@@ -232,7 +235,7 @@ class NewsCrudMutationService
     /**
      * @param array<string, mixed> $values
      */
-    public function updateNewsFromValues(News $news, array $values): News
+    protected function updateNewsFromValues(News $news, array $values): News
     {
         $news->title = (string)data_get($values, 'title', '');
         $news->slug = (string)data_get($values, 'slug', '');
@@ -249,7 +252,7 @@ class NewsCrudMutationService
         return $news;
     }
 
-    public function deleteNewsById(int $id): void
+    protected function deleteNewsById(int $id): void
     {
         $news = $this->findOrFail($id);
         $news->delete();
@@ -264,14 +267,14 @@ class NewsCrudMutationService
         return $this->component;
     }
 
-    private function isIndexComponent(): bool
+    protected function isIndexComponent(): bool
     {
         $component = $this->component();
 
         return property_exists($component, 'editingNewsId') && property_exists($component, 'createModalName');
     }
 
-    private function currentNewsIdForUpdate(): int
+    protected function currentNewsIdForUpdate(): int
     {
         $component = $this->component();
 
