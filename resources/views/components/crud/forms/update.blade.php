@@ -10,6 +10,7 @@
     'alpineModelRoot' => null,
     'livewireModelRoot' => null,
     'wireSubmit' => null,
+    'livewireValidationActive' => false,
 ])
 
 {{-- Intentionally kept as a CRUD wrapper: this is an extension point for future update-specific behavior. --}}
@@ -31,6 +32,7 @@
         :input-namespace="$inputNamespace"
         :alpine-model-root="$alpineModelRoot"
         :livewire-model-root="$livewireModelRoot"
+        :livewire-validation-active="$livewireValidationActive"
     />
 
     {{ $slot }}

@@ -8,6 +8,7 @@
     'inputNamespace' => null,
     'livewireModelRoot' => null,
     'wireSubmit' => null,
+    'livewireValidationActive' => false,
 ])
 
 {{-- Intentionally kept as a CRUD wrapper: this is an extension point for future create-specific behavior. --}}
@@ -27,6 +28,7 @@
         :name-mode="$nameMode"
         :input-namespace="$inputNamespace"
         :livewire-model-root="$livewireModelRoot"
+        :livewire-validation-active="$livewireValidationActive"
     />
 
     {{ $slot }}

@@ -53,6 +53,8 @@ class Index extends Component
     public ?int $editingNewsId = null;
     public ?int $deletingNewsId = null;
     public string $deletingNewsTitle = '';
+    public bool $createValidationActive = false;
+    public bool $updateValidationActive = false;
 
     public function mount(
         array $newsCreateFields = [],
@@ -88,9 +90,36 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function updated(string $property): void
+    {
+        if (!str_starts_with($property, 'newsCreateValues.') && !str_starts_with($property, 'newsUpdateValues.')) {
+            return;
+        }
+
+        if (str_starts_with($property, 'newsCreateValues.') && !$this->createValidationActive) {
+            return;
+        }
+
+        if (str_starts_with($property, 'newsUpdateValues.') && !$this->updateValidationActive) {
+            return;
+        }
+
+        $this->resetValidation($property);
+
+        $rules = str_starts_with($property, 'newsCreateValues.')
+            ? $this->newsRules('newsCreateValues')
+            : $this->newsRules('newsUpdateValues', $this->editingNewsId);
+        $attributes = str_starts_with($property, 'newsCreateValues.')
+            ? $this->newsValidationAttributes('newsCreateValues')
+            : $this->newsValidationAttributes('newsUpdateValues');
+
+        $this->validateOnly($property, $rules, attributes: $attributes);
+    }
+
     public function openCreateModal(): void
     {
         $this->newsCreateValues = $this->createInitialValues();
+        $this->createValidationActive = false;
         $this->resetValidation();
 
         $this->dispatchModalEvent('open-modal', $this->createModalName);
@@ -98,6 +127,8 @@ class Index extends Component
 
     public function saveCreate(): void
     {
+        $this->createValidationActive = true;
+
         $validated = $this->validate(
             rules: $this->newsRules('newsCreateValues'),
             attributes: $this->newsValidationAttributes('newsCreateValues'),
@@ -120,6 +151,7 @@ class Index extends Component
         $news->save();
 
         $this->newsCreateValues = $this->createInitialValues();
+        $this->createValidationActive = false;
         $this->resetValidation();
 
         $this->dispatchModalEvent('close-modal', $this->createModalName);
@@ -145,6 +177,8 @@ class Index extends Component
             'columns' => $this->buildColumns(),
             'hydratedNewsCreateFields' => $this->hydrateFields($this->newsCreateFields),
             'hydratedNewsUpdateFields' => $this->hydrateFields($this->newsUpdateFields),
+            'createValidationActive' => $this->createValidationActive,
+            'updateValidationActive' => $this->updateValidationActive,
         ]);
     }
 
@@ -154,6 +188,7 @@ class Index extends Component
 
         $this->editingNewsId = (int)$news->id;
         $this->newsUpdateValues = app(NewsFormConfig::class)->updateValues($news);
+        $this->updateValidationActive = false;
         $this->resetValidation();
 
         $this->dispatchModalEvent('open-modal', $this->updateModalName);
@@ -164,6 +199,8 @@ class Index extends Component
         if (!$this->editingNewsId) {
             return;
         }
+
+        $this->updateValidationActive = true;
 
 
         $news = News::query()->findOrFail($this->editingNewsId);
@@ -188,6 +225,7 @@ class Index extends Component
         $news->save();
 
         $this->newsUpdateValues = app(NewsFormConfig::class)->updateValues($news);
+        $this->updateValidationActive = false;
         $this->resetValidation();
 
         $this->dispatchModalEvent('close-modal', $this->updateModalName);

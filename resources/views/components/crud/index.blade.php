@@ -19,6 +19,8 @@
     'createOpenAction' => null,
     'createSubmitAction' => null,
     'createLivewireModelRoot' => null,
+    'createErrorBag' => null,
+    'createValidationActive' => false,
     'tableLoadingTargets' => null,
     'searchPlaceholder' => 'Search',
     'livewireModel' => null,
@@ -27,6 +29,8 @@
     'deleteModal' => null,
     'updateCurrentItemId' => null,
     'updateCurrentItemTitle' => '',
+    'updateErrorBag' => null,
+    'updateValidationActive' => false,
 ])
 @php
     $resolvedTableLoadingTargets = is_string($tableLoadingTargets) && trim($tableLoadingTargets) !== ''
@@ -124,6 +128,8 @@
     'submitLabel' => $createSubmitLabel,
     'wireSubmit' => $createSubmitAction,
     'livewireModelRoot' => $createLivewireModelRoot,
+    'errorBag' => $createErrorBag,
+    'livewireValidationActive' => $createValidationActive,
 ])
 @include('components.crud.modals.update-product', [
     'fields' => $updateFields,
@@ -135,6 +141,8 @@
     'livewireModelRoot' => 'newsUpdateValues',
     'currentItemId' => $updateCurrentItemId,
     'currentItemTitle' => $updateCurrentItemTitle,
+    'errorBag' => $updateErrorBag,
+    'livewireValidationActive' => $updateValidationActive,
 ])
 @include('components.crud.modals.read-product', [
     'name' => $previewModal,

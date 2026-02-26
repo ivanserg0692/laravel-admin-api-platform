@@ -8,6 +8,8 @@
     'deleteModal' => null,
     'wireSubmit' => null,
     'livewireModelRoot' => null,
+    'errorBag' => null,
+    'livewireValidationActive' => false,
     'currentItemId' => null,
     'currentItemTitle' => '',
 ])
@@ -26,6 +28,8 @@
             :values="$values"
             :wire-submit="$wireSubmit"
             :livewire-model-root="$livewireModelRoot"
+            :error-bag="$errorBag"
+            :livewire-validation-active="$livewireValidationActive"
         >
             <div class="flex items-center space-x-4">
                 <x-buttons.primary

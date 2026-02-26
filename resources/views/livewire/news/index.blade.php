@@ -19,6 +19,8 @@
         :create-open-action="'openCreateModal'"
         :create-submit-action="'saveCreate'"
         :create-livewire-model-root="'newsCreateValues'"
+        :create-error-bag="'default'"
+        :create-validation-active="$createValidationActive"
         :create-modal="$createModalName"
         :search-placeholder="$searchPlaceholder"
         :livewire-model="'search'"
@@ -27,5 +29,7 @@
         :delete-modal="$deleteModalName"
         :update-current-item-id="$editingNewsId"
         :update-current-item-title="(string) data_get($newsUpdateValues, 'title', '')"
+        :update-error-bag="'default'"
+        :update-validation-active="$updateValidationActive"
     />
 </div>

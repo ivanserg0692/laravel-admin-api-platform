@@ -7,6 +7,8 @@
     'submitLabel' => 'Add new product',
     'wireSubmit' => null,
     'livewireModelRoot' => null,
+    'errorBag' => null,
+    'livewireValidationActive' => false,
 ])
 
 <x-modals.panel :name="$name" maxWidth="2xl" :title="$title">
@@ -17,6 +19,8 @@
         :action="$action"
         :wire-submit="$wireSubmit"
         :livewire-model-root="$livewireModelRoot"
+        :error-bag="$errorBag"
+        :livewire-validation-active="$livewireValidationActive"
     >
         <x-buttons.primary
             type="submit"
