@@ -2,11 +2,10 @@
 
 namespace App\Livewire\News;
 
+use App\Support\News\NewsCrudMutationService;
+use App\Support\News\NewsCrudUiService;
 use App\Support\News\NewsListQueryService;
-use App\UI\Forms\DTO\FormFieldDto;
-use App\UI\Lists\DTO\ListColumnDto;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Str;
+use App\UI\Forms\NewsFormConfig;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,6 +13,11 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination;
+
+    protected NewsCrudUiService $crudUiService;
+    protected NewsCrudMutationService $crudMutationService;
+    protected NewsListQueryService $newsListQueryService;
+    protected NewsFormConfig $newsFormConfig;
 
     public array $newsCreateFields = [];
     public array $newsCreateValues = [];
@@ -42,9 +46,27 @@ class Index extends Component
     #[Url(except: '')]
     public string $search = '';
 
+    public string $createModalName = '';
     public string $updateModalName = '';
     public string $previewModalName = '';
     public string $deleteModalName = '';
+    public ?int $editingNewsId = null;
+    public ?int $deletingNewsId = null;
+    public string $deletingNewsTitle = '';
+    public bool $createValidationActive = false;
+    public bool $updateValidationActive = false;
+
+    public function boot(
+        NewsCrudUiService $crudUiService,
+        NewsCrudMutationService $crudMutationService,
+        NewsListQueryService $newsListQueryService,
+        NewsFormConfig $newsFormConfig,
+    ): void {
+        $this->crudUiService = $crudUiService;
+        $this->crudMutationService = $crudMutationService->bind($this);
+        $this->newsListQueryService = $newsListQueryService;
+        $this->newsFormConfig = $newsFormConfig;
+    }
 
     public function mount(
         array $newsCreateFields = [],
@@ -53,9 +75,9 @@ class Index extends Component
         array $newsUpdateValues = [],
         array|string $sorts = [],
     ): void {
-        $this->newsCreateFields = $this->normalizeFieldsForState($newsCreateFields);
+        $this->newsCreateFields = $this->crudUiService->normalizeFieldsForState($newsCreateFields);
         $this->newsCreateValues = $newsCreateValues;
-        $this->newsUpdateFields = $this->normalizeFieldsForState($newsUpdateFields);
+        $this->newsUpdateFields = $this->crudUiService->normalizeFieldsForState($newsUpdateFields);
         $this->newsUpdateValues = $newsUpdateValues;
         $this->sorts = is_array($sorts) ? $sorts : [$sorts];
 
@@ -68,10 +90,11 @@ class Index extends Component
         $this->deleteModalMessage = __('news.delete_confirm_template');
         $this->searchPlaceholder = __('news.placeholders.search');
 
-        $crudInstanceId = Str::uuid()->toString();
-        $this->updateModalName = 'update-product-' . $crudInstanceId;
-        $this->previewModalName = 'read-product-' . $crudInstanceId;
-        $this->deleteModalName = 'delete-product-' . $crudInstanceId;
+        $modalNames = $this->crudUiService->makeCrudModalNames();
+        $this->createModalName = $modalNames['create'];
+        $this->updateModalName = $modalNames['update'];
+        $this->previewModalName = $modalNames['preview'];
+        $this->deleteModalName = $modalNames['delete'];
     }
 
     public function updatingSearch(): void
@@ -79,12 +102,24 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function updated(string $property): void
+    {
+        $this->crudMutationService->updated($property);
+    }
+
+    public function openCreateModal(): void
+    {
+        $this->crudMutationService->openCreateModal();
+    }
+
+    public function saveCreate(): void
+    {
+        $this->crudMutationService->saveCreate();
+    }
+
     public function render()
     {
-        /** @var NewsListQueryService $service */
-        $service = app(NewsListQueryService::class);
-
-        $items = $service->paginate(
+        $items = $this->newsListQueryService->paginate(
             search: $this->search,
             rawSorts: $this->sorts,
             allowedSortColumns: $this->allowedSortColumns,
@@ -92,133 +127,42 @@ class Index extends Component
             perPage: $this->perPage,
         );
 
-        $this->syncIndexQueryInSession($items);
+        $this->crudUiService->syncIndexQueryInSession($this->search, $this->sorts, $items);
 
         return view('livewire.news.index', [
             'items' => $items,
-            'columns' => $this->buildColumns(),
-            'hydratedNewsCreateFields' => $this->hydrateFields($this->newsCreateFields),
-            'hydratedNewsUpdateFields' => $this->hydrateFields($this->newsUpdateFields),
+            'columns' => $this->crudUiService->buildColumns(),
+            'hydratedNewsCreateFields' => $this->crudUiService->hydrateFields($this->newsCreateFields),
+            'hydratedNewsUpdateFields' => $this->crudUiService->hydrateFields($this->newsUpdateFields),
+            'createValidationActive' => $this->createValidationActive,
+            'updateValidationActive' => $this->updateValidationActive,
         ]);
     }
-    
-    protected function queryString(): array
+
+    public function openUpdateModal(int $newsId): void
     {
-        return [
-            'search' => ['except' => ''],
-        ];
+        $this->crudMutationService->openUpdateModal($newsId);
     }
 
-    /**
-     * @return array<int, ListColumnDto>
-     */
-    private function buildColumns(): array
+    public function saveUpdate(): void
     {
-        return [
-            new ListColumnDto(key: 'id', label: __('news.labels.id'), sortable: true),
-            new ListColumnDto(key: 'title', label: __('news.labels.title'), sortable: true),
-            new ListColumnDto(key: 'status', label: __('news.labels.status'), sortable: true),
-            new ListColumnDto(key: 'published_at', label: __('news.labels.published'), sortable: true),
-            new ListColumnDto(key: 'author_id', label: __('news.labels.author'), sortable: true),
-            new ListColumnDto(key: 'views_count', label: __('news.labels.views'), sortable: true),
-        ];
+        $this->crudMutationService->saveUpdate();
+        $this->crudUiService->dispatchModalEvent($this, 'close-modal', $this->updateModalName);
+
     }
 
-    private function syncIndexQueryInSession(LengthAwarePaginator $items): void
+    public function openPreviewModal(int $newsId): void
     {
-        $query = [];
-
-        $search = trim($this->search);
-        if ($search !== '') {
-            $query['search'] = $search;
-        }
-
-        if (!empty($this->sorts)) {
-            $query['sort'] = $this->sorts;
-        }
-
-        if ($items->currentPage() > 1) {
-            $query['page'] = $items->currentPage();
-        }
-
-        session()->put('news.index.query', $query);
+        $this->crudMutationService->openPreviewModal($newsId);
     }
 
-    /**
-     * @param array<int, mixed> $fields
-     * @return array<int, array<string, mixed>>
-     */
-    private function normalizeFieldsForState(array $fields): array
+    public function openDeleteModal(int $newsId): void
     {
-        $normalized = [];
-
-        foreach ($fields as $field) {
-            if ($field instanceof FormFieldDto) {
-                $normalized[] = [
-                    'name' => $field->name,
-                    'label' => $field->label,
-                    'type' => $field->type,
-                    'placeholder' => $field->placeholder,
-                    'required' => $field->required,
-                    'rows' => $field->rows,
-                    'fullWidth' => $field->fullWidth,
-                    'options' => $field->options,
-                    'id' => $field->id,
-                    'value' => $field->value,
-                    'htmlName' => $field->htmlName,
-                    'oldKey' => $field->oldKey,
-                    'alpineModel' => $field->alpineModel,
-                ];
-                continue;
-            }
-
-            if (is_array($field)) {
-                $normalized[] = $field;
-            }
-        }
-
-        return $normalized;
+        $this->crudMutationService->openDeleteModal($newsId);
     }
 
-    /**
-     * @param array<int, array<string, mixed>> $fields
-     * @return array<int, FormFieldDto>
-     */
-    private function hydrateFields(array $fields): array
+    public function deleteSelectedNews(): void
     {
-        $hydrated = [];
-
-        foreach ($fields as $field) {
-            $name = data_get($field, 'name');
-            $label = data_get($field, 'label');
-
-            if (!is_string($name) || $name === '' || !is_string($label) || $label === '') {
-                continue;
-            }
-
-            $placeholder = data_get($field, 'placeholder');
-            $id = data_get($field, 'id');
-            $htmlName = data_get($field, 'htmlName');
-            $oldKey = data_get($field, 'oldKey');
-            $alpineModel = data_get($field, 'alpineModel');
-
-            $hydrated[] = new FormFieldDto(
-                name: $name,
-                label: $label,
-                type: (string) data_get($field, 'type', 'text'),
-                placeholder: is_string($placeholder) ? $placeholder : null,
-                required: (bool) data_get($field, 'required', false),
-                rows: (int) data_get($field, 'rows', 4),
-                fullWidth: (bool) data_get($field, 'fullWidth', false),
-                options: (array) data_get($field, 'options', []),
-                id: is_string($id) ? $id : null,
-                value: data_get($field, 'value'),
-                htmlName: is_string($htmlName) ? $htmlName : null,
-                oldKey: is_string($oldKey) ? $oldKey : null,
-                alpineModel: is_string($alpineModel) ? $alpineModel : null,
-            );
-        }
-
-        return $hydrated;
+        $this->crudMutationService->deleteSelectedNews();
     }
 }

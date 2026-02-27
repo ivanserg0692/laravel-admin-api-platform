@@ -4,6 +4,9 @@ return [
     'create_button_label' => 'Add news',
     'create_modal_title' => 'Add news',
     'create_submit_label' => 'Add news',
+    'update_page_title' => 'Update news',
+    'update_submit_label' => 'Save changes',
+    'update_success_message' => 'News has been saved successfully.',
     'labels' => [
         'id' => 'ID',
         'title' => 'Title',

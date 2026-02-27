@@ -29,7 +29,6 @@ class Show extends Component
         ?array         $meta = null,
         public ?string $editUrl = null,
         public ?string $previewUrl = null,
-        public ?string $deleteUrl = null,
         public ?string $backUrl = null,
         public string  $idPrefix = 'page-show-item',
         ?string        $submitLabel = null,

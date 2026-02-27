@@ -2,14 +2,10 @@
     'name',
     'title' => __('crud.delete_confirm_title'),
     'message' => __('crud.delete_confirm_message'),
-    'deleteUrl' => null,
+    'wireConfirmAction' => 'deleteSelectedNews',
     'cancelLabel' => __('crud.no_cancel'),
     'confirmLabel' => __('crud.yes_delete'),
 ])
-
-@php
-    $resolvedFormId = 'delete-form-' . preg_replace('/[^a-zA-Z0-9_-]/', '-', (string) $name);
-@endphp
 
 <x-modals.panel
     :name="$name"
@@ -20,7 +16,6 @@
         x-data="{
             modalName: @js($name),
             messageTemplate: @js($message),
-            deleteUrl: @js($deleteUrl),
             id: null,
             title: '',
             renderMessage() {
@@ -35,15 +30,10 @@
             if ($event.detail?.modal !== modalName) return;
             id = $event.detail?.id ?? null;
             title = typeof $event.detail?.title === 'string' ? $event.detail.title : '';
-            deleteUrl = typeof $event.detail?.deleteUrl === 'string' ? $event.detail.deleteUrl : '';
+            window.dispatchEvent(new CustomEvent('open-modal', {detail: modalName}));
         "
     >
         <p class="mb-4 text-gray-500 dark:text-gray-300" x-text="renderMessage()"></p>
-
-        <form id="{{ $resolvedFormId }}" method="POST" x-bind:action="deleteUrl || '#'" class="hidden">
-            @csrf
-            @method('DELETE')
-        </form>
 
         <div class="flex justify-center items-center gap-3">
             <x-buttons.secondary
@@ -52,8 +42,18 @@
             >
                 {{ $cancelLabel }}
             </x-buttons.secondary>
-            <x-buttons.danger type="submit" :form="$resolvedFormId" x-bind:disabled="!deleteUrl">
-                {{ $confirmLabel }}
+            <x-buttons.danger
+                type="button"
+                wire:click="{{ $wireConfirmAction }}"
+                x-bind:disabled="!id"
+                wire:loading.attr="disabled"
+                wire:target="{{ $wireConfirmAction }}"
+            >
+                <span wire:loading.remove wire:target="{{ $wireConfirmAction }}">{{ $confirmLabel }}</span>
+                <span wire:loading.inline-flex wire:target="{{ $wireConfirmAction }}" class="items-center">
+                    <x-ui.spinner size-class="h-4 w-4" class="-ml-1 mr-2 text-white" />
+                    {{ $confirmLabel }}
+                </span>
             </x-buttons.danger>
         </div>
     </div>

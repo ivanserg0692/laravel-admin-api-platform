@@ -28,14 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/news', NewsController::class);
-    Route::prefix('api/session')->group(function () {
-        Route::get('/news/{news}/edit-init', [NewsController::class, 'editInit'])
-            ->name('news.edit-init');
-        Route::get('/news/{news}/preview-init', [NewsController::class, 'previewInit'])
-            ->name('news.preview-init');
-        Route::get('/news/{news}/delete-init', [NewsController::class, 'deleteInit'])
-            ->name('news.delete-init');
-    });
 });
 
 require __DIR__ . '/auth.php';

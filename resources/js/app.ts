@@ -1,24 +1,8 @@
 import './bootstrap';
-import {NewsModalAction} from './UI/Modal/news-edit-action';
-import {
-    newsDeleteActionConfig,
-    newsEditActionConfig,
-    newsPreviewActionConfig,
-} from './UI/Modal/news-action-configs';
 
 import {initFlowbite} from 'flowbite';
 
-window.App = window.App || {};
-window.App.UI = window.App.UI || {};
-window.App.UI.NewsActions = window.App.UI.NewsActions || {};
 
-window.App.UI.NewsActions.editInit = (event, link) =>
-    new NewsModalAction(event, link, newsEditActionConfig).run();
-window.App.UI.NewsActions.previewInit = (event, link) =>
-    new NewsModalAction(event, link, newsPreviewActionConfig).run();
-window.App.UI.NewsActions.deleteInit = (event, link) =>
-    new NewsModalAction(event, link, newsDeleteActionConfig).run();
-window.newsEditInit = window.App.UI.NewsActions.editInit;
 
 const reinitUi = (root?: HTMLElement): void => {
     initFlowbite();

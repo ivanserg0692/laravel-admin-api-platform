@@ -82,3 +82,10 @@ npm run build
   - extracted list query logic into a dedicated service and updated component docs/tests
   - details: [TASK-004-ai-crud-layer-news-admin.md](docs/tasks/TASK-004-ai-crud-layer-news-admin.md)
   - MR: [#3](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/3)
+
+- `TASK-005` Full News CRUD migration to Livewire handlers:
+  - moved News CRUD mutation/UI/validation logic into dedicated services
+  - added page-level Livewire update flow with redirect + success flash after save
+  - removed legacy JS news modal action handlers and unified Blade/Livewire modal flow
+  - details: [TASK-005-news-full-livewire-migration.md](docs/tasks/TASK-005-news-full-livewire-migration.md)
+  - MR: [#4](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/4)

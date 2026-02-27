@@ -5,8 +5,6 @@
     'fields' => [],
     'values' => [],
     'errorBag' => null,
-    'nameMode' => 'plain',
-    'inputNamespace' => null,
     'submitLabel' => 'Create',
     'cancelUrl' => null,
     'cancelLabel' => 'Cancel',
@@ -25,8 +23,6 @@
                 :fields="$fields"
                 :values="$values"
                 :error-bag="$errorBag"
-                :name-mode="$nameMode"
-                :input-namespace="$inputNamespace"
             >
                 <div class="flex items-center gap-3">
                     <x-buttons.primary type="submit">

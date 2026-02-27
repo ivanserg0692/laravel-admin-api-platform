@@ -7,18 +7,24 @@
     'fields' => [],
     'values' => [],
     'errorBag' => null,
-    'nameMode' => 'plain',
-    'inputNamespace' => null,
+    'alpineModelRoot' => null,
+    'livewireModelRoot' => null,
+    'livewireValidationActive' => false,
     'submitLabel' => __('crud.save_label'),
-    'deleteUrl' => null,
     'deleteLabel' => __('crud.delete_label'),
     'backUrl' => null,
     'backLabel' => __('crud.back_label'),
+    'deleteModalName' => null,
+    'deleteModalTitle' => __('crud.delete_confirm_title'),
+    'deleteModalMessage' => __('crud.delete_confirm_message'),
 ])
 
 @php
     $resolvedValues = $values;
-    $deleteConfirmModalId = $idPrefix . '-delete-confirm';
+    $deleteConfirmModalId = is_string($deleteModalName) && trim($deleteModalName) !== ''
+        ? trim($deleteModalName)
+        : ($idPrefix . '-delete-confirm');
+    $currentItemId = (int) (data_get($item, 'id') ?? 0);
 
     if (empty($resolvedValues) && $item) {
         foreach ($fields as $field) {
@@ -44,37 +50,36 @@
                 :fields="$fields"
                 :values="$resolvedValues"
                 :error-bag="$errorBag"
-                :name-mode="$nameMode"
-                :input-namespace="$inputNamespace"
+                :alpine-model-root="$alpineModelRoot"
+                :livewire-model-root="$livewireModelRoot"
+                :livewire-validation-active="$livewireValidationActive"
+                :wire-submit="'saveUpdate'"
             >
                 <div class="flex items-center gap-3">
                     <x-buttons.primary type="submit">
                         {{ $submitLabel }}
                     </x-buttons.primary>
 
-                    @if($deleteUrl)
-                        <x-buttons.danger
-                            type="button"
-                            onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $deleteConfirmModalId }}' }))"
-                        >
-                            {{ $deleteLabel }}
-                        </x-buttons.danger>
-                    @endif
+                    <x-buttons.danger
+                        type="button"
+                        :disabled="$currentItemId <= 0"
+                        wire:click="openDeleteModal({{ $currentItemId }})"
+                        wire:loading.attr="disabled"
+                        wire:target="openDeleteModal"
+                    >{{ $deleteLabel }}</x-buttons.danger>
 
                     @if($backUrl)
-                        <x-buttons.secondary :href="$backUrl">
-                            {{ $backLabel }}
-                        </x-buttons.secondary>
+                        <x-buttons.secondary :href="$backUrl">{{ $backLabel }}</x-buttons.secondary>
                     @endif
                 </div>
             </x-crud.forms.update>
 
-            @if($deleteUrl)
-                <x-crud.modals.confirm-delete
-                    :name="$deleteConfirmModalId"
-                    :delete-url="$deleteUrl"
-                />
-            @endif
+            <x-crud.modals.confirm-delete
+                :name="$deleteConfirmModalId"
+                :title="$deleteModalTitle"
+                :message="$deleteModalMessage"
+                :wire-confirm-action="'deleteSelectedNews'"
+            />
         </div>
     </div>
 </section>

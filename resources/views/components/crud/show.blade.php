@@ -68,7 +68,6 @@
                                 </x-buttons.secondary>
                             @endif
 
-                            @if($deleteUrl)
                                 @php
                                     $deleteConfirmMessage = strtr(
                                         __('news.delete_confirm_template'),
@@ -79,7 +78,7 @@
                                     );
                                 @endphp
                                 <x-buttons.danger type="button"
-                                                  onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: '{{ $deleteConfirmModalId }}' }))"
+                                                  onclick="window.dispatchEvent(new CustomEvent('news-delete-values-loaded', { detail: {modal:'{{ $deleteConfirmModalId }}', id: {{ (int) data_get($item, 'id') }} }}))"
                                                   class="!px-4 !py-2 !text-sm sm:!px-5 sm:!py-2.5 sm:!text-base">
                                     <svg class="mr-2 h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 14 15" fill="none"
                                          xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -90,11 +89,9 @@
                                 </x-buttons.danger>
                                 <x-crud.modals.confirm-delete
                                     :name="$deleteConfirmModalId"
-                                    :delete-url="$deleteUrl"
                                     :title="__('news.delete_confirm_title')"
                                     :message="$deleteConfirmMessage"
                                 />
-                            @endif
                             @if($backUrl)
                                 <x-buttons.secondary :href="$backUrl">
                                     {{ $backLabel }}
