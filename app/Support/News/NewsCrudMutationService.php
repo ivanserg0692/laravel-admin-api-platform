@@ -4,6 +4,7 @@ namespace App\Support\News;
 
 use App\Models\News;
 use App\UI\Forms\NewsFormConfig;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use RuntimeException;
 
@@ -105,12 +106,14 @@ class NewsCrudMutationService
         $this->crudUiService->dispatchModalEvent($component, 'close-modal', $component->createModalName);
     }
 
-    public function saveUpdate(): void
+    public function saveUpdate(): News
     {
         $component = $this->component();
         $newsId = $this->currentNewsIdForUpdate();
         if (!$newsId) {
-            return;
+            throw ValidationException::withMessages([
+                'newsUpdateValues' => __('validation.incorrect_news_id'),
+            ]);
         }
 
         $component->updateValidationActive = true;
@@ -126,10 +129,7 @@ class NewsCrudMutationService
         $component->newsUpdateValues = $this->newsFormConfig->updateValues($news);
         $component->updateValidationActive = false;
         $component->resetValidation();
-
-        if ($this->isIndexComponent()) {
-            $this->crudUiService->dispatchModalEvent($component, 'close-modal', $component->updateModalName);
-        }
+        return $news;
     }
 
     public function deleteSelectedNews(): mixed
@@ -158,7 +158,6 @@ class NewsCrudMutationService
 
         return redirect()->route('news.index', session('news.index.query', []));
     }
-
     //modals-methods
 
     public function openUpdateModal(int $newsId): void

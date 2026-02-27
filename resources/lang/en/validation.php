@@ -1,6 +1,7 @@
 <?php
 return [
     'captcha_failed' => 'Captcha verification failed.',
+    'incorrect_news_id' => 'An incorrect news identifier was provided.',
     'required' => 'The :attribute field is required.',
     'unique' => 'The :attribute has already been taken.',
     'url' => 'The :attribute must be a valid URL.',

@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-flash.result />
     <x-crud.show
         :item="$news"
         {{-- :preview-url="route('news.show', $news)"--}}

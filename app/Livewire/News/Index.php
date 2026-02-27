@@ -147,6 +147,8 @@ class Index extends Component
     public function saveUpdate(): void
     {
         $this->crudMutationService->saveUpdate();
+        $this->crudUiService->dispatchModalEvent($this, 'close-modal', $this->updateModalName);
+
     }
 
     public function openPreviewModal(int $newsId): void

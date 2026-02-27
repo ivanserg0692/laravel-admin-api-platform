@@ -60,7 +60,9 @@ class Update extends Component
 
     public function saveUpdate(): void
     {
-        $this->crudMutationService->saveUpdate();
+        $news = $this->crudMutationService->saveUpdate();
+        session()->flash('success', __('news.update_success_message'));
+        redirect()->route('news.show', $news);
     }
 
     public function openDeleteModal(int $newsId): void

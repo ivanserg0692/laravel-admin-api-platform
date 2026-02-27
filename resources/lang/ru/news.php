@@ -6,6 +6,7 @@ return [
     'create_submit_label' => 'Добавить новость',
     'update_page_title' => 'Редактирование новости',
     'update_submit_label' => 'Сохранить изменения',
+    'update_success_message' => 'Новость успешно сохранена.',
     'labels' => [
         'id' => 'ID',
         'title' => 'Заголовок',
