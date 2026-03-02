@@ -2,12 +2,15 @@
 
 namespace App\Filament\Resources\News\Tables;
 
+use App\Filament\Resources\News\Schemas\NewsForm;
 use App\Filament\Tables\Actions\InlineFieldEditActionFactory;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -31,25 +34,34 @@ class NewsTable
                         'draft' => 'Draft',
                         'published' => 'Published',
                         'archived' => 'Archived',
-                    ])->selectablePlaceholder(false),
+                    ])
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->selectablePlaceholder(false),
                 TextColumn::make('published_at')
                     ->dateTime()
                     ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->action(InlineFieldEditActionFactory::makeDateTime('editPublishedAt', 'published_at')),
                 TextColumn::make('author_id')
                     ->numeric()
-                    ->sortable(),
-                ImageColumn::make('cover_image'),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                ImageColumn::make('cover_image')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('meta_title')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('meta_description')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('sort_order')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('views_count')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -67,7 +79,12 @@ class NewsTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                EditAction::make(),
+                Action::make('editRow')
+                    ->label('Редактировать')
+                    ->icon('heroicon-o-pencil-square')
+                    ->schema(fn(Schema $schema): Schema => NewsForm::configure($schema))
+                    ->fillForm(fn($record) => $record->attributesToArray())
+                    ->action(fn(array $data, $record) => $record->update($data)),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
