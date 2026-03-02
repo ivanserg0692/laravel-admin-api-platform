@@ -10,13 +10,17 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class NewsTable
 {
@@ -77,6 +81,25 @@ class NewsTable
             ])
             ->filters([
                 TrashedFilter::make(),
+                SelectFilter::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                        'archived' => 'Archived',
+                    ]),
+                Filter::make('published_range')
+                    ->label('Published date')
+                    ->form([
+                        DatePicker::make('published_from')->label('From'),
+                        DatePicker::make('published_until')->label('To'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when($data['published_from'] ?? null, fn(Builder $query, $date): Builder => $query->whereDate('published_at', '>=', $date))
+                            ->when($data['published_until'] ?? null, fn(Builder $query, $date): Builder => $query->whereDate('published_at', '<=', $date));
+                    }),
+                Filter::make('published_today')
+                    ->query(fn($query) => $query->whereDate('published_at', now()->toDateString()))
             ])
             ->recordActions([
                 Action::make('editRow')
