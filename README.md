@@ -81,6 +81,12 @@ npm run build
   - `admin` / `news_admin`: полный доступ к управлению новостями.
   - `author`: редактирование только своих новостей.
  
+## Brief project video
+
+[![(39) introducing into my home laravel project 2026 03 03 22 34 23 - YouTube](https://res.cloudinary.com/marcomontalbano/image/upload/v1772550607/video_to_markdown/images/youtube--7ll4DGBthzQ-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=7ll4DGBthzQ "(39) introducing into my home laravel project 2026 03 03 22 34 23 - YouTube")
+
+## Project screenshots 
+ 
 <img width="1421" height="606" alt="image" src="https://github.com/user-attachments/assets/6fd85466-799c-4804-adc3-57ea4296b7da" />
 <img width="1251" height="409" alt="image" src="https://github.com/user-attachments/assets/7567e58a-3b32-451b-84ba-6757ed4a44b2" />
 <img width="1280" height="610" alt="image" src="https://github.com/user-attachments/assets/3724af89-8b61-4172-8d28-0d964a271ca8" />
