@@ -2,6 +2,7 @@
 
 namespace App\Livewire\News;
 
+use App\Models\News;
 use App\Support\News\NewsCrudMutationService;
 use App\Support\News\NewsCrudUiService;
 use App\Support\News\NewsListQueryService;
@@ -136,6 +137,7 @@ class Index extends Component
             'hydratedNewsUpdateFields' => $this->crudUiService->hydrateFields($this->newsUpdateFields),
             'createValidationActive' => $this->createValidationActive,
             'updateValidationActive' => $this->updateValidationActive,
+            'canCreateNews' => auth()->user()?->can('create', News::class) ?? false,
         ]);
     }
 

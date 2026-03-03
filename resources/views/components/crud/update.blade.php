@@ -17,6 +17,7 @@
     'deleteModalName' => null,
     'deleteModalTitle' => __('crud.delete_confirm_title'),
     'deleteModalMessage' => __('crud.delete_confirm_message'),
+    'canDelete' => true,
 ])
 
 @php
@@ -60,13 +61,15 @@
                         {{ $submitLabel }}
                     </x-buttons.primary>
 
-                    <x-buttons.danger
-                        type="button"
-                        :disabled="$currentItemId <= 0"
-                        wire:click="openDeleteModal({{ $currentItemId }})"
-                        wire:loading.attr="disabled"
-                        wire:target="openDeleteModal"
-                    >{{ $deleteLabel }}</x-buttons.danger>
+                    @if($canDelete)
+                        <x-buttons.danger
+                            type="button"
+                            :disabled="$currentItemId <= 0"
+                            wire:click="openDeleteModal({{ $currentItemId }})"
+                            wire:loading.attr="disabled"
+                            wire:target="openDeleteModal"
+                        >{{ $deleteLabel }}</x-buttons.danger>
+                    @endif
 
                     @if($backUrl)
                         <x-buttons.secondary :href="$backUrl">{{ $backLabel }}</x-buttons.secondary>
@@ -74,12 +77,14 @@
                 </div>
             </x-crud.forms.update>
 
-            <x-crud.modals.confirm-delete
-                :name="$deleteConfirmModalId"
-                :title="$deleteModalTitle"
-                :message="$deleteModalMessage"
-                :wire-confirm-action="'deleteSelectedNews'"
-            />
+            @if($canDelete)
+                <x-crud.modals.confirm-delete
+                    :name="$deleteConfirmModalId"
+                    :title="$deleteModalTitle"
+                    :message="$deleteModalMessage"
+                    :wire-confirm-action="'deleteSelectedNews'"
+                />
+            @endif
         </div>
     </div>
 </section>

@@ -31,5 +31,6 @@
         :update-current-item-title="(string) data_get($newsUpdateValues, 'title', '')"
         :update-error-bag="'default'"
         :update-validation-active="$updateValidationActive"
+        :can-create="$canCreateNews"
     />
 </div>

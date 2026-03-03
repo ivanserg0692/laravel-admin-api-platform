@@ -15,5 +15,6 @@
         :delete-modal-name="$deleteModalName"
         :delete-modal-title="$deleteModalTitle"
         :delete-modal-message="$deleteModalMessage"
+        :can-delete="$canDeleteNews"
     />
 </div>

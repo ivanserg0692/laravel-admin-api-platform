@@ -56,6 +56,12 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return !$this->is_blocked;
+        if ($this->is_blocked) {
+            return false;
+        }
+
+        return $this->tags()
+            ->where('slug', 'admin')
+            ->exists();
     }
 }

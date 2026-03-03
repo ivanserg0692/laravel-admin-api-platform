@@ -68,6 +68,7 @@
                                 </x-buttons.secondary>
                             @endif
 
+                            @if($canDelete)
                                 @php
                                     $deleteConfirmMessage = strtr(
                                         __('news.delete_confirm_template'),
@@ -92,6 +93,7 @@
                                     :title="__('news.delete_confirm_title')"
                                     :message="$deleteConfirmMessage"
                                 />
+                            @endif
                             @if($backUrl)
                                 <x-buttons.secondary :href="$backUrl">
                                     {{ $backLabel }}
