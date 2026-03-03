@@ -80,6 +80,11 @@ npm run build
 - Права на News через policy:
   - `admin` / `news_admin`: полный доступ к управлению новостями.
   - `author`: редактирование только своих новостей.
+ 
+<img width="1421" height="606" alt="image" src="https://github.com/user-attachments/assets/6fd85466-799c-4804-adc3-57ea4296b7da" />
+<img width="1251" height="409" alt="image" src="https://github.com/user-attachments/assets/7567e58a-3b32-451b-84ba-6757ed4a44b2" />
+<img width="1280" height="610" alt="image" src="https://github.com/user-attachments/assets/3724af89-8b61-4172-8d28-0d964a271ca8" />
+
 
 ## Recent Task Updates
 
