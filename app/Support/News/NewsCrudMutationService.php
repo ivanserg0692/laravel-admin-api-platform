@@ -4,6 +4,7 @@ namespace App\Support\News;
 
 use App\Models\News;
 use App\UI\Forms\NewsFormConfig;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use RuntimeException;
@@ -69,6 +70,7 @@ class NewsCrudMutationService
         if (!$this->isIndexComponent()) {
             return;
         }
+        Gate::authorize('create', News::class);
 
         $component = $this->component();
         $component->newsCreateValues = $this->crudUiService->createInitialValues(
@@ -86,6 +88,7 @@ class NewsCrudMutationService
         if (!$this->isIndexComponent()) {
             return;
         }
+        Gate::authorize('create', News::class);
 
         $component = $this->component();
         $component->createValidationActive = true;
@@ -123,6 +126,7 @@ class NewsCrudMutationService
         );
 
         $news = $this->findOrFail($newsId);
+        Gate::authorize('update', $news);
         $values = (array)data_get($validated, 'newsUpdateValues', []);
         $this->updateNewsFromValues($news, $values);
 
@@ -140,6 +144,8 @@ class NewsCrudMutationService
         }
 
         $deletedId = (int)$component->deletingNewsId;
+        $news = $this->findOrFail($deletedId);
+        Gate::authorize('delete', $news);
         $this->deleteNewsById($deletedId);
 
         $component->deletingNewsId = null;
@@ -168,6 +174,7 @@ class NewsCrudMutationService
 
         $component = $this->component();
         $news = $this->findOrFail($newsId);
+        Gate::authorize('update', $news);
         $component->editingNewsId = (int)$news->id;
         $component->newsUpdateValues = $this->newsFormConfig->updateValues($news);
         $component->updateValidationActive = false;
@@ -193,6 +200,7 @@ class NewsCrudMutationService
     {
         $component = $this->component();
         $news = $this->findOrFail($newsId);
+        Gate::authorize('delete', $news);
         $payload = $this->crudUiService->buildDeletePayload($news, $component->deleteModalName);
 
         $component->deletingNewsId = (int)$payload['id'];
@@ -214,6 +222,13 @@ class NewsCrudMutationService
      */
     protected function createNewsFromValues(array $values, ?int $authorId): News
     {
+        $resolvedAuthorId = $authorId ?: (int) auth()->id();
+        if ($resolvedAuthorId <= 0) {
+            throw ValidationException::withMessages([
+                'newsCreateValues' => 'Unauthenticated.',
+            ]);
+        }
+
         $news = new News();
         $news->title = (string)data_get($values, 'title', '');
         $news->slug = (string)data_get($values, 'slug', '');
@@ -225,7 +240,7 @@ class NewsCrudMutationService
         $news->meta_title = data_get($values, 'meta_title') ?: null;
         $news->meta_description = data_get($values, 'meta_description') ?: null;
         $news->sort_order = (int)data_get($values, 'sort_order', 0);
-        $news->author_id = $authorId;
+        $news->author_id = $resolvedAuthorId;
         $news->save();
 
         return $news;

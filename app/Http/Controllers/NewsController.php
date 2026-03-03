@@ -32,6 +32,8 @@ class NewsController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', News::class);
+
         return view('news.create', [
             'newsFields' => $this->newsFormConfig->fields(),
         ]);
@@ -42,9 +44,14 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
+        $canUpdateNews = auth()->user()?->can('update', $news) ?? false;
+        $canDeleteNews = auth()->user()?->can('delete', $news) ?? false;
+
         return view('news.show', [
             'news' => $news,
             'backUrl' => route('news.index', session('news.index.query', [])),
+            'canUpdateNews' => $canUpdateNews,
+            'canDeleteNews' => $canDeleteNews,
         ]);
     }
 
@@ -53,6 +60,8 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
+        $this->authorize('update', $news);
+
         return view('news.update', [
             'news' => $news,
             'backUrl' => route('news.index', session('news.index.query', [])),

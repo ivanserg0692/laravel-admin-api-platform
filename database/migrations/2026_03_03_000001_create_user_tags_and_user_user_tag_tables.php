@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('user_tags', function (Blueprint $table): void {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->timestamps();
+        });
+
+        Schema::create('user_user_tag', function (Blueprint $table): void {
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_tag_id')->constrained('user_tags')->cascadeOnDelete();
+            $table->timestamps();
+
+            $table->unique(['user_id', 'user_tag_id']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('user_user_tag');
+        Schema::dropIfExists('user_tags');
+    }
+};

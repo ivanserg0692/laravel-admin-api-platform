@@ -31,6 +31,7 @@
     'updateCurrentItemTitle' => '',
     'updateErrorBag' => null,
     'updateValidationActive' => false,
+    'canCreate' => true,
 ])
 @php
     $resolvedTableLoadingTargets = is_string($tableLoadingTargets) && trim($tableLoadingTargets) !== ''
@@ -52,25 +53,27 @@
 
                 <div
                     class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                    <x-buttons.primary type="button" id="createProductModalButton"
-                                       wire:click="{{ $createOpenAction }}"
-                                       wire:loading.attr="disabled"
-                                       wire:target="{{ $createOpenAction }}"
-                                       class="!px-4 !font-medium">
-                        <span wire:loading.remove wire:target="{{ $createOpenAction }}"
-                              class="inline-flex items-center">
-                            <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20"
-                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path clip-rule="evenodd" fill-rule="evenodd"
-                                      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
-                            </svg>
-                            {{ $createButtonLabel }}
-                        </span>
-                        <span wire:loading.inline-flex wire:target="{{ $createOpenAction }}" class="items-center">
-                            <x-ui.spinner size-class="h-4 w-4" class="-ml-1 mr-2 text-white"/>
-                            {{ $createButtonLabel }}
-                        </span>
-                    </x-buttons.primary>
+                    @if($canCreate)
+                        <x-buttons.primary type="button" id="createProductModalButton"
+                                           wire:click="{{ $createOpenAction }}"
+                                           wire:loading.attr="disabled"
+                                           wire:target="{{ $createOpenAction }}"
+                                           class="!px-4 !font-medium">
+                            <span wire:loading.remove wire:target="{{ $createOpenAction }}"
+                                  class="inline-flex items-center">
+                                <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20"
+                                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path clip-rule="evenodd" fill-rule="evenodd"
+                                          d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
+                                </svg>
+                                {{ $createButtonLabel }}
+                            </span>
+                            <span wire:loading.inline-flex wire:target="{{ $createOpenAction }}" class="items-center">
+                                <x-ui.spinner size-class="h-4 w-4" class="-ml-1 mr-2 text-white"/>
+                                {{ $createButtonLabel }}
+                            </span>
+                        </x-buttons.primary>
+                    @endif
 
                     {{--<div class="flex items-center space-x-3 w-full md:w-auto">
                         <x-crud.toolbar.actions-dropdown/>

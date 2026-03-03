@@ -30,6 +30,7 @@ class Show extends Component
         public ?string $editUrl = null,
         public ?string $previewUrl = null,
         public ?string $backUrl = null,
+        public bool    $canDelete = true,
         public string  $idPrefix = 'page-show-item',
         ?string        $submitLabel = null,
         ?string        $deleteLabel = null,

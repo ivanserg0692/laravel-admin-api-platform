@@ -6,6 +6,7 @@ use App\Models\News;
 use App\Support\News\NewsCrudMutationService;
 use App\Support\News\NewsCrudUiService;
 use App\UI\Forms\NewsFormConfig;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class Update extends Component
@@ -27,6 +28,7 @@ class Update extends Component
     public string $deleteModalName = '';
     public string $deleteModalTitle = '';
     public string $deleteModalMessage = '';
+    public bool $canDeleteNews = false;
 
     public function boot(
         NewsCrudUiService $crudUiService,
@@ -40,8 +42,11 @@ class Update extends Component
 
     public function mount(News $news, ?string $backUrl = null): void
     {
+        Gate::authorize('update', $news);
+
         $this->newsId = (int) $news->id;
         $this->newsUpdateValues = $this->newsFormConfig->updateValues($news);
+        $this->canDeleteNews = auth()->user()?->can('delete', $news) ?? false;
         $this->backUrl = $backUrl ?: route('news.index', session('news.index.query', []));
 
         $this->pageTitle = __('news.update_page_title');
@@ -83,6 +88,7 @@ class Update extends Component
                 'id' => $this->newsId,
                 'title' => (string) data_get($this->newsUpdateValues, 'title', ''),
             ],
+            'canDeleteNews' => $this->canDeleteNews,
         ]);
     }
 }
