@@ -89,3 +89,9 @@ npm run build
   - removed legacy JS news modal action handlers and unified Blade/Livewire modal flow
   - details: [TASK-005-news-full-livewire-migration.md](docs/tasks/TASK-005-news-full-livewire-migration.md)
   - MR: [#4](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/4)
+
+- TASK-006 Filament admin panel for News and Users:
+  - installed and configured Filament with dedicated /admin panel provider
+  - added News/User resources (list/create/edit), table actions, and News filters
+  - implemented user blocking via is_blocked with login/panel access restriction
+  - details: [TASK-006-filament-admin-panel-news-users.md](docs/tasks/TASK-006-filament-admin-panel-news-users.md)
