@@ -17,6 +17,11 @@
 - Добавлено управление тегами пользователя в форме и таблице UsersResource.
 - Добавлен сидер: пользователю с id=1 автоматически назначается тег admin.
 - Ограничен доступ заблокированного пользователя: вход и доступ к Filament панели.
+- Добавлена policy-авторизация для News:
+  - `admin` и `news_admin` управляют всеми новостями;
+  - `author` может изменять только свои новости (`author_id = user_id`);
+  - blocked user не имеет доступа к операциям.
+- Проверки прав внедрены в mutation/service слой (server-side authorize) и в UI (видимость create/edit/delete кнопок по policy).
 - Добавлены локализации Filament (EN/RU).
 
 ### Ключевые технические решения
@@ -29,6 +34,16 @@
 - Миграция: database/migrations/2026_03_02_121500_add_is_blocked_to_users_table.php.
 - Миграция: database/migrations/2026_03_03_000001_create_user_tags_and_user_user_tag_tables.php.
 - Сидер: database/seeders/UserTagSeeder.php (tag admin -> user id=1).
+- Policy: app/Policies/NewsPolicy.php.
+- Регистрация policy: app/Providers/AuthServiceProvider.php.
+- Server-side authorize:
+  - app/Support/News/NewsCrudMutationService.php
+  - app/Http/Controllers/NewsController.php
+- Policy-aware UI:
+  - resources/views/components/news/rows/actions.blade.php
+  - resources/views/components/crud/index.blade.php
+  - resources/views/components/crud/update.blade.php
+  - resources/views/components/crud/show.blade.php
 
 ### Критерии готовности (DoD)
 - /admin доступен авторизованным и незаблокированным пользователям.
@@ -53,6 +68,11 @@ Introduce a dedicated Filament admin panel for managing News and Users, includin
 - user tag management added to UsersResource form/table.
 - seeding added: user with id=1 gets admin tag automatically.
 - Blocked users restricted from login and Filament panel access.
+- News policy authorization added:
+  - `admin` and `news_admin` can manage all news;
+  - `author` can update only own news;
+  - blocked users are denied.
+- Permission checks applied both server-side (authorize in mutation/controller) and in UI (policy-aware action visibility).
 - Filament EN/RU translations added.
 
 ### Key Technical Notes
@@ -65,6 +85,16 @@ Introduce a dedicated Filament admin panel for managing News and Users, includin
 - Migration: database/migrations/2026_03_02_121500_add_is_blocked_to_users_table.php.
 - Migration: database/migrations/2026_03_03_000001_create_user_tags_and_user_user_tag_tables.php.
 - Seeder: database/seeders/UserTagSeeder.php (admin tag assigned to user id=1).
+- Policy: app/Policies/NewsPolicy.php.
+- Policy registration: app/Providers/AuthServiceProvider.php.
+- Server-side authorization:
+  - app/Support/News/NewsCrudMutationService.php
+  - app/Http/Controllers/NewsController.php
+- Policy-aware UI:
+  - resources/views/components/news/rows/actions.blade.php
+  - resources/views/components/crud/index.blade.php
+  - resources/views/components/crud/update.blade.php
+  - resources/views/components/crud/show.blade.php
 
 ### Definition of Done (DoD)
 - /admin is available for authenticated non-blocked users.

@@ -55,6 +55,32 @@ npm run build
 - `docs/PROJECT_OVERVIEW.md`
 - `docs/DEV_NOTES.md`
 
+## Project Capabilities (EN)
+
+- Public web area + Breeze authentication flow (register/login/logout/reset/verify).
+- Profile management for authenticated users.
+- News CRUD in the web app with Livewire-based action flow.
+- Dedicated Filament admin panel at `/admin`.
+- Admin resources for News and Users (list/create/edit), filters, and table actions.
+- User blocking via `is_blocked` for login/admin access restriction.
+- RBAC foundation via user tags (`user_tags` + `user_user_tag`).
+- News permissions via policy:
+  - `admin` / `news_admin`: full news management.
+  - `author`: update own news only.
+
+## Возможности Проекта (RU)
+
+- Публичная часть сайта + аутентификация Breeze (register/login/logout/reset/verify).
+- Управление профилем для авторизованных пользователей.
+- News CRUD в web-части с Livewire action-flow.
+- Отдельная Filament-админка по адресу `/admin`.
+- Админ-ресурсы для News и Users (list/create/edit), фильтры и табличные действия.
+- Блокировка пользователя через `is_blocked` (ограничение входа и доступа в админку).
+- База для RBAC через теги пользователей (`user_tags` + `user_user_tag`).
+- Права на News через policy:
+  - `admin` / `news_admin`: полный доступ к управлению новостями.
+  - `author`: редактирование только своих новостей.
+
 ## Recent Task Updates
 
 - `TASK-001` Cloudflare Turnstile for registration:
@@ -90,8 +116,11 @@ npm run build
   - details: [TASK-005-news-full-livewire-migration.md](docs/tasks/TASK-005-news-full-livewire-migration.md)
   - MR: [#4](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/4)
 
-- TASK-006 Filament admin panel for News and Users:
+- `TASK-006` Filament admin panel for News and Users:
   - installed and configured Filament with dedicated /admin panel provider
   - added News/User resources (list/create/edit), table actions, and News filters
+  - added user tags (`user_tags` + `user_user_tag`) as RBAC base and admin tag seeding for user `id=1`
+  - added News policy-based permissions (`admin`/`news_admin`/`author`) with backend authorization + policy-aware UI
   - implemented user blocking via is_blocked with login/panel access restriction
   - details: [TASK-006-filament-admin-panel-news-users.md](docs/tasks/TASK-006-filament-admin-panel-news-users.md)
+  - MR: [#5](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/5)
