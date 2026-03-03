@@ -13,6 +13,9 @@
 - Добавлены фильтры в таблице News: soft-deletes, статус, диапазон дат публикации, публикации за сегодня.
 - Добавлены inline-действия редактирования полей News в таблице.
 - Добавлена миграция users.is_blocked и переключатель блокировки в Users table.
+- Добавлены таблицы user_tags и user_user_tag для many-to-many связи пользователей и тегов.
+- Добавлено управление тегами пользователя в форме и таблице UsersResource.
+- Добавлен сидер: пользователю с id=1 автоматически назначается тег admin.
 - Ограничен доступ заблокированного пользователя: вход и доступ к Filament панели.
 - Добавлены локализации Filament (EN/RU).
 
@@ -24,6 +27,8 @@
 - Проверка доступа в панель: App\Models\User::canAccessPanel().
 - Блокировка на логине: App\Http\Requests\Auth\LoginRequest::authenticate() с is_blocked = false.
 - Миграция: database/migrations/2026_03_02_121500_add_is_blocked_to_users_table.php.
+- Миграция: database/migrations/2026_03_03_000001_create_user_tags_and_user_user_tag_tables.php.
+- Сидер: database/seeders/UserTagSeeder.php (tag admin -> user id=1).
 
 ### Критерии готовности (DoD)
 - /admin доступен авторизованным и незаблокированным пользователям.
@@ -44,6 +49,9 @@ Introduce a dedicated Filament admin panel for managing News and Users, includin
 - News table filters added: soft-deletes, status, publication date range, published today.
 - Inline News table field edit actions added.
 - users.is_blocked migration and toggle column added.
+- user_tags and user_user_tag tables added for users-to-tags many-to-many mapping.
+- user tag management added to UsersResource form/table.
+- seeding added: user with id=1 gets admin tag automatically.
 - Blocked users restricted from login and Filament panel access.
 - Filament EN/RU translations added.
 
@@ -55,6 +63,8 @@ Introduce a dedicated Filament admin panel for managing News and Users, includin
 - Panel access gate: App\Models\User::canAccessPanel().
 - Login guard: App\Http\Requests\Auth\LoginRequest::authenticate() with is_blocked = false.
 - Migration: database/migrations/2026_03_02_121500_add_is_blocked_to_users_table.php.
+- Migration: database/migrations/2026_03_03_000001_create_user_tags_and_user_user_tag_tables.php.
+- Seeder: database/seeders/UserTagSeeder.php (admin tag assigned to user id=1).
 
 ### Definition of Done (DoD)
 - /admin is available for authenticated non-blocked users.
