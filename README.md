@@ -81,9 +81,6 @@ npm run build
   - `admin` / `news_admin`: полный доступ к управлению новостями.
   - `author`: редактирование только своих новостей.
  
-## Brief project video
-
-[![(39) introducing into my home laravel project 2026 03 03 22 34 23 - YouTube](https://res.cloudinary.com/marcomontalbano/image/upload/v1772550607/video_to_markdown/images/youtube--7ll4DGBthzQ-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=7ll4DGBthzQ "(39) introducing into my home laravel project 2026 03 03 22 34 23 - YouTube")
 
 ## Project screenshots 
  
