@@ -15,6 +15,11 @@ class UserTagSeeder extends Seeder
             ['name' => 'Admin']
         );
 
+        UserTag::query()->upsert([
+            ['slug' => 'news_admin', 'name' => 'News Admin'],
+            ['slug' => 'author', 'name' => 'Author'],
+        ], ['slug']);
+
         $user = User::query()->find(1);
 
         if ($user === null) {
