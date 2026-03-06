@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class JobBatch extends Model
 {
@@ -13,7 +13,7 @@ class JobBatch extends Model
 
     protected $keyType = 'string';
 
-    public function newsExports(): HasMany
+    public function newsExports(): HasOne
     {
         return $this->hasOne(NewsExport::class, 'job_batch_id');
     }
