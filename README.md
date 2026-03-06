@@ -132,3 +132,11 @@ npm run build
   - implemented user blocking via is_blocked with login/panel access restriction
   - details: [TASK-006-filament-admin-panel-news-users.md](docs/tasks/TASK-006-filament-admin-panel-news-users.md)
   - MR: [#5](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/5)
+
+- `TASK-007` News events and notifications pipeline:
+  - formalized backend flow `NewsCreatedEvent -> SendNewsCreatedNotification -> NewsCreated`
+  - ensured queued async delivery with `ShouldQueue` and `mail + database` channels
+  - stabilized database payload contract for consumers (`news_id`, `message`, `url`)
+  - documented queue runtime expectations (`queue:work`, `queue:restart`, `queue:failed`)
+  - details: [TASK-007-news-events-and-notifications-pipeline.md](docs/tasks/TASK-007-news-events-and-notifications-pipeline.md)
+  - MR: [#6](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/6)

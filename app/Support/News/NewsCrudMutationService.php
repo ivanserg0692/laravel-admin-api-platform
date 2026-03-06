@@ -2,6 +2,7 @@
 
 namespace App\Support\News;
 
+use App\Events\NewsCreatedEvent;
 use App\Models\News;
 use App\UI\Forms\NewsFormConfig;
 use Illuminate\Support\Facades\Gate;
@@ -242,6 +243,7 @@ class NewsCrudMutationService
         $news->sort_order = (int)data_get($values, 'sort_order', 0);
         $news->author_id = $resolvedAuthorId;
         $news->save();
+        event(new NewsCreatedEvent($news));
 
         return $news;
     }

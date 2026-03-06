@@ -40,4 +40,13 @@ return [
     'preview_modal_title' => 'Preview news',
     'delete_confirm_title' => 'Delete news',
     'delete_confirm_template' => 'Are you sure you want to delete news #{id} "{title}"?',
+    'notifications' => [
+        'created' => [
+            'subject' => 'A new news item has been created',
+            'intro' => 'A new news item has been published: ":title".',
+            'action' => 'Open news',
+            'outro' => 'You are receiving this email because you are subscribed to news notifications.',
+            'database_message' => 'A new news item has been created: ":title".',
+        ],
+    ],
 ];
