@@ -7,6 +7,7 @@ use App\Support\News\NewsExportProgressStatus;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Storage;
@@ -51,10 +52,18 @@ class NewsExportsTable
                         ->visible(fn (NewsExport $record): bool => $record->progress_status === NewsExportProgressStatus::Completed
                             && filled($record->export_file)
                             && Storage::disk('s3')->exists($record->export_file))
-                        ->action(function (NewsExport $record) {
-                            $stream = Storage::disk('s3')->readStream($record->export_file);
+                        ->schema([
+                            Select::make('version_id')
+                                ->label(__('filament.news_exports.version'))
+                                ->options(fn (NewsExport $record): array => $record->exportVersionOptions())
+                                ->default(fn (NewsExport $record): ?string => $record->latestExportVersionId())
+                                ->required()
+                                ->native(false),
+                        ])
+                        ->action(function (array $data, NewsExport $record) {
+                            $stream = $record->openExportVersionStream($data['version_id']);
 
-                            if ($stream === false) {
+                            if (! is_resource($stream)) {
                                 abort(404);
                             }
 

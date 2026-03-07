@@ -19,6 +19,9 @@ return [
     ],
     'news_exports' => [
         'progress' => 'Progress',
+        'version' => 'Version',
+        'latest_version' => 'latest',
+        'unknown_version_date' => 'Unknown date',
         'statuses' => [
             'queued' => 'Queued',
             'in_progress' => 'In progress',

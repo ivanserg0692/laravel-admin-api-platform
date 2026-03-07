@@ -42,6 +42,16 @@ Open:
 npm run build
 ```
 
+## MinIO mc Runner
+
+Open the MinIO client runner shell from `app/`:
+
+```bash
+docker compose run --rm mc
+```
+
+The `local` alias is configured automatically for the runner.
+
 ## Routes Snapshot
 
 - `/` public welcome page
