@@ -5,6 +5,7 @@ namespace App\Filament\Resources\NewsExports\Tables;
 use App\Models\NewsExport;
 use App\Support\News\NewsExportProgressStatus;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -48,17 +49,19 @@ class NewsExportsTable
                 //
             ])
             ->recordActions([
-                Action::make('download')
-                    ->label(__('filament.actions.download_export'))
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->visible(fn (NewsExport $record): bool => $record->progress_status === NewsExportProgressStatus::Completed
-                        && filled($record->export_file)
-                        && Storage::disk('local')->exists($record->export_file))
-                    ->action(fn (NewsExport $record) => response()->download(
-                        Storage::disk('local')->path($record->export_file),
-                        basename($record->export_file),
-                    )),
-                ViewAction::make(),
+                ActionGroup::make([
+                    Action::make('download')
+                        ->label(__('filament.actions.download_export'))
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->visible(fn (NewsExport $record): bool => $record->progress_status === NewsExportProgressStatus::Completed
+                            && filled($record->export_file)
+                            && Storage::disk('local')->exists($record->export_file))
+                        ->action(fn (NewsExport $record) => response()->download(
+                            Storage::disk('local')->path($record->export_file),
+                            basename($record->export_file),
+                        )),
+                    ViewAction::make(),
+                ]),
             ]);
     }
 }
