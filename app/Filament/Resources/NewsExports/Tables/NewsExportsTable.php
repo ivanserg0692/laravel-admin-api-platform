@@ -55,11 +55,19 @@ class NewsExportsTable
                         ->icon('heroicon-o-arrow-down-tray')
                         ->visible(fn (NewsExport $record): bool => $record->progress_status === NewsExportProgressStatus::Completed
                             && filled($record->export_file)
-                            && Storage::disk('local')->exists($record->export_file))
-                        ->action(fn (NewsExport $record) => response()->download(
-                            Storage::disk('local')->path($record->export_file),
-                            basename($record->export_file),
-                        )),
+                            && Storage::disk('s3')->exists($record->export_file))
+                        ->action(function (NewsExport $record) {
+                            $stream = Storage::disk('s3')->readStream($record->export_file);
+
+                            if ($stream === false) {
+                                abort(404);
+                            }
+
+                            return response()->streamDownload(function () use ($stream): void {
+                                fpassthru($stream);
+                                fclose($stream);
+                            }, basename($record->export_file));
+                        }),
                     ViewAction::make(),
                 ]),
             ]);

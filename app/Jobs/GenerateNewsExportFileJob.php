@@ -65,6 +65,6 @@ class GenerateNewsExportFileJob implements ShouldQueue
         $csvContent = stream_get_contents($stream);
         fclose($stream);
 
-        Storage::disk('local')->put($chunkPath, (string) $csvContent);
+        Storage::disk('s3')->put($chunkPath, (string) $csvContent);
     }
 }

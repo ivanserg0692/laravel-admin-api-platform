@@ -30,10 +30,10 @@ class ListNewsExports extends ListRecords
                     $fileName = sprintf('news_export_%s', now()->format('Ymd')) . '.csv';
                     $exportFilePath = sprintf('exports/news/%s', $fileName);
 
-                    Storage::disk('local')->makeDirectory('exports/news/chunks');
+                    Storage::disk('s3')->makeDirectory('exports/news/chunks');
 
                     $jobs = [];
-                    $chunkNumber = 0;
+                    $chunkNumber = 1;
 
                     for ($offset = 0; $offset < $totalNewsCount; $offset += $chunkSize) {
                         $jobs[] = new GenerateNewsExportFileJob(
@@ -51,7 +51,7 @@ class ListNewsExports extends ListRecords
                         ->then(function (Batch $batch) use ($fileName, $chunkNumber): void {
                             FinalizeNewsExportFileJob::dispatch(
                                 fileName: $fileName,
-                                totalChunks: $chunkNumber,
+                                totalChunks: $chunkNumber - 1,
                                 batchId: $batch->id,
                             );
                         })

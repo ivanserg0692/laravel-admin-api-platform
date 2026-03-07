@@ -25,12 +25,12 @@ class FinalizeNewsExportFileJob implements ShouldQueue
 
     public function handle(): void
     {
-        $disk = Storage::disk('local');
+        $disk = Storage::disk('s3');
         $finalPath = sprintf('exports/news/%s', $this->fileName);
 
         $disk->makeDirectory('exports/news');
 
-        $finalStream = fopen($disk->path($finalPath), 'w');
+        $finalStream = tmpfile();
 
         if ($finalStream === false) {
             throw new RuntimeException(sprintf('Unable to open export file [%s] for writing.', $finalPath));
@@ -40,7 +40,7 @@ class FinalizeNewsExportFileJob implements ShouldQueue
             for ($chunkNumber = 1; $chunkNumber <= $this->totalChunks; $chunkNumber++) {
                 $chunkPath = sprintf('exports/news/chunks/%s_%d.csv', $this->fileName, $chunkNumber);
 
-                if (!$disk->exists($chunkPath)) {
+                if (! $disk->exists($chunkPath)) {
                     throw new RuntimeException(sprintf('Export chunk [%s] not found.', $chunkPath));
                 }
 
@@ -60,8 +60,18 @@ class FinalizeNewsExportFileJob implements ShouldQueue
                     fclose($chunkStream);
                 }
             }
+
+            rewind($finalStream);
+
+            if (! $disk->writeStream($finalPath, $finalStream)) {
+                throw new RuntimeException(sprintf('Unable to write export file [%s].', $finalPath));
+            }
         } finally {
             fclose($finalStream);
+        }
+
+        for ($chunkNumber = 1; $chunkNumber <= $this->totalChunks; $chunkNumber++) {
+            $disk->delete(sprintf('exports/news/chunks/%s_%d.csv', $this->fileName, $chunkNumber));
         }
 
         NewsExport::query()
