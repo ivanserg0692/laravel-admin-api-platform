@@ -15,5 +15,16 @@ return [
     'actions' => [
         'export_news' => 'Start export',
         'export_started' => 'Export started',
+        'download_export' => 'Download',
+    ],
+    'news_exports' => [
+        'progress' => 'Progress',
+        'statuses' => [
+            'queued' => 'Queued',
+            'in_progress' => 'In progress',
+            'running_with_errors' => 'Running with errors',
+            'cancelled' => 'Cancelled',
+            'completed' => 'Completed',
+        ],
     ],
 ];

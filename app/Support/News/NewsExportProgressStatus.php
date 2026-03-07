@@ -13,11 +13,11 @@ enum NewsExportProgressStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Queued => 'Queued',
-            self::InProgress => 'In progress',
-            self::RunningWithErrors => 'Running with errors',
-            self::Cancelled => 'Cancelled',
-            self::Completed => 'Completed',
+            self::Queued => __('filament.news_exports.statuses.queued'),
+            self::InProgress => __('filament.news_exports.statuses.in_progress'),
+            self::RunningWithErrors => __('filament.news_exports.statuses.running_with_errors'),
+            self::Cancelled => __('filament.news_exports.statuses.cancelled'),
+            self::Completed => __('filament.news_exports.statuses.completed'),
         };
     }
 

@@ -3,9 +3,12 @@
 namespace App\Filament\Resources\NewsExports\Tables;
 
 use App\Models\NewsExport;
+use App\Support\News\NewsExportProgressStatus;
+use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
 class NewsExportsTable
 {
@@ -16,7 +19,7 @@ class NewsExportsTable
                 TextColumn::make('export_file')
                     ->searchable(),
                 TextColumn::make('progress_percent')
-                    ->label('Progress')
+                    ->label(__('filament.news_exports.progress'))
                     ->state(fn(NewsExport $record): int => $record->progress_percent)
                     ->formatStateUsing(function (int $state, NewsExport $record): string {
                         $progressStatus = $record->progress_status;
@@ -45,6 +48,16 @@ class NewsExportsTable
                 //
             ])
             ->recordActions([
+                Action::make('download')
+                    ->label(__('filament.actions.download_export'))
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->visible(fn (NewsExport $record): bool => $record->progress_status === NewsExportProgressStatus::Completed
+                        && filled($record->export_file)
+                        && Storage::disk('local')->exists($record->export_file))
+                    ->action(fn (NewsExport $record) => response()->download(
+                        Storage::disk('local')->path($record->export_file),
+                        basename($record->export_file),
+                    )),
                 ViewAction::make(),
             ]);
     }
