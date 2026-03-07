@@ -4,7 +4,6 @@ namespace App\Filament\Resources\NewsExports;
 
 use App\Filament\Resources\NewsExports\Pages\ListNewsExports;
 use App\Filament\Resources\NewsExports\Pages\ViewNewsExport;
-use App\Filament\Resources\NewsExports\Schemas\NewsExportForm;
 use App\Filament\Resources\NewsExports\Schemas\NewsExportInfolist;
 use App\Filament\Resources\NewsExports\Tables\NewsExportsTable;
 use App\Models\NewsExport;
@@ -30,11 +29,6 @@ class NewsExportResource extends Resource
     public static function getNavigationLabel(): string
     {
         return __('filament.resources.news_exports.navigation_label');
-    }
-
-    public static function form(Schema $schema): Schema
-    {
-        return NewsExportForm::configure($schema);
     }
 
     public static function infolist(Schema $schema): Schema

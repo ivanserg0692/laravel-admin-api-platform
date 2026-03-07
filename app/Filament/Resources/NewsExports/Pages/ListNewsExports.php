@@ -3,9 +3,11 @@
 namespace App\Filament\Resources\NewsExports\Pages;
 
 use App\Filament\Resources\NewsExports\NewsExportResource;
+use App\Jobs\FinalizeNewsExportFileJob;
 use App\Jobs\GenerateNewsExportFileJob;
 use App\Models\News;
 use App\Models\NewsExport;
+use Illuminate\Bus\Batch;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
@@ -25,13 +27,13 @@ class ListNewsExports extends ListRecords
                 ->action(function (): void {
                     $chunkSize = 100;
                     $totalNewsCount = News::query()->count();
-                    $fileName = sprintf('news_export_%s', now()->format('Ymd'));
-                    $exportFilePrefix = sprintf('exports/news/chunks/%s', $fileName);
+                    $fileName = sprintf('news_export_%s', now()->format('Ymd')) . '.csv';
+                    $exportFilePath = sprintf('exports/news/%s', $fileName);
 
                     Storage::disk('local')->makeDirectory('exports/news/chunks');
 
                     $jobs = [];
-                    $chunkNumber = 1;
+                    $chunkNumber = 0;
 
                     for ($offset = 0; $offset < $totalNewsCount; $offset += $chunkSize) {
                         $jobs[] = new GenerateNewsExportFileJob(
@@ -46,10 +48,17 @@ class ListNewsExports extends ListRecords
 
                     $batch = Bus::batch($jobs)
                         ->name(sprintf('news-export-%s', $fileName))
+                        ->then(function (Batch $batch) use ($fileName, $chunkNumber): void {
+                            FinalizeNewsExportFileJob::dispatch(
+                                fileName: $fileName,
+                                totalChunks: $chunkNumber,
+                                batchId: $batch->id,
+                            );
+                        })
                         ->dispatch();
 
                     NewsExport::query()->create([
-                        'export_file' => $exportFilePrefix,
+                        'export_file' => $exportFilePath,
                         'job_batch_id' => $batch->id,
                     ]);
 

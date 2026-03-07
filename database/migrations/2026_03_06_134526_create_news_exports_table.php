@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id()->unique()->autoIncrement();
             $table->string('export_file');
             $table->string('job_batch_id');
+            $table->boolean('is_completed')->default(false);
             $table->timestamps();
 
             $table->foreign('job_batch_id')
