@@ -150,3 +150,11 @@ The `local` alias is configured automatically for the runner.
   - documented queue runtime expectations (`queue:work`, `queue:restart`, `queue:failed`)
   - details: [TASK-007-news-events-and-notifications-pipeline.md](docs/tasks/TASK-007-news-events-and-notifications-pipeline.md)
   - MR: [#6](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/6)
+
+- `TASK-008` News export pipeline with Filament, queue batches, and MinIO versioning:
+  - added dedicated Filament exports screen and export launch action for News CSV generation
+  - implemented async chunked export pipeline with `GenerateNewsExportFileJob` and `FinalizeNewsExportFileJob`
+  - added `job_batches` and `news_exports` persistence with progress/status tracking in admin UI
+  - integrated MinIO/S3 storage, object version-aware downloads, and `mc` runner support
+  - details: [TASK-008-news-export-pipeline-and-minio-versioning.md](docs/tasks/TASK-008-news-export-pipeline-and-minio-versioning.md)
+  - MR: [#7](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/7)
