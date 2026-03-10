@@ -20,9 +20,21 @@ class NewsResource extends Resource
 {
     protected static ?string $model = News::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static ?int $navigationSort = 10;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;
 
     protected static ?string $recordTitleAttribute = 'News';
+
+    public static function getNavigationGroup(): string|\UnitEnum|null
+    {
+        return __('filament.navigation.news_group');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.resources.news.navigation_label');
+    }
 
     public static function form(Schema $schema): Schema
     {
