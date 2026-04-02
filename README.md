@@ -42,6 +42,23 @@ Open:
 npm run build
 ```
 
+## API Docs
+
+Generate Swagger / OpenAPI docs from `app/`:
+
+```bash
+php artisan l5-swagger:generate
+```
+
+Open the Swagger UI at:
+
+- `http://localhost/api/documentation`
+
+Generated spec files are stored in:
+
+- `storage/api-docs/api-docs.json`
+- `storage/api-docs/api-docs.yaml` if YAML generation is enabled
+
 ## MinIO mc Runner
 
 Open the MinIO client runner shell from `app/`:
