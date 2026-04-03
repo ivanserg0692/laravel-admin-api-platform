@@ -7,6 +7,7 @@ Short project based on Laravel 12 + Breeze (Blade + Tailwind) with Sail for loca
 - PHP `^8.3`
 - Laravel `^12.10`
 - Laravel Breeze `^2.0`
+- L5 Swagger / OpenAPI
 - Livewire `^4.1`
 - Alpine.js `^3.4.2`
 - Vite `^5`
@@ -43,6 +44,8 @@ npm run build
 ```
 
 ## API Docs
+
+Swagger / OpenAPI in this project is powered by `darkaonline/l5-swagger` and generated from PHP OpenAPI attributes.
 
 Generate Swagger / OpenAPI docs from `app/`:
 
@@ -175,3 +178,10 @@ The `local` alias is configured automatically for the runner.
   - integrated MinIO/S3 storage, object version-aware downloads, and `mc` runner support
   - details: [TASK-008-news-export-pipeline-and-minio-versioning.md](docs/tasks/TASK-008-news-export-pipeline-and-minio-versioning.md)
   - MR: [#7](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/7)
+
+- `TASK-009` API auth with Sanctum, Cloudflare protection, and OpenAPI docs:
+  - added dedicated API auth endpoints for register/login/logout/me on Sanctum tokens
+  - adapted `VerifyCloudflare` middleware for JSON error responses in API flow
+  - documented auth endpoints with reusable OpenAPI schemas and Swagger generation
+  - details: [TASK-009-api-auth-sanctum-cloudflare-and-openapi-docs.md](docs/tasks/TASK-009-api-auth-sanctum-cloudflare-and-openapi-docs.md)
+  - MR: [#8](https://github.com/ivanserg0692/laravel-admin-api-platform/pull/8)
