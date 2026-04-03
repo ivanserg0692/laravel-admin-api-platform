@@ -28,4 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+
+    Route::get('/news', [\App\Http\Controllers\Api\NewsController::class, 'index']);
+    Route::get('/news/{news}', [\App\Http\Controllers\Api\NewsController::class, 'show']);
 });
