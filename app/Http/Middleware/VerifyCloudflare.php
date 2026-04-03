@@ -24,11 +24,21 @@ class VerifyCloudflare
             $request->ip()
         );
 
-        if (!$isValid) {
+        if (! $isValid) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => __('The given data was invalid.'),
+                    'errors' => [
+                        'cf-turnstile-response' => [__('validation.captcha_failed')],
+                    ],
+                ], 422);
+            }
+
             return back()
                 ->withErrors(['cf-turnstile-response' => __('validation.captcha_failed')])
                 ->withInput();
         }
+
         return $next($request);
     }
 }
