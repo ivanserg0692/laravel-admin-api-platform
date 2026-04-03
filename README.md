@@ -47,6 +47,8 @@ npm run build
 
 Swagger / OpenAPI in this project is powered by `darkaonline/l5-swagger` and generated from PHP OpenAPI attributes.
 
+![Swagger UI preview](public/images/openapiScreen.png)
+
 Generate Swagger / OpenAPI docs from `app/`:
 
 ```bash
