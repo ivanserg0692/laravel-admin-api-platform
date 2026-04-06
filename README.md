@@ -1,6 +1,15 @@
 # Learning Laravel in 2026
 
-Short project based on Laravel 12 + Breeze (Blade + Tailwind) with Sail for local Docker development.
+Laravel 12 training and portfolio project that evolved beyond the default skeleton into a full web + API application with Livewire-driven CRUD, Filament admin panel, Sanctum authentication, OpenAPI documentation, Cloudflare Turnstile protection, and batch-based CSV exports to S3-compatible storage.
+
+## Overview
+
+This project combines a classic Blade frontend, reactive Livewire workflows, admin tooling, authenticated API endpoints, and background processing. It is intended both as a learning project and as a practical showcase of Laravel application architecture across web, API, admin, queues, and integrations.
+
+## Project Context
+
+- [English version](docs/resume-project-context.md)
+- [Русская версия](docs/resume-project-context.ru.md)
 
 ## Stack
 
@@ -102,18 +111,18 @@ The `local` alias is configured automatically for the runner.
   - `admin` / `news_admin`: full news management.
   - `author`: update own news only.
 
-## Возможности Проекта (RU)
+## Р’РѕР·РјРѕР¶РЅРѕСЃС‚Рё РџСЂРѕРµРєС‚Р° (RU)
 
-- Публичная часть сайта + аутентификация Breeze (register/login/logout/reset/verify).
-- Управление профилем для авторизованных пользователей.
-- News CRUD в web-части с Livewire action-flow.
-- Отдельная Filament-админка по адресу `/admin`.
-- Админ-ресурсы для News и Users (list/create/edit), фильтры и табличные действия.
-- Блокировка пользователя через `is_blocked` (ограничение входа и доступа в админку).
-- База для RBAC через теги пользователей (`user_tags` + `user_user_tag`).
-- Права на News через policy:
-  - `admin` / `news_admin`: полный доступ к управлению новостями.
-  - `author`: редактирование только своих новостей.
+- РџСѓР±Р»РёС‡РЅР°СЏ С‡Р°СЃС‚СЊ СЃР°Р№С‚Р° + Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёСЏ Breeze (register/login/logout/reset/verify).
+- РЈРїСЂР°РІР»РµРЅРёРµ РїСЂРѕС„РёР»РµРј РґР»СЏ Р°РІС‚РѕСЂРёР·РѕРІР°РЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№.
+- News CRUD РІ web-С‡Р°СЃС‚Рё СЃ Livewire action-flow.
+- РћС‚РґРµР»СЊРЅР°СЏ Filament-Р°РґРјРёРЅРєР° РїРѕ Р°РґСЂРµСЃСѓ `/admin`.
+- РђРґРјРёРЅ-СЂРµСЃСѓСЂСЃС‹ РґР»СЏ News Рё Users (list/create/edit), С„РёР»СЊС‚СЂС‹ Рё С‚Р°Р±Р»РёС‡РЅС‹Рµ РґРµР№СЃС‚РІРёСЏ.
+- Р‘Р»РѕРєРёСЂРѕРІРєР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ С‡РµСЂРµР· `is_blocked` (РѕРіСЂР°РЅРёС‡РµРЅРёРµ РІС…РѕРґР° Рё РґРѕСЃС‚СѓРїР° РІ Р°РґРјРёРЅРєСѓ).
+- Р‘Р°Р·Р° РґР»СЏ RBAC С‡РµСЂРµР· С‚РµРіРё РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ (`user_tags` + `user_user_tag`).
+- РџСЂР°РІР° РЅР° News С‡РµСЂРµР· policy:
+  - `admin` / `news_admin`: РїРѕР»РЅС‹Р№ РґРѕСЃС‚СѓРї Рє СѓРїСЂР°РІР»РµРЅРёСЋ РЅРѕРІРѕСЃС‚СЏРјРё.
+  - `author`: СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‚РѕР»СЊРєРѕ СЃРІРѕРёС… РЅРѕРІРѕСЃС‚РµР№.
  
 
 ## Project screenshots 
