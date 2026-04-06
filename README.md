@@ -111,7 +111,8 @@ The `local` alias is configured automatically for the runner.
   - `admin` / `news_admin`: full news management.
   - `author`: update own news only.
 
-#### Возможности проекта (RU)
+## Возможности проекта (RU)
+
 - Публичная часть сайта и полный auth flow на базе Breeze: регистрация, вход, выход, сброс пароля, подтверждение email.
 - Управление профилем для авторизованных пользователей.
 - CRUD для новостей в web-интерфейсе с Livewire-based action flow.
