@@ -9,7 +9,7 @@ This project combines a classic Blade frontend, reactive Livewire workflows, adm
 ## Project Context
 
 - [English version](docs/resume-project-context.md)
-- [Р СѓСЃСЃРєР°СЏ РІРµСЂСЃРёСЏ](docs/resume-project-context.ru.md)
+- [Русская версия](docs/resume-project-context.ru.md)
 
 ## Stack
 
@@ -58,7 +58,7 @@ Swagger / OpenAPI in this project is powered by `darkaonline/l5-swagger` and gen
 
 ![Swagger UI preview](public/images/openapiScreen.png)
 ![News API preview](docs/images/newsApi.png)
-![User API preview](docs/images/userApi.png)
+![User API preview](docs/images/userAPI.png)
 
 Generate Swagger / OpenAPI docs from `app/`:
 
