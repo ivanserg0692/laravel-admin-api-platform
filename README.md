@@ -9,7 +9,7 @@ This project combines a classic Blade frontend, reactive Livewire workflows, adm
 ## Project Context
 
 - [English version](docs/resume-project-context.md)
-- [Русская версия](docs/resume-project-context.ru.md)
+- [Р СѓСЃСЃРєР°СЏ РІРµСЂСЃРёСЏ](docs/resume-project-context.ru.md)
 
 ## Stack
 
@@ -111,19 +111,17 @@ The `local` alias is configured automatically for the runner.
   - `admin` / `news_admin`: full news management.
   - `author`: update own news only.
 
-## Р’РѕР·РјРѕР¶РЅРѕСЃС‚Рё РџСЂРѕРµРєС‚Р° (RU)
-
-- РџСѓР±Р»РёС‡РЅР°СЏ С‡Р°СЃС‚СЊ СЃР°Р№С‚Р° + Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёСЏ Breeze (register/login/logout/reset/verify).
-- РЈРїСЂР°РІР»РµРЅРёРµ РїСЂРѕС„РёР»РµРј РґР»СЏ Р°РІС‚РѕСЂРёР·РѕРІР°РЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№.
-- News CRUD РІ web-С‡Р°СЃС‚Рё СЃ Livewire action-flow.
-- РћС‚РґРµР»СЊРЅР°СЏ Filament-Р°РґРјРёРЅРєР° РїРѕ Р°РґСЂРµСЃСѓ `/admin`.
-- РђРґРјРёРЅ-СЂРµСЃСѓСЂСЃС‹ РґР»СЏ News Рё Users (list/create/edit), С„РёР»СЊС‚СЂС‹ Рё С‚Р°Р±Р»РёС‡РЅС‹Рµ РґРµР№СЃС‚РІРёСЏ.
-- Р‘Р»РѕРєРёСЂРѕРІРєР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ С‡РµСЂРµР· `is_blocked` (РѕРіСЂР°РЅРёС‡РµРЅРёРµ РІС…РѕРґР° Рё РґРѕСЃС‚СѓРїР° РІ Р°РґРјРёРЅРєСѓ).
-- Р‘Р°Р·Р° РґР»СЏ RBAC С‡РµСЂРµР· С‚РµРіРё РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ (`user_tags` + `user_user_tag`).
-- РџСЂР°РІР° РЅР° News С‡РµСЂРµР· policy:
-  - `admin` / `news_admin`: РїРѕР»РЅС‹Р№ РґРѕСЃС‚СѓРї Рє СѓРїСЂР°РІР»РµРЅРёСЋ РЅРѕРІРѕСЃС‚СЏРјРё.
-  - `author`: СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‚РѕР»СЊРєРѕ СЃРІРѕРёС… РЅРѕРІРѕСЃС‚РµР№.
- 
+#### Возможности проекта (RU)
+- Публичная часть сайта и полный auth flow на базе Breeze: регистрация, вход, выход, сброс пароля, подтверждение email.
+- Управление профилем для авторизованных пользователей.
+- CRUD для новостей в web-интерфейсе с Livewire-based action flow.
+- Отдельная Filament-админка по адресу `/admin`.
+- Админ-ресурсы для News и Users: список, создание, редактирование, фильтры и table actions.
+- Блокировка пользователей через `is_blocked` для ограничения входа и доступа в админ-панель.
+- База для RBAC через пользовательские теги: `user_tags` и `user_user_tag`.
+- Права на управление новостями через policy:
+  - `admin` и `news_admin` имеют полный доступ к news-модулю.
+  - `author` может редактировать только свои новости.
 
 ## Project screenshots 
  
